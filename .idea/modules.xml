@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Gradle.iml" filepath="$PROJECT_DIR$/Gradle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Gradle.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Gradle.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Gradle.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Gradle.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/studyjarvis.iml" filepath="$PROJECT_DIR$/studyjarvis.iml" />
     </modules>
   </component>
