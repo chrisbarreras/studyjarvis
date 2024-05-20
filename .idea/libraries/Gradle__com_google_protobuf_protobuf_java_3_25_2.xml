@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.25.2/70d676d0082fa7a6b00c6073ce9b572c0d335e97/protobuf-java-3.25.2.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.25.2/e804ca8f47bd7006502bef430516ffef6d3d86cd/protobuf-java-3.25.2-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

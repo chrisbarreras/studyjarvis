@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-xds/1.61.0/1234c3fd0bc3354277b42a2809ad63d001ef5ab9/grpc-xds-1.61.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-xds/1.61.0/7aebacb2e9bb6596a97f3eefe9c8092b2b2e620a/grpc-xds-1.61.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

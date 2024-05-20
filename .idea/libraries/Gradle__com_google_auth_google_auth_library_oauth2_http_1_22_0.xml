@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-oauth2-http/1.22.0/87c7205e6fc550390c530ecef0d1c27bb8023efb/google-auth-library-oauth2-http-1.22.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-oauth2-http/1.22.0/4a49289e9ffeb951fc331b4293f9407e686d7239/google-auth-library-oauth2-http-1.22.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

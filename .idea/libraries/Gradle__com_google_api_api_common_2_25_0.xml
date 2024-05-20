@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/api-common/2.25.0/936ca18d22d9578050922b397ec6b5f95a7bc368/api-common-2.25.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/api-common/2.25.0/2ff104eee8cc01df79b1a6ddff09a22b48e23dc4/api-common-2.25.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

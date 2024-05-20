@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-vertexai-v1/0.4.0/3e34b3a9b7df7205c5c5cb4514ad8fbad56f1bf1/proto-google-cloud-vertexai-v1-0.4.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-vertexai-v1/0.4.0/d7d306f4ffb848ee8eeadf15dd2af8c94e967294/proto-google-cloud-vertexai-v1-0.4.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

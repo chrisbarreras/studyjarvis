@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-api/1.61.0/b9577481d3b994c32ef664cb33062c3d3aaf1b91/grpc-api-1.61.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-api/1.61.0/26f1a92c4579b47af026feb46133e4cc3814690e/grpc-api-1.61.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

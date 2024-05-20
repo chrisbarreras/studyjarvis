@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/grpc-google-common-protos/2.33.0/70c92d5064fdbab696ed07414190844b12dffe9b/grpc-google-common-protos-2.33.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/grpc-google-common-protos/2.33.0/957825d4cc977f0ccd79e36cdef93cc7f187022a/grpc-google-common-protos-2.33.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

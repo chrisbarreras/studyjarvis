@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/2.42.0/fcfa456cd44b540af708f9bed7931bb3422f04be/gax-2.42.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/2.42.0/63d5233648463447685fecb33b0d1de536ecf7b1/gax-2.42.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

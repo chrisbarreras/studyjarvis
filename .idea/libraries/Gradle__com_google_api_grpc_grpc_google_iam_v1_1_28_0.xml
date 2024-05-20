@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/grpc-google-iam-v1/1.28.0/5293942e039981dcccf1294b1254925eb39f5ef8/grpc-google-iam-v1-1.28.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/grpc-google-iam-v1/1.28.0/651cc3095588ff8e6bd058d130eb662eff874110/grpc-google-iam-v1-1.28.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

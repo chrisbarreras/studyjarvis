@@ -5,6 +5,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/2.42.0/84da6fe30b51031f3b4bd639499dcdd33597f99a/gax-grpc-2.42.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/2.42.0/fdcc9559483f77b4aa5ec26b30c81f8dfb3eca8f/gax-grpc-2.42.0-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

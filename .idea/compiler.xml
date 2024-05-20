@@ -2,9 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="Gradle" target="21" />
-      <module name="Gradle.main" target="21" />
-      <module name="Gradle.test" target="21" />
+      <module name="Gradle" target="17" />
+      <module name="Gradle.main" target="17" />
+      <module name="Gradle.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
