@@ -12,8 +12,8 @@ public class Gemini {
     private String location;
     private String modelName;
 
-    public Gemini(String projectId, String location) {
-        this.modelName = "gemini-1.0-pro-002";
+    public Gemini(String projectId, String modelName, String location) {
+        this.modelName = modelName; // "gemini-1.0-pro-002" or "gemini-1.0-pro-001";
         this.location = location;
         this.projectId = projectId;
     }
@@ -29,7 +29,7 @@ public class Gemini {
         }
     }
 
-    public String imageInput(String modelName)
+    public String imageInput(String textPrompt)
             throws IOException {
         // Initialize client that will be used to send requests. This client only needs
         // to be created once, and can be reused for multiple requests.
@@ -39,7 +39,7 @@ public class Gemini {
             GenerativeModel model = new GenerativeModel(modelName, vertexAI);
             GenerateContentResponse response = model.generateContent(ContentMaker.fromMultiModalData(
                     PartMaker.fromMimeTypeAndData("image/png", imageUri),
-                    "What's in this photo"
+                    textPrompt
             ));
 
             return response.toString();
