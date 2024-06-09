@@ -19,6 +19,10 @@ public class Main {
 //        String prompt = scanner.nextLine();
 //
 //        System.out.println(g1.textInput(prompt));
-        System.out.println(g1.imageInput("What's in this image?"));
+        System.out.println(g1.imageInput("gs://tombarreras-studyjarvis/20151225_120320.jpg",
+                "image/jpeg", "What year is this ornament for?"));
+
+        System.out.println(g1.imageInput("gs://tombarreras-studyjarvis/IMG_20180824_215857835_BURST001.jpg",
+                "image/jpeg", "What is in this image?"));
     }
 }

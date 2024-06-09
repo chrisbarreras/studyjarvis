@@ -29,16 +29,16 @@ public class Gemini {
         }
     }
 
-    public String imageInput(String textPrompt)
+    public String imageInput(String imageUri, String mimeType, String textPrompt)
             throws IOException {
         // Initialize client that will be used to send requests. This client only needs
         // to be created once, and can be reused for multiple requests.
         try (VertexAI vertexAI = new VertexAI(projectId, location)) {
-            String imageUri = "gs://cloud-samples-data/vertex-ai/llm/prompts/landmark1.png";
+//            String imageUri = "gs://cloud-samples-data/vertex-ai/llm/prompts/landmark1.png";
 
             GenerativeModel model = new GenerativeModel(modelName, vertexAI);
             GenerateContentResponse response = model.generateContent(ContentMaker.fromMultiModalData(
-                    PartMaker.fromMimeTypeAndData("image/png", imageUri),
+                    PartMaker.fromMimeTypeAndData(mimeType, imageUri),
                     textPrompt
             ));
 
