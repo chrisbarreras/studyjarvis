@@ -12,12 +12,13 @@ public class Main {
 //            System.out.println("Gax library is NOT available.");
 //        }
 
-//        Gemini g1 = new Gemini("studyjarvis", "us-west1");
-        Gemini g1 = new Gemini("geminiexample-423800", "us-west1");
-        Scanner scanner = new Scanner(System.in);
-    System.out.print("Enter a prompt: ");
-    String prompt = scanner.nextLine();
+        Gemini g1 = new Gemini("studyjarvis", "us-west1");
+//        Gemini g1 = new Gemini("geminiexample-423800", "us-west1");
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.print("Enter a prompt: ");
+//        String prompt = scanner.nextLine();
 
-    System.out.println(g1.textInput(prompt));
+//        System.out.println(g1.textInput(prompt));
+        System.out.println(g1.imageInput("gemini-1.0-pro-vision-001"));
     }
 }
