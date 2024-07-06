@@ -1,4 +1,5 @@
 import com.google.cloud.vertexai.VertexAI;
+import com.google.cloud.vertexai.api.Content;
 import com.google.cloud.vertexai.api.GenerateContentResponse;
 import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
@@ -34,13 +35,37 @@ public class Gemini {
         // Initialize client that will be used to send requests. This client only needs
         // to be created once, and can be reused for multiple requests.
         try (VertexAI vertexAI = new VertexAI(projectId, location)) {
-//            String imageUri = "gs://cloud-samples-data/vertex-ai/llm/prompts/landmark1.png";
-
             GenerativeModel model = new GenerativeModel(modelName, vertexAI);
             GenerateContentResponse response = model.generateContent(ContentMaker.fromMultiModalData(
                     PartMaker.fromMimeTypeAndData(mimeType, imageUri),
                     textPrompt
             ));
+
+            return response.toString();
+        }
+    }
+
+    public String multiModalInput(String[] imageUris, String[] textPrompts, String textPrompt)
+            throws IOException {
+        // Initialize client that will be used to send requests. This client only needs
+        // to be created once, and can be reused for multiple requests.
+        try (VertexAI vertexAI = new VertexAI(projectId, location)) {
+            GenerativeModel model = new GenerativeModel(modelName, vertexAI);
+
+            Object[] parts = new Object[imageUris.length + textPrompts.length + 1];
+            for (int i = 0; i < imageUris.length; i++) {
+//                String mimeType = ImageHandler.mimeTypeFromImageUri(imageUris[i]);
+//                byte[] imageBytes = ImageHandler.readImageFile(imageUris[i]);
+//                parts[i] = PartMaker.fromMimeTypeAndData(mimeType, imageBytes);
+                parts[i] = imageUris[i];
+            }
+            for (int i = 0; i < textPrompts.length; i++) {
+                parts[i + imageUris.length] = textPrompts[i];
+            }
+            parts[parts.length-1] = textPrompt;
+
+            Content content = ContentMaker.fromMultiModalData(parts);
+            GenerateContentResponse response = model.generateContent(content);
 
             return response.toString();
         }
