@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.example'
+group = 'com.christopherbarrerasconsulting'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -14,6 +14,11 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'com.google.cloud:google-cloud-vertexai:0.4.0'
+    implementation 'org.apache.poi:poi:5.3.0'
+    implementation 'org.apache.poi:poi-ooxml:5.3.0'
+    implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
+    implementation 'org.apache.xmlbeans:xmlbeans:5.1.1'
+    implementation 'org.apache.commons:commons-collections4:4.4' // Optional, for some older versions
 }
 
 test {
