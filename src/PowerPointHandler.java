@@ -55,7 +55,7 @@ public class PowerPointHandler {
         inputStream.close();
     }
 
-    public static void extractTextFromSlides(String pptxFilePath) throws IOException {
+    public static String extractTextFromSlides(String pptxFilePath) throws IOException {
         FileInputStream inputStream = new FileInputStream(new File(pptxFilePath));
         XMLSlideShow ppt = new XMLSlideShow(inputStream);
 
@@ -71,11 +71,9 @@ public class PowerPointHandler {
             slideCounter++;
         }
 
-        // Optionally print or save the text content
-        System.out.println("Extracted Text:\n" + textContent.toString());
-
         ppt.close();
         inputStream.close();
+        return textContent.toString();
     }
 
     public static void convertSlidesToImages(String pptxFilePath, String outputDir) throws IOException {
@@ -95,7 +93,7 @@ public class PowerPointHandler {
             slide.draw(graphics);
 
             // Save the image
-            String imageFilePath = outputDir + "slide" + slideCounter + ".png";
+            String imageFilePath = outputDir + "/slide" + slideCounter + ".png";
             ImageIO.write(img, "png", new File(imageFilePath));
             System.out.println("Converted slide to image: " + imageFilePath);
             slideCounter++;

@@ -1,3 +1,5 @@
+import org.apache.poi.openxml4j.util.ZipSecureFile;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -5,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-
+        ZipSecureFile.setMinInflateRatio(0.002);
 //        Gemini g1 = new Gemini("studyjarvis", "us-west1");
         Gemini g1 = new Gemini("geminiexample-423800", "gemini-pro-vision","us-west1");
 //        Scanner scanner = new Scanner(System.in);
@@ -30,8 +32,8 @@ public class Main {
 //                "Create a multiple-choice quiz for this image"));
 //
 //
-//        PowerPointHandler.convertSlidesToImages("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", "D:\\slides");
-//        PowerPointHandler.extractTextFromSlides("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx");
-        PowerPointHandler.Test();
+        PowerPointHandler.convertSlidesToImages("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", "D:\\slides");
+        System.out.println(PowerPointHandler.extractTextFromSlides("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx"));
+//        PowerPointHandler.Test();
     }
 }
