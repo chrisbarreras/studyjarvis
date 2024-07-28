@@ -8,6 +8,31 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        // TODO:
+
+        // PowerPointHandler::extract(powerPointFileName, outputFolderPath)
+        //  <lesson number> <page number> <pptx name>.png
+        //  <lesson number> <page number> <pptx name>.txt
+
+        // GoogleCloudStorageHandler::clearBucket(bucketName)
+
+        // string Jarvis::initialize(googleCloudBucket)
+        // string Jarvis::createQuiz(numberOfQuestions)
+        // string Jarvis::generateKeyPoints(numberOfKeyPoints)
+        // string Jarvis::generateStudyGuide(numberOfKeyPoints)
+
+        // PdfHandler::extract(pdfPath, outputFolderPath)
+        //  <number> <pdf name>.png
+        //  <number> <pdf name>.txt
+
+        // Add some unit tests
+
+        // Interactive
+        // string Jarvis::ask(question)
+        // void Jarvis::generateQuizQuestion(bool multipleChoice)
+        // bool Jarvis::checkAnswer(question, answer)
+
+
         ZipSecureFile.setMinInflateRatio(0.002);
 //        Gemini g1 = new Gemini("studyjarvis", "us-west1");
         Gemini g1 = new Gemini("geminiexample-423800", "gemini-pro-vision","us-west1");
@@ -34,7 +59,7 @@ public class Main {
 //
 //
         String slidesDir = "D:\\slides";
-
+        PowerPointHandler.extract("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //        PowerPointHandler.convertSlidesToImages("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //        String text = PowerPointHandler.extractTextFromSlides("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx");
 
@@ -46,15 +71,15 @@ public class Main {
 
 
         // Multi-modal input example
-        System.out.println(g1.multiModalInput(
-                new String[]{"https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide12.png",
-                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide2.png",
-                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide3.png",
-                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide4.png",
-                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide5.png"
-                },
-                new String[]{"foo"},
-                "Create a multiple-choice quiz for the content of these images"));
+//        System.out.println(g1.multiModalInput(
+//                new String[]{"https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide12.png",
+//                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide2.png",
+//                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide3.png",
+//                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide4.png",
+//                        "https://storage.cloud.google.com/tombarreras-studyjarvis/D%3A%5Cslides%5Cslide5.png"
+//                },
+//                new String[]{"foo"},
+//                "Create a multiple-choice quiz for the content of these images"));
 
     }
 }
