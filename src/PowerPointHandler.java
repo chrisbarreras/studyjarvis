@@ -58,7 +58,7 @@ public class PowerPointHandler {
     public static void extract(String powerPointFilePath, String outputFolderPath) throws IOException {
         int nextFileNumber = FileHandler.getNextFileNumber(outputFolderPath);
 
-//        extractSlidesAsImages(powerPointFilePath, outputFolderPath, nextFileNumber);
+        extractSlidesAsImages(powerPointFilePath, outputFolderPath, nextFileNumber);
         extractSlidesAsText(powerPointFilePath, outputFolderPath, nextFileNumber);
     }
 
@@ -74,7 +74,7 @@ public class PowerPointHandler {
                 textContent.append(shape.getText()).append("\n");
             }
 
-            FileHandler.writeTextToFile(textContent.toString(), FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber));
+            FileHandler.writeTextToFile(textContent.toString(), FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber, ".txt"));
             slideNumber++;
         }
 
@@ -99,9 +99,9 @@ public class PowerPointHandler {
             slide.draw(graphics);
 
             // Save the image
-            String imageFilePath = outputFolderPath + "/slide" + slideCounter + ".png";
+            String imageFilePath = FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, nextFileNumber, slideCounter, ".png");
             ImageIO.write(img, "png", new File(imageFilePath));
-            System.out.println("Converted slide to image: " + imageFilePath);
+//            System.out.println("Converted slide to image: " + imageFilePath);
             slideCounter++;
         }
 

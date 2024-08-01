@@ -75,8 +75,8 @@ public class FileHandler {
         return fullPath.getAbsolutePath();
     }
 
-    public static String getNextFilePath(String outputFolderPath, String sourceFilePath, int fileNumber, int pageNumber){
-        return concatenatePath(outputFolderPath, fileNumber + " " + pageNumber + " " + extractFileNameWithoutExtension(sourceFilePath) + ".txt" );
+    public static String getNextFilePath(String outputFolderPath, String sourceFilePath, int fileNumber, int pageNumber, String fileType){
+        return concatenatePath(outputFolderPath, fileNumber + " " + pageNumber + " " + extractFileNameWithoutExtension(sourceFilePath) + fileType );
     }
 
     public static void writeTextToFile(String text, String filePath) {
