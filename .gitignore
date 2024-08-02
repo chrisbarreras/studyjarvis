@@ -27,3 +27,17 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# Gradle files
+Gradle/.gradle/
+Gradle/build/
+
+# Gradle Wrapper
+gradle-wrapper.jar
+
+# Log and temp files
+*.log
+*.tmp
+*.temp
+*.swp
+*~
