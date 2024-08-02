@@ -15,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage.BlobListOption;
+import com.google.cloud.storage.Storage.BlobField;
+import com.google.cloud.storage.Blob;
+
+
 public class GoogleCloudStorageHandler {
 
     public static void uploadDirectoryContents(String bucketName, Path sourceDirectory)
@@ -41,6 +47,38 @@ public class GoogleCloudStorageHandler {
         }
 
 
+    }
+
+    public static void clearBucket(String bucketName){
+
+        // Create a Storage client
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+
+        // List and delete all objects in the bucket
+        try {
+            Bucket bucket = storage.get(bucketName);
+            if (bucket == null) {
+                System.out.println("Bucket not found");
+                return;
+            }
+
+            // Iterate over the objects in the bucket and delete each one
+            for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
+                String blobName = blob.getName();
+                System.out.println("Deleting object: " + blobName);
+                boolean deleted = storage.delete(bucketName, blobName);
+                if (deleted) {
+                    System.out.println("Deleted: " + blobName);
+                } else {
+                    System.out.println("Failed to delete: " + blobName);
+                }
+            }
+
+            System.out.println("Bucket cleared.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to clear bucket.");
+        }
     }
 
 //    public static void uploadObject(String projectId, String bucketName, String objectName, String filePath) {
