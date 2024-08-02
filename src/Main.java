@@ -10,12 +10,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO:
 
-        // PowerPointHandler::extract(powerPointFileName, outputFolderPath)
-        //  <lesson number> <page number> <pptx name>.png
-        //  <lesson number> <page number> <pptx name>.txt
-
-        // GoogleCloudStorageHandler::clearBucket(bucketName)
-
         // string Jarvis::initialize(googleCloudBucket)
         // string Jarvis::createQuiz(numberOfQuestions)
         // string Jarvis::generateKeyPoints(numberOfKeyPoints)
@@ -24,6 +18,8 @@ public class Main {
         // PdfHandler::extract(pdfPath, outputFolderPath)
         //  <number> <pdf name>.png
         //  <number> <pdf name>.txt
+
+        // GoogleSlidesHandler::extract(Uri googleSlidesUrl, String outputFolderPath)
 
         // Add some unit tests
 
@@ -62,7 +58,8 @@ public class Main {
 //        PowerPointHandler.extract("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //        PowerPointHandler.extract("C:\\Users\\chris\\Downloads\\Arch Quiz 2 All Slides.pptx", slidesDir);
 
-        GoogleCloudStorageHandler.clearBucket("chris_barreras_studyjarvis");
+//        GoogleCloudStorageHandler.clearBucket("chris_barreras_studyjarvis");
+        GoogleCloudStorageHandler.clearBucket("tombarreras-studyjarvis");
 
 //        PowerPointHandler.convertSlidesToImages("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //        String text = PowerPointHandler.extractTextFromSlides("C:\\Users\\tomba\\OneDrive\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx");
