@@ -1,10 +1,7 @@
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.IOException;
 
 import com.google.cloud.storage.transfermanager.ParallelUploadConfig;
@@ -21,9 +18,14 @@ import com.google.cloud.storage.Storage.BlobField;
 import com.google.cloud.storage.Blob;
 
 
-public class GoogleCloudStorageHandler {
+public class GoogleBucket {
+    String bucketName;
 
-    public static void uploadDirectoryContents(String bucketName, Path sourceDirectory)
+    public GoogleBucket (String bucketName){
+        this.bucketName = bucketName;
+    }
+
+    public void uploadDirectoryContents(Path sourceDirectory)
             throws IOException {
         TransferManager transferManager = TransferManagerConfig.newBuilder().build().getService();
         ParallelUploadConfig parallelUploadConfig =
@@ -49,7 +51,7 @@ public class GoogleCloudStorageHandler {
 
     }
 
-    public static void clearBucket(String bucketName){
+    public void clearBucket(){
 
         // Create a Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
@@ -79,6 +81,23 @@ public class GoogleCloudStorageHandler {
             e.printStackTrace();
             System.out.println("Failed to clear bucket.");
         }
+    }
+
+    public ArrayList<String> getURIs(){
+        // Create a Storage client
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+
+        // Get the bucket
+        Bucket bucket = storage.get(bucketName);
+
+        // List URIs of all objects in the bucket
+        ArrayList<String> uris = new ArrayList<>();
+        for (Blob blob : storage.list(bucketName, BlobListOption.fields(Storage.BlobField.NAME)).iterateAll()) {
+            String uri = "gs://" + bucketName + "/" + blob.getName();
+            uris.add(uri);
+        }
+
+       return uris;
     }
 
 //    public static void uploadObject(String projectId, String bucketName, String objectName, String filePath) {

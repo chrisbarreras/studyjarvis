@@ -5,9 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class ImageHandler {
-    public static String mimeTypeFromImageUri(String imageUri){
-        return "image/png";
-    }
 
     // Reads the image data from the given URL.
     public static byte[] readImageFile(String url) throws IOException {

@@ -4,6 +4,11 @@ import java.util.List;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class FileHandler {
 
@@ -86,6 +91,29 @@ public class FileHandler {
             writer.write(text);
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
+    }
+
+    public static String mimeTypeFromUri(String uri){
+        if (uri.toLowerCase().endsWith(".png")) {
+            return"image/png";
+        }
+        return "text/plain";
+    }
+
+    public static void clearDirectory(Path directory) throws IOException {
+        try (Stream<Path> walk = Files.walk(directory)) {
+            walk.sorted(Comparator.reverseOrder())
+                    .filter(path -> !path.equals(directory)) // Exclude the root directory
+                    .forEach(FileHandler::deletePath);
+        }
+    }
+
+    public static void deletePath(Path path) {
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

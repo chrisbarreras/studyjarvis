@@ -5,18 +5,31 @@ import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import com.google.cloud.vertexai.generativeai.PartMaker;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Gemini {
+public class Gemini implements AutoCloseable{
     private String projectId;
     private String location;
     private String modelName;
+    VertexAI vertexAI;
+    GenerativeModel generativeModel;
+    ArrayList<Object> parts;
 
     public Gemini(String projectId, String modelName, String location) {
         this.modelName = modelName; // "gemini-1.0-pro-002" or "gemini-1.0-pro-001";
         this.location = location;
         this.projectId = projectId;
+        vertexAI = new VertexAI(projectId, location);
+        generativeModel = new GenerativeModel(modelName, vertexAI);
+        parts = new ArrayList<>();
+    }
+
+    @Override public void close(){
+        vertexAI.close();
     }
 
     public String textInput(String textPrompt) throws IOException {
@@ -45,7 +58,7 @@ public class Gemini {
         }
     }
 
-    public String multiModalInput(String[] imageUris, String[] textPrompts, String textPrompt)
+    public String multiModalInput(@org.jetbrains.annotations.NotNull String[] imageUris, String @NotNull [] textPrompts, String textPrompt)
             throws IOException {
         // Initialize client that will be used to send requests. This client only needs
         // to be created once, and can be reused for multiple requests.
@@ -69,5 +82,24 @@ public class Gemini {
 
             return response.toString();
         }
+    }
+
+    public void initializeMultiModalInput(@org.jetbrains.annotations.NotNull String[] uris) {
+        parts.clear();
+        for (String uri : uris){
+            parts.add(PartMaker.fromMimeTypeAndData(FileHandler.mimeTypeFromUri(uri), uri));
+        }
+    }
+
+    public String respond(String prompt) throws IOException {
+        ArrayList<Object> partsPlusPrompt = new ArrayList<>(parts);
+        partsPlusPrompt.add(prompt);
+
+        Content content = ContentMaker.fromMultiModalData(partsPlusPrompt.toArray());
+        GenerateContentResponse response = generativeModel.generateContent(content);
+
+        String responseText = ResponseHandler.getText(response);
+        parts.add("Prompt:\n" + prompt + "\n\n" + "Response:\n" + responseText);
+        return responseText;
     }
 }

@@ -73,8 +73,9 @@ public class PowerPointHandler {
             for (XSLFTextShape shape : slide.getPlaceholders()) {
                 textContent.append(shape.getText()).append("\n");
             }
-
-            FileHandler.writeTextToFile(textContent.toString(), FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber, ".txt"));
+            if (!textContent.isEmpty()) {
+                FileHandler.writeTextToFile(textContent.toString(), FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber, ".txt"));
+            }
             slideNumber++;
         }
 
