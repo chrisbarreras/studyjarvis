@@ -41,7 +41,12 @@ public class Main {
 //        googleBucket.uploadDirectoryContents(Path.of(slidesDir));
 
         Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
-        System.out.println(jarvis.createQuiz(10));
+//        System.out.println(jarvis.createQuiz(10));
+//        System.out.println(jarvis.createKeyPoints());
+//        System.out.println(jarvis.createStudyGuide());
+//        jarvis.createEndlessMultiQuestions();
+        jarvis.createEndlessShortQuestions();
+
 
 //        Gemini g1 = new Gemini("studyjarvis", "gemini-pro-vision", "us-west1");
 //        Gemini g1 = new Gemini("geminiexample-423800", "gemini-pro-vision","us-west1");
