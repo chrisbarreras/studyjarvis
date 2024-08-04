@@ -5,7 +5,6 @@ import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import com.google.cloud.vertexai.generativeai.PartMaker;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class Gemini implements AutoCloseable{
         }
     }
 
-    public String multiModalInput(@org.jetbrains.annotations.NotNull String[] imageUris, String @NotNull [] textPrompts, String textPrompt)
+    public String multiModalInput(String[] imageUris, String [] textPrompts, String textPrompt)
             throws IOException {
         // Initialize client that will be used to send requests. This client only needs
         // to be created once, and can be reused for multiple requests.
@@ -84,7 +83,7 @@ public class Gemini implements AutoCloseable{
         }
     }
 
-    public void initializeMultiModalInput(@org.jetbrains.annotations.NotNull String[] uris) {
+    public void initializeMultiModalInput(String[] uris) {
         parts.clear();
         for (String uri : uris){
             parts.add(PartMaker.fromMimeTypeAndData(FileHandler.mimeTypeFromUri(uri), uri));
