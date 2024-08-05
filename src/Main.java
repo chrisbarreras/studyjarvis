@@ -45,7 +45,7 @@ public class Main {
 //        System.out.println(jarvis.createKeyPoints());
 //        System.out.println(jarvis.createStudyGuide());
 //        jarvis.createEndlessMultiQuestions();
-        jarvis.createEndlessShortQuestions();
+        jarvis.createInteractiveQuiz(InteractiveQuizType.SHORT_ANSWER);
 
 
 //        Gemini g1 = new Gemini("studyjarvis", "gemini-pro-vision", "us-west1");
