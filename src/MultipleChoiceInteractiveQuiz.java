@@ -5,7 +5,7 @@ public class MultipleChoiceInteractiveQuiz extends InteractiveQuiz {
         super(gemini, numberOfQuestions);
     }
     @Override
-    protected String getQuizPrompt(){
+    protected String getQuizPrompt(int numberOfQuestions){
         return "Generate {numberOfQuestions} multiple choice questions with all of the answers at the bottom.".replace("{numberOfQuestions}", String.valueOf(numberOfQuestions));
     }
 

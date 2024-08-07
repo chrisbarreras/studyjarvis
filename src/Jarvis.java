@@ -16,6 +16,14 @@ public class Jarvis {
         return (new InteractiveQuiz(gemini, numberOfQuestions)).quizText;
     }
 
+    public String askQuestion() throws IOException {
+        return gemini.textInput("Here are some notes:\n\n" + gemini.respond("Generate comprehensive notes on all of the topics.") + "\n\nWhen is it appropriate to use CMMI?");
+    }
+
+    public String createComprehensiveNotes() throws IOException {
+        return gemini.respond("Generate comprehensive notes on all of the topics.");
+    }
+
     public String createKeyPoints() throws IOException {
         return gemini.respond("Generate key points on all of the topics.");
     }

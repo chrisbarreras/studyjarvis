@@ -2,7 +2,6 @@ import java.io.IOException;
 
 public class InteractiveQuiz {
     Gemini gemini;
-    int numberOfQuestions = 10;
     String quizText = "";
     String currentQuestion = "";
     int questionNumber;
@@ -19,11 +18,10 @@ public class InteractiveQuiz {
 
     public InteractiveQuiz(Gemini gemini, int numberOfQuestions) throws IOException {
         this.gemini = gemini;
-        this.numberOfQuestions = numberOfQuestions;
-        quizText = gemini.respond(getQuizPrompt());
+        quizText = gemini.respond(getQuizPrompt(numberOfQuestions));
     }
 
-    protected String getQuizPrompt(){
+    protected String getQuizPrompt(int numberOfQuestions){
         return "Generate {numberOfQuestions} questions with all of the answers at the bottom.".replace("{numberOfQuestions}", String.valueOf(numberOfQuestions));
     }
 
@@ -36,7 +34,7 @@ public class InteractiveQuiz {
     }
 
     public String getNextQuestion() throws IOException {
-        numberOfQuestions++;
+        questionNumber++;
         currentQuestion = gemini.textInput(getNextQuestionPrompt());
         return currentQuestion;
     }

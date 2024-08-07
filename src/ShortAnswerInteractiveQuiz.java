@@ -6,7 +6,7 @@ public class ShortAnswerInteractiveQuiz extends InteractiveQuiz{
     }
 
     @Override
-    protected String getQuizPrompt(){
+    protected String getQuizPrompt(int numberOfQuestions){
         return "Generate {numberOfQuestions} short answer questions with all of the answers at the bottom.".replace("{numberOfQuestions}", String.valueOf(numberOfQuestions));
     }
 

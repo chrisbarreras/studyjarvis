@@ -1,9 +1,6 @@
-import com.google.storage.v2.Bucket;
-import io.opencensus.metrics.export.Distribution;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Main {
@@ -20,9 +17,11 @@ public class Main {
         //  <number> <pdf name>.png
         //  <number> <pdf name>.txt
 
-        // GoogleSlidesHandler::extract(Uri googleSlidesUrl, String outputFolderPath)
-
         // Add some unit tests
+
+        // Save Key Points
+        // Save Study Guide
+        // Command Prompt
 
         // Interactive
         // string Jarvis::ask(question)
@@ -33,19 +32,33 @@ public class Main {
 
         ZipSecureFile.setMinInflateRatio(0.002);
 
-//        FileHandler.clearDirectory(Path.of(slidesDir));
-//        PowerPointHandler.extract("C:\\Users\\chris\\Downloads\\Arch Quiz 2 All Slides.pptx", slidesDir);
+        FileHandler.clearDirectory(Path.of(slidesDir));
+        PDFExtractor.extract("C:\\Users\\chris\\Downloads\\sample-local-pdf.pdf", slidesDir);
+//        PowerPointHandler.extract("C:\\Users\\chris\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //
 //        GoogleBucket googleBucket = new GoogleBucket("chris_barreras_studyjarvis");
 //        googleBucket.clearBucket();
 //        googleBucket.uploadDirectoryContents(Path.of(slidesDir));
 
-        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
+//        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
 //        System.out.println(jarvis.createQuiz(10));
 //        System.out.println(jarvis.createKeyPoints());
 //        System.out.println(jarvis.createStudyGuide());
 //        jarvis.createEndlessMultiQuestions();
-        jarvis.createInteractiveQuiz(InteractiveQuizType.SHORT_ANSWER);
+//        jarvis.createInteractiveQuiz(InteractiveQuizType.SHORT_ANSWER);
+//        jarvis.createComprehensiveNotes() >> "notes.txt";
+//        System.out.println(jarvis.askQuestion());
+
+//        FileWriter fileWriter = new FileWriter("comprehensiveNotes.txt", true);
+//
+//        // Create a PrintWriter from FileWriter
+//        PrintWriter printWriter = new PrintWriter(fileWriter);
+//
+//        // Write text to file
+//        printWriter.println(jarvis.createComprehensiveNotes());
+//
+//        // Close PrintWriter to flush the output to the file and close the file
+//        printWriter.close();
 
 
 //        Gemini g1 = new Gemini("studyjarvis", "gemini-pro-vision", "us-west1");
