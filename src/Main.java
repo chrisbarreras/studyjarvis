@@ -2,6 +2,9 @@ import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.io.input.CountingInputStream;
+import org.apache.logging.log4j.LogManager;
 
 public class Main {
 
@@ -33,7 +36,8 @@ public class Main {
         ZipSecureFile.setMinInflateRatio(0.002);
 
         FileHandler.clearDirectory(Path.of(slidesDir));
-        PDFExtractor.extract("C:\\Users\\chris\\Downloads\\sample-local-pdf.pdf", slidesDir);
+//        PDFExtractor.extract("C:\\Users\\chris\\Downloads\\sample-local-pdf.pdf", slidesDir);
+        PDFExtractor.extract("C:\\Users\\tomba\\Downloads\\AISlidesforINtrotoSFE28Nov2023.pdf", slidesDir);
 //        PowerPointHandler.extract("C:\\Users\\chris\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
 //
 //        GoogleBucket googleBucket = new GoogleBucket("chris_barreras_studyjarvis");

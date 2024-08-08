@@ -1,4 +1,5 @@
 //import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -9,11 +10,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.io.RandomAccessRead;
+import org.apache.commons.logging.LogFactory;
+import org.apache.fontbox.ttf.TTFParser;
 
 public class PDFExtractor {
 
     public static void extract(String inputPdfPath, String outputDir) {
-        try (PDDocument document = PDDocument.load(new File(inputPdfPath))) {
+        try (PDDocument document = Loader.loadPDF(new File(inputPdfPath))) {
             extractPagesAsImages(document, outputDir);
             extractPagesAsText(document, outputDir);
         } catch (IOException e) {
