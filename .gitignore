@@ -41,3 +41,8 @@ gradle-wrapper.jar
 *.temp
 *.swp
 *~
+
+# Idea personal settings
+!.idea/workspace.xml
+!.idea/shelf/
+!.idea/usage.statistics.xml
