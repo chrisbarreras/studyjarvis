@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
+import com.google.auth.Credentials;
+import com.google.auth.oauth2.GoogleCredentials;
 
 public class Jarvis {
     Gemini gemini;

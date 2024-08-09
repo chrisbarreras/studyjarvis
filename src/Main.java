@@ -1,10 +1,6 @@
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.io.input.CountingInputStream;
-import org.apache.logging.log4j.LogManager;
 
 public class Main {
 
@@ -40,7 +36,8 @@ public class Main {
 //        googleBucket.clearBucket();
 //        googleBucket.uploadDirectoryContents(Path.of(slidesDir));
 
-        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
+//        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
+        Jarvis jarvis = new Jarvis("tombarreras-studyjarvis","geminiexample-423800", "gemini-1.5-pro", "us-west1");
 //        System.out.println(jarvis.createQuiz(10));
 //        System.out.println(jarvis.createKeyPoints());
 //        System.out.println(jarvis.createStudyGuide());

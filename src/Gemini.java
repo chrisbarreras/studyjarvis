@@ -6,6 +6,7 @@ import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import com.google.cloud.vertexai.generativeai.PartMaker;
 import com.google.protobuf.GeneratedMessageV3;
+import com.google.common.collect.ImmutableSet;
 
 import java.io.IOException;
 import java.util.ArrayList;

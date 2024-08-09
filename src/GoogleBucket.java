@@ -16,8 +16,6 @@ import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.Storage.BlobField;
 import com.google.cloud.storage.Blob;
-import com.google.cloud.ServiceOptions;
-import com.google.api.gax.paging.Page;
 
 public class GoogleBucket {
     String bucketName;
