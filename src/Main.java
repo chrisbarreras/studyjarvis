@@ -16,10 +16,6 @@ public class Main {
         // string Jarvis::generateKeyPoints(numberOfKeyPoints)
         // string Jarvis::generateStudyGuide(numberOfKeyPoints)
 
-        // PdfHandler::extract(pdfPath, outputFolderPath)
-        //  <number> <pdf name>.png
-        //  <number> <pdf name>.txt
-
         // Add some unit tests
 
         // Save Key Points
@@ -35,22 +31,22 @@ public class Main {
 
         ZipSecureFile.setMinInflateRatio(0.002);
 
-        FileHandler.clearDirectory(Path.of(slidesDir));
+//        FileHandler.clearDirectory(Path.of(slidesDir));
 //        PDFExtractor.extract("C:\\Users\\chris\\Downloads\\sample-local-pdf.pdf", slidesDir);
-        PDFExtractor.extract("C:\\Users\\tomba\\Downloads\\AISlidesforINtrotoSFE28Nov2023.pdf", slidesDir);
-//        PowerPointHandler.extract("C:\\Users\\chris\\Documents\\FUS SFE Intro_lecture_No_10 Software Process.pptx", slidesDir);
+//        PDFExtractor.extract("C:\\Users\\tomba\\Downloads\\AISlidesforINtrotoSFE28Nov2023.pdf", slidesDir);
+//        PowerPointExtractor.extract("C:\\Users\\chris\\Downloads\\Arch Quiz 2 All Slides.pptx", slidesDir);
 //
 //        GoogleBucket googleBucket = new GoogleBucket("chris_barreras_studyjarvis");
 //        googleBucket.clearBucket();
 //        googleBucket.uploadDirectoryContents(Path.of(slidesDir));
 
-//        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
+        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
 //        System.out.println(jarvis.createQuiz(10));
 //        System.out.println(jarvis.createKeyPoints());
 //        System.out.println(jarvis.createStudyGuide());
 //        jarvis.createEndlessMultiQuestions();
 //        jarvis.createInteractiveQuiz(InteractiveQuizType.SHORT_ANSWER);
-//        jarvis.createComprehensiveNotes() >> "notes.txt";
+        System.out.print(jarvis.createComprehensiveNotes());
 //        System.out.println(jarvis.askQuestion());
 
 //        FileWriter fileWriter = new FileWriter("comprehensiveNotes.txt", true);

@@ -18,35 +18,45 @@ import org.apache.fontbox.ttf.TTFParser;
 public class PDFExtractor {
 
     public static void extract(String inputPdfPath, String outputDir) {
+        int nextFileNumber = FileHandler.getNextFileNumber(outputDir);
+
         try (PDDocument document = Loader.loadPDF(new File(inputPdfPath))) {
-            extractPagesAsImages(document, outputDir);
-            extractPagesAsText(document, outputDir);
+            extractPagesAsImages(inputPdfPath, outputDir, nextFileNumber);
+            extractPagesAsText(inputPdfPath, outputDir, nextFileNumber);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void extractPagesAsImages(PDDocument document, String outputDir) throws IOException {
-        PDFRenderer pdfRenderer = new PDFRenderer(document);
-        Files.createDirectories(Paths.get(outputDir)); // Ensure output directory exists
-        for (int pageNumber = 0; pageNumber < document.getNumberOfPages(); pageNumber++) {
-            BufferedImage bim = pdfRenderer.renderImageWithDPI(pageNumber, 300); // 300 DPI for better quality
-            String fileName = String.format("%s/page_%d.png", outputDir, pageNumber + 1);
-            ImageIO.write(bim, "png", new File(fileName));
-            System.out.println("Saved image: " + fileName);
+    private static void extractPagesAsImages(String inputPdfPath, String outputDir, int nextFileNumber) throws IOException {
+        try (PDDocument document = Loader.loadPDF(new File(inputPdfPath))) {
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            Files.createDirectories(Paths.get(outputDir)); // Ensure output directory exists
+            for (int pageNumber = 0; pageNumber < document.getNumberOfPages(); pageNumber++) {
+                BufferedImage bim = pdfRenderer.renderImageWithDPI(pageNumber, 300); // 300 DPI for better quality
+                String filePath = FileHandler.getNextFilePath(outputDir, inputPdfPath, nextFileNumber, pageNumber + 1, ".png");
+                ImageIO.write(bim, "png", new File(filePath));
+                System.out.println("Saved image: " + filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void extractPagesAsText(PDDocument document, String outputDir) throws IOException {
-        PDFTextStripper pdfTextStripper = new PDFTextStripper();
-        Files.createDirectories(Paths.get(outputDir)); // Ensure output directory exists
-        for (int pageNumber = 0; pageNumber < document.getNumberOfPages(); pageNumber++) {
-            pdfTextStripper.setStartPage(pageNumber + 1);
-            pdfTextStripper.setEndPage(pageNumber + 1);
-            String text = pdfTextStripper.getText(document);
-            String fileName = String.format("%s/page_%d.txt", outputDir, pageNumber + 1);
-            Files.write(Paths.get(fileName), text.getBytes());
-            System.out.println("Saved text: " + fileName);
+    private static void extractPagesAsText(String inputPdfPath, String outputDir, int nextFileNumber) throws IOException {
+        try (PDDocument document = Loader.loadPDF(new File(inputPdfPath))) {
+            PDFTextStripper pdfTextStripper = new PDFTextStripper();
+            Files.createDirectories(Paths.get(outputDir)); // Ensure output directory exists
+            for (int pageNumber = 0; pageNumber < document.getNumberOfPages(); pageNumber++) {
+                pdfTextStripper.setStartPage(pageNumber + 1);
+                pdfTextStripper.setEndPage(pageNumber + 1);
+                String text = pdfTextStripper.getText(document);
+                String filePath = FileHandler.getNextFilePath(outputDir, inputPdfPath, nextFileNumber, pageNumber + 1, ".txt");
+                Files.write(Paths.get(filePath), text.getBytes());
+                System.out.println("Saved text: " + filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

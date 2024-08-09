@@ -21,7 +21,7 @@ public class Jarvis {
     }
 
     public String createComprehensiveNotes() throws IOException {
-        return gemini.respond("Generate comprehensive notes on all of the topics.");
+        return gemini.respond("Generate detailed, comprehensive notes on all of the topics.");
     }
 
     public String createKeyPoints() throws IOException {
