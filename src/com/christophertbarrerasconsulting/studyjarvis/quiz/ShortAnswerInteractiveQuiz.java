@@ -1,6 +1,10 @@
+package com.christophertbarrerasconsulting.studyjarvis.quiz;
+
+import com.christophertbarrerasconsulting.studyjarvis.Gemini;
+
 import java.io.IOException;
 
-public class ShortAnswerInteractiveQuiz extends InteractiveQuiz{
+public class ShortAnswerInteractiveQuiz extends InteractiveQuiz {
     public ShortAnswerInteractiveQuiz(Gemini gemini, int numberOfQuestions) throws IOException {
         super(gemini, numberOfQuestions);
     }

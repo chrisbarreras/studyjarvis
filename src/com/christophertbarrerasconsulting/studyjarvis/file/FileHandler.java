@@ -1,3 +1,5 @@
+package com.christophertbarrerasconsulting.studyjarvis.file;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
@@ -84,15 +85,12 @@ public class FileHandler {
         return concatenatePath(outputFolderPath, fileNumber + " " + pageNumber + " " + extractFileNameWithoutExtension(sourceFilePath) + fileType );
     }
 
-    public static void writeTextToFile(String text, String filePath) {
+    public static void writeTextToFile(String text, String filePath) throws IOException {
         // Create a BufferedWriter object
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            // Write the text to the file
-            writer.write(text);
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
-        }
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+
+        // Write the text to the file
+        writer.write(text);
     }
 
     public static String mimeTypeFromUri(String uri){
@@ -106,15 +104,17 @@ public class FileHandler {
         try (Stream<Path> walk = Files.walk(directory)) {
             walk.sorted(Comparator.reverseOrder())
                     .filter(path -> !path.equals(directory)) // Exclude the root directory
-                    .forEach(FileHandler::deletePath);
+                    .forEach(path1 -> {
+                        try {
+                            deletePath(path1);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
         }
     }
 
-    public static void deletePath(Path path) {
-        try {
-            Files.delete(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public static void deletePath(Path path) throws IOException {
+        Files.delete(path);
     }
 }

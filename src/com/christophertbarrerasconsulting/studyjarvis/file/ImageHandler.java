@@ -1,3 +1,5 @@
+package com.christophertbarrerasconsulting.studyjarvis.file;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

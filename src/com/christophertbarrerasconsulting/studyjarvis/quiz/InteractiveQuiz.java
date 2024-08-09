@@ -1,8 +1,12 @@
+package com.christophertbarrerasconsulting.studyjarvis.quiz;
+
+import com.christophertbarrerasconsulting.studyjarvis.Gemini;
+
 import java.io.IOException;
 
 public class InteractiveQuiz {
     Gemini gemini;
-    String quizText = "";
+    public String quizText = "";
     String currentQuestion = "";
     int questionNumber;
 

@@ -1,3 +1,6 @@
+package com.christophertbarrerasconsulting.studyjarvis;
+
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.api.Content;
 import com.google.cloud.vertexai.api.GenerateContentResponse;
@@ -5,12 +8,9 @@ import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import com.google.cloud.vertexai.generativeai.PartMaker;
-import com.google.protobuf.GeneratedMessageV3;
-import com.google.common.collect.ImmutableSet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Gemini implements AutoCloseable{
     private String projectId;
@@ -68,8 +68,8 @@ public class Gemini implements AutoCloseable{
 
             Object[] parts = new Object[imageUris.length + textPrompts.length + 1];
             for (int i = 0; i < imageUris.length; i++) {
-//                String mimeType = ImageHandler.mimeTypeFromImageUri(imageUris[i]);
-//                byte[] imageBytes = ImageHandler.readImageFile(imageUris[i]);
+//                String mimeType = com.christophertbarrerasconsulting.studyjarvis.file.ImageHandler.mimeTypeFromImageUri(imageUris[i]);
+//                byte[] imageBytes = com.christophertbarrerasconsulting.studyjarvis.file.ImageHandler.readImageFile(imageUris[i]);
 //                parts[i] = PartMaker.fromMimeTypeAndData(mimeType, imageBytes);
                 parts[i] = imageUris[i];
             }

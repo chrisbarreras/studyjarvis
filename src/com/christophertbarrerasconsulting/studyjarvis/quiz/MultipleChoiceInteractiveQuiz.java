@@ -1,3 +1,7 @@
+package com.christophertbarrerasconsulting.studyjarvis.quiz;
+
+import com.christophertbarrerasconsulting.studyjarvis.Gemini;
+
 import java.io.IOException;
 
 public class MultipleChoiceInteractiveQuiz extends InteractiveQuiz {

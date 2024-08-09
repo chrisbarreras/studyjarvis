@@ -1,3 +1,5 @@
+package com.christophertbarrerasconsulting.studyjarvis;
+
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.nio.file.Files;
@@ -56,30 +58,25 @@ public class GoogleBucket {
         Storage storage = StorageOptions.getDefaultInstance().getService();
 
         // List and delete all objects in the bucket
-        try {
-            Bucket bucket = storage.get(bucketName);
-            if (bucket == null) {
-                System.out.println("Bucket not found");
-                return;
-            }
-
-            // Iterate over the objects in the bucket and delete each one
-            for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
-                String blobName = blob.getName();
-                System.out.println("Deleting object: " + blobName);
-                boolean deleted = storage.delete(bucketName, blobName);
-                if (deleted) {
-                    System.out.println("Deleted: " + blobName);
-                } else {
-                    System.out.println("Failed to delete: " + blobName);
-                }
-            }
-
-            System.out.println("Bucket cleared.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Failed to clear bucket.");
+        Bucket bucket = storage.get(bucketName);
+        if (bucket == null) {
+            System.out.println("Bucket not found");
+            return;
         }
+
+        // Iterate over the objects in the bucket and delete each one
+        for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
+            String blobName = blob.getName();
+            System.out.println("Deleting object: " + blobName);
+            boolean deleted = storage.delete(bucketName, blobName);
+            if (deleted) {
+                System.out.println("Deleted: " + blobName);
+            } else {
+                System.out.println("Failed to delete: " + blobName);
+            }
+        }
+
+        System.out.println("Bucket cleared.");
     }
 
     public ArrayList<String> getURIs(){

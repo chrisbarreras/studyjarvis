@@ -1,3 +1,6 @@
+package com.christophertbarrerasconsulting.studyjarvis.extraction;
+
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import org.apache.poi.xslf.usermodel.*;
 
 import javax.imageio.ImageIO;
@@ -11,7 +14,6 @@ import java.awt.Graphics2D;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
-import org.apache.poi.sl.usermodel.SlideShow;
 
 public class PowerPointExtractor {
 
