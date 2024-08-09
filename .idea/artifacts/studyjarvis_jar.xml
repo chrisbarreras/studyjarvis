@@ -1,0 +1,57 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="studyjarvis:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/studyjarvis_jar</output-path>
+    <root id="archive" name="studyjarvis.jar">
+      <element id="module-output" name="studyjarvis" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-appengine/1.44.2/890b842ea0de630308c459bbe1185532cf486d62/google-http-client-appengine-1.44.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/api-common/2.34.0/b7b81be382525ed4327cbb1224461754d11606de/api-common-2.34.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-storage-v2/2.40.1-alpha/b99831c99943417c29ba27b72ddb99d215c880c/proto-google-cloud-storage-v2-2.40.1-alpha.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.11.0/527175ca6d81050b53bdd4c457a6d6e017626b0e/gson-2.11.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-storage/2.40.1/33e67ce2dc4e91edb85a8bdd9ea154735aa4a88f/google-cloud-storage-2.40.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core-http/2.40.0/a7d82b9e9499c6d8d7cee9583f44f3d540a69f31/google-cloud-core-http-2.40.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-vertexai-v1/0.4.0/3e34b3a9b7df7205c5c5cb4514ad8fbad56f1bf1/proto-google-cloud-vertexai-v1-0.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-lite/5.3.0/4a639ca45af85065713bde6c5acddbf1418c3f02/poi-ooxml-lite-5.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-collections4/4.4/62ebe7544cb7164d87e0637a2a6a2bdc981395e8/commons-collections4-4.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/2.6.0/b602d71e2491bbb66cfcd27a21db6ffea3764cdd/google-api-client-2.6.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox/3.0.2/52327f7106515024494a08850a629e50ac7a1b9b/pdfbox-3.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.16.1/377d592e740dc77124e0901291dbfaa6810a200e/commons-io-2.16.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-oauth2-http/1.24.0/daf482cb62e12a0d535a0e0ecf42b7980babae27/google-auth-library-oauth2-http-1.24.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-vertexai/0.4.0/4547e4581f06cf87cd07e72f263b21450b6afed4/google-cloud-vertexai-0.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-api/2.23.1/9c15c29c526d9c6783049c0a77722693c66706e1/log4j-api-2.23.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.3.0/f5e064b541f5c5fbc5e4fb49c4e8cd4eabb3afd6/commons-logging-1.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf/1.65.1/7e25214bd216bbf5c4f2092a984b6586759124/grpc-protobuf-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.44.2/12f55ba06332c2b6f5456091b0786e1d7b8987e9/google-http-client-1.44.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-httpjson/2.50.0/8c0a42ce6b3363b2a569b0cadd9a9d5859841f3d/gax-httpjson-2.50.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-contrib-http-util/0.31.1/3c13fc5715231fadb16a9b74a44d9d59c460cfa8/opencensus-contrib-http-util-0.31.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-storage/v1-rev20240621-2.0.0/260d4c88612b1fe65e7332550a023dced06943f4/google-api-services-storage-v1-rev20240621-2.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-core/1.65.1/7b80ccb2678b7d3ff2ec90bbe4ffbb0ff956eb54/grpc-core-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.threeten/threetenbp/1.6.9/39c822e33f202e7c25b54172d8235d484b4966fc/threetenbp-1.6.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-netty-shaded/1.65.1/b66df7a116527604f1aa70ea588e94a762c7d531/grpc-netty-shaded-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/5.3.0/a26d24e85a2440d7b76d2ddd187abb0ee7c056e/poi-5.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/5.3.0/55e5ecb93bd06ff70857d514b3607ae22866806c/poi-ooxml-5.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.xmlbeans/xmlbeans/5.2.1/e16ddf17fe181c202b097e0dcc0ee2fed91cb7da/xmlbeans-5.2.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/33.2.1-jre/818e780da2c66c63bbb6480fef1f3855eeafa3e4/guava-33.2.1-jre.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-compress/1.26.2/eb1f823447af685208e684fce84783b43517960c/commons-compress-1.26.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.44.2/3046eb6db11805ba7f90ad5bb6be31877468a7cf/google-http-client-jackson2-1.44.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax/2.51.0/614353db505cdb84a903c4da67bbfd9d91c11d63/gax-2.51.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/fontbox/3.0.2/7e4077f110d575ba6b6f87ec1701b6e3a2373743/fontbox-3.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.2/c4a06a64e650562f30b7bf9aaec1bfed43aca12b/failureaccess-1.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-gson/1.44.2/6851401b3eda8b74658a159e10165f39fb9678fa/google-http-client-gson-1.44.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-protobuf-lite/1.65.1/f9427f4e41726d7510dc3b721cac62535eb6949c/grpc-protobuf-lite-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.opencensus/opencensus-api/0.31.1/66a60c7201c2b8b20ce495f0295b32bb0ccbbc57/opencensus-api-0.31.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-common-protos/2.42.0/26d5aaff30d262212f454ee1123fc90572c284fe/proto-google-common-protos-2.42.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.logging.log4j/log4j-core/2.23.1/905802940e2c78042d75b837c136ac477d2b4e4d/log4j-core-2.23.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-auth/1.65.1/8824fde1fa75e8f86716e9f2f72d97cd87e0b3cd/grpc-auth-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.pdfbox/pdfbox-io/3.0.2/9ef9b959b305868a57de2f9f739d9abe3a5cbdbe/pdfbox-io-3.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api/gax-grpc/2.51.0/9fb9b410ad12ba9185519d430142982363c20706/gax-grpc-2.51.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.perfmark/perfmark-api/0.27.0/f86f575a41b091786a4b027cd9c0c1d2e3fc1c01/perfmark-api-0.27.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.17.1/5e52a11644cd59a28ef79f02bddc2cc3bab45edb/jackson-core-2.17.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.protobuf/protobuf-java/3.25.3/d3200261955f3298e0d85c9892201e70492ce8eb/protobuf-java-3.25.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.grpc/grpc-api/1.65.1/52a4193296c4471871b90dbbdaebb8e9bb87182/grpc-api-1.65.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.cloud/google-cloud-core/2.40.0/35214007270128474de01a84c6795df0083b4bc/google-cloud-core-2.40.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-iam-v1/1.36.0/af2c8bdad5a6ea0c1ba9aebff08d675fdee26476/proto-google-iam-v1-1.36.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.zaxxer/SparseBitSet/1.3/533eac055afe3d5f614ea95e333afd6c2bde8f26/SparseBitSet-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.auth/google-auth-library-credentials/1.24.0/bf1a99491ed17858150775ef618ffdefc731ee88/google-auth-library-credentials-1.24.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

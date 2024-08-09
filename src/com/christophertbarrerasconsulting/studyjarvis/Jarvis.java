@@ -37,36 +37,7 @@ public class Jarvis {
         return gemini.respond("Generate a study guide including all of the topics.");
     }
 
-    public void createInteractiveQuiz(InteractiveQuizType quizType) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String answer = "Z";
-        System.out.println("Enter 0 to quit.\n");
-
-        while (true) {
-            System.out.println("Generating next ten questions...\n");
-            int numberOfQuestions = 10;
-            int currentQuestion = 0;
-            InteractiveQuiz quiz = InteractiveQuiz.getQuiz (quizType, gemini, numberOfQuestions);
-
-            for (int index = 1; index <= numberOfQuestions; index++) {
-                currentQuestion++;
-                String question = quiz.getNextQuestion();
-                System.out.println(currentQuestion + ") " + question);
-                System.out.print("Enter: ");
-                answer = scanner.nextLine();
-
-                if (Objects.equals(answer, "0")){
-                    break;
-                }
-
-                System.out.println(quiz.evaluateAnswer(answer));
-            }
-
-            if (Objects.equals(answer, "0")){
-                System.out.println("\nQuitting...");
-                scanner.close();
-                break;
-            }
-        }
+    public InteractiveQuiz createInteractiveQuiz(InteractiveQuizType quizType, int numberOfQuestions) throws IOException {
+        return InteractiveQuiz.getQuiz(quizType, gemini, numberOfQuestions);
     }
 }

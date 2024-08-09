@@ -10,7 +10,6 @@ public class Main {
         // TODO:
 
 //        Remove Console stuff from com.christophertbarrerasconsulting.studyjarvis.Jarvis
-//        Add package declarations to classes
 
 //        Create a Command Processor
 //        Unit Tests

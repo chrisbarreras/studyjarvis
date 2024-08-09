@@ -9,6 +9,7 @@ public class InteractiveQuiz {
     public String quizText = "";
     String currentQuestion = "";
     int questionNumber;
+    public int numberOfQuestions;
 
     public static InteractiveQuiz getQuiz(InteractiveQuizType quizType, Gemini gemini, int numberOfQuestions) throws IOException {
         if (quizType == InteractiveQuizType.MULTIPLE_CHOICE){
@@ -21,6 +22,7 @@ public class InteractiveQuiz {
     }
 
     public InteractiveQuiz(Gemini gemini, int numberOfQuestions) throws IOException {
+        this.numberOfQuestions = numberOfQuestions;
         this.gemini = gemini;
         quizText = gemini.respond(getQuizPrompt(numberOfQuestions));
     }
