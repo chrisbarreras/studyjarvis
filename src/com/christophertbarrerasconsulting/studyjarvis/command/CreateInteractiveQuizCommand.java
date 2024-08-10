@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class CreateInteractiveQuizCommand extends Command {
+    CreateInteractiveQuizCommand () {
+        commandText = "create-interactive-quiz";
+        shortCut = "iq";
+        helpText = "Ask Gemini to start an interactive quiz session.";
+    }
+
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){

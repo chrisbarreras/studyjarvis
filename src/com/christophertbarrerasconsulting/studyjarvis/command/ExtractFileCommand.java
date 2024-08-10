@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ExtractFileCommand extends Command {
+    ExtractFileCommand () {
+        commandText = "extract-file";
+        shortCut = "ef";
+        helpText = "Extract the contents of a file into the extract folder.";
+    }
+
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandParser.secondPartOfList, "")) {

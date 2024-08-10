@@ -7,6 +7,12 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class UploadBucketCommand extends Command {
+    UploadBucketCommand () {
+        commandText = "upload-bucket";
+        shortCut = "ub";
+        helpText = "Upload contents of extract folder to Google Bucket.";
+    }
+
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")) {

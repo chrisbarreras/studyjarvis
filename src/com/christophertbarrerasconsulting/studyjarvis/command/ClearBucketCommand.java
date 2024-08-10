@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ClearBucketCommand extends Command {
+    ClearBucketCommand () {
+        commandText = "clear-bucket";
+        shortCut = "cb";
+        helpText = "Deletes all files in the Google Bucket";
+    }
+
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")) {

@@ -5,6 +5,12 @@ import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 import java.io.IOException;
 
 public class DisplayLocalSettingsCommand extends Command {
+    DisplayLocalSettingsCommand() {
+        commandText = "display-settings";
+        shortCut = "ds";
+        helpText = "Display local application settings.";
+    }
+
     @Override
     public void run() throws IOException {
         System.out.println(AppSettings.BucketName + ": " + CommandSession.bucketName);

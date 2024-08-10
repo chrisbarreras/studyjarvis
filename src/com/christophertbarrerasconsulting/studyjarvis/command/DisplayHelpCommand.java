@@ -3,6 +3,12 @@ package com.christophertbarrerasconsulting.studyjarvis.command;
 import java.io.IOException;
 
 public class DisplayHelpCommand extends Command {
+    DisplayHelpCommand () {
+        commandText = "help";
+        shortCut = "h";
+        helpText = "Display this help information";
+    }
+
     @Override
     public void run() throws IOException {
         System.out.println("help: Display this help information");

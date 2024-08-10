@@ -7,6 +7,12 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class AskQuestionCommand extends Command {
+    AskQuestionCommand () {
+        commandText = "ask-question";
+        shortCut = "aq";
+        helpText = "Ask Gemini a question.";
+    }
+
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){

@@ -8,6 +8,12 @@ import java.util.Scanner;
 
 public class EditLocalSettingsCommand extends Command
 {
+    EditLocalSettingsCommand () {
+        commandText = "edit-settings";
+        shortCut = "es";
+        helpText = "Edit and save local application settings.";
+    }
+
     private String getSetting(String setting, String currentValue) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(setting);

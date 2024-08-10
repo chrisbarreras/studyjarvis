@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class LoadLocalSettingsCommand extends Command{
+    public LoadLocalSettingsCommand() {
+        commandText = "load-settings";
+        shortCut = "ls";
+        helpText = "Load and display local application settings.";
+    }
+
     @Override
     public void run() throws IOException {
         Properties properties = ConfigReader.readProperties();
