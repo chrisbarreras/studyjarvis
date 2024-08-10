@@ -15,25 +15,11 @@ public class AskQuestionCommand extends Command {
 
     @Override
     public void run() throws IOException {
-        if (Objects.equals(CommandSession.bucketName, "")){
-            throw new IllegalArgumentException("Bucket name is empty.");
-        }
-        if (Objects.equals(CommandSession.geminiProjectId, "")){
-            throw new IllegalArgumentException("Gemini project ID is empty.");
-        }
-        if (Objects.equals(CommandSession.geminiModelName, "")){
-            throw new IllegalArgumentException("Gemini model name is empty.");
-        }
-        if (Objects.equals(CommandSession.geminiLocation, "")){
-            throw new IllegalArgumentException("Gemini location is empty.");
-        }
-
-        Jarvis jarvis = new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("\n\nEnter your question: ");
         String question = scanner.nextLine();
 
-        System.out.println(jarvis.askQuestion(question));
+        System.out.println(Jarvis.getInstance().askQuestion(question));
     }
 }

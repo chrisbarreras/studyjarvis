@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
+import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
 import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuiz;
 import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuizType;
 
@@ -8,6 +9,23 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Jarvis {
+    public static Jarvis getInstance () {
+        if (Objects.equals(CommandSession.bucketName, "")){
+            throw new IllegalArgumentException("Bucket name is empty.");
+        }
+        if (Objects.equals(CommandSession.geminiProjectId, "")){
+            throw new IllegalArgumentException("Gemini project ID is empty.");
+        }
+        if (Objects.equals(CommandSession.geminiModelName, "")){
+            throw new IllegalArgumentException("Gemini model name is empty.");
+        }
+        if (Objects.equals(CommandSession.geminiLocation, "")){
+            throw new IllegalArgumentException("Gemini location is empty.");
+        }
+
+        return new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
+    }
+
     Gemini gemini;
     GoogleBucket bucket;
 
