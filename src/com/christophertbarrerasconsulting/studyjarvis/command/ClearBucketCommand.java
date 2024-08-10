@@ -1,6 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.command;
 
 import com.christophertbarrerasconsulting.studyjarvis.GoogleBucket;
+import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -14,11 +15,6 @@ public class ClearBucketCommand extends Command {
 
     @Override
     public void run() throws IOException {
-        if (Objects.equals(CommandSession.bucketName, "")) {
-            throw new IllegalArgumentException("Bucket name is empty.");
-        }
-
-        GoogleBucket googleBucket = new GoogleBucket(CommandSession.bucketName);
-        googleBucket.clearBucket();
+        GoogleBucket.getInstance(CommandSession.bucketName).clearBucket();
     }
 }

@@ -29,9 +29,9 @@ public class Jarvis {
     Gemini gemini;
     GoogleBucket bucket;
 
-    public Jarvis(String bucketName, String geminiProjectID, String geminiModelName, String geminiLocation) {
+    private Jarvis(String bucketName, String geminiProjectID, String geminiModelName, String geminiLocation) {
         gemini = new Gemini(geminiProjectID, geminiModelName, geminiLocation);
-        bucket = new GoogleBucket(bucketName);
+        bucket = GoogleBucket.getInstance(bucketName);
         gemini.initializeMultiModalInput(bucket.getURIs().toArray(new String[0]));
     }
 

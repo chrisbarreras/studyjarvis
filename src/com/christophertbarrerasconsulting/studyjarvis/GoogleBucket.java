@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
+import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import com.google.cloud.storage.transfermanager.TransferManagerConfig;
 import com.google.cloud.storage.transfermanager.UploadResult;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import com.google.cloud.storage.Bucket;
@@ -20,9 +22,16 @@ import com.google.cloud.storage.Storage.BlobField;
 import com.google.cloud.storage.Blob;
 
 public class GoogleBucket {
+    public static GoogleBucket getInstance(String bucketName) {
+        if (Objects.equals(bucketName, "")) {
+            throw new IllegalArgumentException("Bucket name is empty.");
+        }
+        return new GoogleBucket(bucketName);
+    }
+
     String bucketName;
 
-    public GoogleBucket (String bucketName){
+    private GoogleBucket (String bucketName){
         this.bucketName = bucketName;
     }
 
