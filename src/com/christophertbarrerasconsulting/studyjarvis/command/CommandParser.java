@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CommandParser {
-    private static List<Command> commands = new ArrayList<>() {{
+    public static List<Command> commands = new ArrayList<>() {{
         add(new DisplayLocalSettingsCommand());
         add(new EditLocalSettingsCommand());
         add(new LoadLocalSettingsCommand());
