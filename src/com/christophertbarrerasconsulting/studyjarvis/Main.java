@@ -1,5 +1,8 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
+import com.christophertbarrerasconsulting.studyjarvis.command.Command;
+import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
+import com.christophertbarrerasconsulting.studyjarvis.command.LoadLocalSettingsCommand;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.io.IOException;
@@ -9,8 +12,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO:
 
-//        Remove Console stuff from com.christophertbarrerasconsulting.studyjarvis.Jarvis
-
 //        Create a Command Processor
 //        Unit Tests
 //        Functional Tests
@@ -18,9 +19,13 @@ public class Main {
 //        Multi User
 //        Android App
 
-        String slidesDir = "C:\\slides";
+//        String slidesDir = "C:\\slides";
 
         ZipSecureFile.setMinInflateRatio(0.002);
+//        Command command = new LoadLocalSettingsCommand();
+//        command.run();
+
+        CommandSession.start();
 
 //        com.christophertbarrerasconsulting.studyjarvis.file.FileHandler.clearDirectory(Path.of(slidesDir));
 //        com.christophertbarrerasconsulting.studyjarvis.extraction.PDFExtractor.extract("C:\\Users\\chris\\Downloads\\sample-local-pdf.pdf", slidesDir);
@@ -31,14 +36,14 @@ public class Main {
 //        googleBucket.clearBucket();
 //        googleBucket.uploadDirectoryContents(Path.of(slidesDir));
 
-        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
-//        com.christophertbarrerasconsulting.studyjarvis.Jarvis jarvis = new com.christophertbarrerasconsulting.studyjarvis.Jarvis("tombarreras-studyjarvis","geminiexample-423800", "gemini-1.5-pro", "us-west1");
+//        Jarvis jarvis = new Jarvis("chris_barreras_studyjarvis","studyjarvis", "gemini-1.5-pro", "us-west1");
+//        Jarvis jarvis = new Jarvis("tombarreras-studyjarvis","geminiexample-423800", "gemini-1.5-pro", "us-west1");
 //        System.out.println(jarvis.createQuiz(10));
 //        System.out.println(jarvis.createKeyPoints());
 //        System.out.println(jarvis.createStudyGuide());
 //        jarvis.createEndlessMultiQuestions();
 //        jarvis.createInteractiveQuiz(com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuizType.SHORT_ANSWER);
-        System.out.print(jarvis.createComprehensiveNotes());
+//        System.out.print(jarvis.createComprehensiveNotes());
 //        System.out.println(jarvis.askQuestion());
 
 //        FileWriter fileWriter = new FileWriter("comprehensiveNotes.txt", true);
