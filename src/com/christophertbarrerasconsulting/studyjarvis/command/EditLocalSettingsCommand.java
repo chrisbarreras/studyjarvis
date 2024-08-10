@@ -3,6 +3,8 @@ package com.christophertbarrerasconsulting.studyjarvis.command;
 import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -31,7 +33,7 @@ public class EditLocalSettingsCommand extends Command
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         System.out.println("Enter new values for system settings:");
 
         CommandSession.extractFolder = getSetting(AppSettings.ExtractFolder.toString(), CommandSession.extractFolder);
@@ -41,6 +43,6 @@ public class EditLocalSettingsCommand extends Command
         CommandSession.geminiLocation = getSetting(AppSettings.GeminiLocation.toString(), CommandSession.geminiLocation);
 
         Command command = new SaveLocalSettingsCommand();
-        command.run();
+        command.run(new ArrayList<>());
     }
 }

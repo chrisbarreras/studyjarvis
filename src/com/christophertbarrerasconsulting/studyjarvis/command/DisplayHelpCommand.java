@@ -1,6 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.command;
 
 import java.io.IOException;
+import java.util.List;
 
 public class DisplayHelpCommand extends Command {
     DisplayHelpCommand () {
@@ -10,7 +11,7 @@ public class DisplayHelpCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         for (Command command: CommandParser.commands) {
             System.out.printf("%-25s %-10s %-10s\n", command.commandText, command.shortCut, command.helpText);
         }

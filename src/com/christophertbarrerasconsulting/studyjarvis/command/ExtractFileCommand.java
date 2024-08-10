@@ -5,6 +5,7 @@ import com.christophertbarrerasconsulting.studyjarvis.extraction.PowerPointExtra
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class ExtractFileCommand extends Command {
@@ -15,7 +16,7 @@ public class ExtractFileCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         if (Objects.equals(args.get(0), "")) {
             throw new IllegalArgumentException("There is no output directory given.");
         }

@@ -3,6 +3,7 @@ package com.christophertbarrerasconsulting.studyjarvis.command;
 import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 
 import java.io.IOException;
+import java.util.List;
 
 public class DisplayLocalSettingsCommand extends Command {
     DisplayLocalSettingsCommand() {
@@ -12,7 +13,7 @@ public class DisplayLocalSettingsCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         System.out.println(AppSettings.BucketName + ": " + CommandSession.bucketName);
         System.out.println(AppSettings.ExtractFolder + ": " + CommandSession.extractFolder);
         System.out.println(AppSettings.GeminiLocation + ": " + CommandSession.geminiLocation);

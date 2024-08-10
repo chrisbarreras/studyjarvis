@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.command;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,16 +25,16 @@ public class CommandParser {
         add(new CreateInteractiveQuizCommand());
     }};
 
-    public static Command parse(String commandText){
+    public static void run(String commandText) throws IOException {
         List<String> splitCommand = StringSplitter.splitStringBySpaceIgnoringQuotes(commandText);
         String firstCommand = splitCommand.get(0).toLowerCase();
         for (Command command: commands) {
             if (Objects.equals(command.commandText, firstCommand) || Objects.equals(command.shortCut, firstCommand)) {
                 splitCommand.remove(0);
-                command.setArgs(splitCommand);
-                return command;
+                command.run(splitCommand);
+                return;
             }
         }
-        return new UnrecognizedCommand();
+        (new UnrecognizedCommand()).run(new ArrayList<>());
     }
 }

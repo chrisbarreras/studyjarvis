@@ -4,6 +4,7 @@ import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 
 public class ClearExtractFolderCommand extends Command {
@@ -14,7 +15,7 @@ public class ClearExtractFolderCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         if (Objects.equals(CommandSession.extractFolder, "")) {
             throw new IllegalArgumentException("Extract folder can't be empty string.");
         }

@@ -5,6 +5,7 @@ import com.christophertbarrerasconsulting.studyjarvis.file.ConfigReader;
 import org.apache.poi.ss.usermodel.IconMultiStateFormatting;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 public class SaveLocalSettingsCommand extends Command {
@@ -15,7 +16,7 @@ public class SaveLocalSettingsCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
         Properties properties = new Properties();
 
         properties.setProperty(AppSettings.BucketName.toString(), CommandSession.bucketName);

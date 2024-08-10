@@ -6,6 +6,7 @@ import com.christophertbarrerasconsulting.studyjarvis.command.LoadLocalSettingsC
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -23,7 +24,7 @@ public class Main {
 
         ZipSecureFile.setMinInflateRatio(0.002);
         Command command = new LoadLocalSettingsCommand();
-        command.run();
+        command.run(new ArrayList<>());
 
         CommandSession.start();
 

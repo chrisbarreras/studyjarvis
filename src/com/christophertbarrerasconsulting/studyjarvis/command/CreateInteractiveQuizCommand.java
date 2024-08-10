@@ -4,6 +4,7 @@ import com.christophertbarrerasconsulting.studyjarvis.Jarvis;
 import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuizType;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class CreateInteractiveQuizCommand extends Command {
@@ -14,7 +15,7 @@ public class CreateInteractiveQuizCommand extends Command {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run(List<String> args) throws IOException {
 
         try {
             System.out.println(Jarvis.getInstance().createInteractiveQuiz(InteractiveQuizType.valueOf(args.get(0).toUpperCase()), Integer.parseInt(args.get(1))));
