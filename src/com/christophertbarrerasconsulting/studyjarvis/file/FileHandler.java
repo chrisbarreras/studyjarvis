@@ -117,4 +117,17 @@ public class FileHandler {
     public static void deletePath(Path path) throws IOException {
         Files.delete(path);
     }
+
+    public static String getFileType(String filePath) {
+        // Find the last occurrence of the dot in the file path
+        int lastDotIndex = filePath.lastIndexOf('.');
+
+        // If no dot is found or it's at the beginning, return an empty string
+        if (lastDotIndex == -1 || lastDotIndex == 0) {
+            return "";
+        }
+
+        // Return the file extension
+        return filePath.substring(lastDotIndex + 1);
+    }
 }
