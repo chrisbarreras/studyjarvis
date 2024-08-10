@@ -22,8 +22,8 @@ public class Main {
 //        String slidesDir = "C:\\slides";
 
         ZipSecureFile.setMinInflateRatio(0.002);
-//        Command command = new LoadLocalSettingsCommand();
-//        command.run();
+        Command command = new LoadLocalSettingsCommand();
+        command.run();
 
         CommandSession.start();
 
