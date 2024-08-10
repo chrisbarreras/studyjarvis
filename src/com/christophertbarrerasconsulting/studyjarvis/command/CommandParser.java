@@ -9,7 +9,7 @@ public class CommandParser {
     public static Command parse(String commandText){
         List<String> splitCommand = StringSplitter.splitStringBySpaceIgnoringQuotes(commandText);
         secondPartOfList = splitCommand.get(1);
-        if (splitCommand.size() == 3) {
+        if (splitCommand.size() >= 3) {
             thirdPartOfList = splitCommand.get(2);
         }
         return switch (splitCommand.get(0).toLowerCase()) {
