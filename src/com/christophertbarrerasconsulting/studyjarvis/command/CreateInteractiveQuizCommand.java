@@ -1,11 +1,12 @@
 package com.christophertbarrerasconsulting.studyjarvis.command;
 
 import com.christophertbarrerasconsulting.studyjarvis.Jarvis;
+import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuizType;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class CreateQuizCommand extends Command {
+public class CreateInteractiveQuizCommand extends Command {
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){
@@ -22,6 +23,11 @@ public class CreateQuizCommand extends Command {
         }
 
         Jarvis jarvis = new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
-        System.out.println("\n" + jarvis.createQuiz(Integer.parseInt(CommandParser.secondPartOfList)));
+        try {
+            System.out.println(jarvis.createInteractiveQuiz(InteractiveQuizType.valueOf(CommandParser.secondPartOfList.toUpperCase()), Integer.parseInt(CommandParser.thirdPartOfList)));
+        } catch (
+                IOException | IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

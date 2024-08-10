@@ -5,7 +5,7 @@ import com.christophertbarrerasconsulting.studyjarvis.Jarvis;
 import java.io.IOException;
 import java.util.Objects;
 
-public class CreateQuizCommand extends Command {
+public class CreateKeyPointsCommand extends Command {
     @Override
     public void run() throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){
@@ -22,6 +22,6 @@ public class CreateQuizCommand extends Command {
         }
 
         Jarvis jarvis = new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
-        System.out.println("\n" + jarvis.createQuiz(Integer.parseInt(CommandParser.secondPartOfList)));
+        System.out.println(jarvis.createKeyPoints());
     }
 }
