@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class Command {
     public abstract void run() throws IOException;
-    private List<String> args = new ArrayList<>();
+    protected List<String> args = new ArrayList<>();
     public String commandText;
     public String shortCut;
     public String helpText;

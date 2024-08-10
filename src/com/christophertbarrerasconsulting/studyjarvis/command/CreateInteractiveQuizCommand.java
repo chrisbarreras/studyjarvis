@@ -30,7 +30,7 @@ public class CreateInteractiveQuizCommand extends Command {
 
         Jarvis jarvis = new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
         try {
-            System.out.println(jarvis.createInteractiveQuiz(InteractiveQuizType.valueOf(CommandParser.secondPartOfList.toUpperCase()), Integer.parseInt(CommandParser.thirdPartOfList)));
+            System.out.println(jarvis.createInteractiveQuiz(InteractiveQuizType.valueOf(args.get(0).toUpperCase()), Integer.parseInt(args.get(1))));
         } catch (
                 IOException | IllegalArgumentException e) {
             throw new RuntimeException(e);

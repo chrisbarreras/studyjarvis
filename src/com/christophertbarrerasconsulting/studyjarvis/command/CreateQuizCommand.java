@@ -28,6 +28,6 @@ public class CreateQuizCommand extends Command {
         }
 
         Jarvis jarvis = new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
-        System.out.println("\n" + jarvis.createQuiz(Integer.parseInt(CommandParser.secondPartOfList)));
+        System.out.println("\n" + jarvis.createQuiz(Integer.parseInt(args.get(0))));
     }
 }

@@ -16,16 +16,16 @@ public class ExtractFileCommand extends Command {
 
     @Override
     public void run() throws IOException {
-        if (Objects.equals(CommandParser.secondPartOfList, "")) {
+        if (Objects.equals(args.get(0), "")) {
             throw new IllegalArgumentException("There is no output directory given.");
         }
-        String fileType = FileHandler.getFileType(CommandParser.secondPartOfList);
+        String fileType = FileHandler.getFileType(args.get(0));
 
         if (fileType.equals("pdf")){
-            PDFExtractor.extract(CommandParser.secondPartOfList, CommandSession.extractFolder);
+            PDFExtractor.extract(args.get(0), CommandSession.extractFolder);
         }
         else {
-            PowerPointExtractor.extract(CommandParser.secondPartOfList, CommandSession.extractFolder);
+            PowerPointExtractor.extract(args.get(0), CommandSession.extractFolder);
         }
     }
 }
