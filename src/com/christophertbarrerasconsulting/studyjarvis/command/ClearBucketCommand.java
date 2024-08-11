@@ -16,6 +16,15 @@ public class ClearBucketCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
+        if (!validPreconditions()) return;
         GoogleBucket.getInstance(CommandSession.bucketName).clearBucket();
+    }
+
+    private static boolean validPreconditions() {
+        if (Objects.equals(CommandSession.bucketName, "")) {
+            System.out.println("No bucket name given.");
+            return false;
+        }
+        return true;
     }
 }

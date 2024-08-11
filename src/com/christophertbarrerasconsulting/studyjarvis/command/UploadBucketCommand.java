@@ -16,10 +16,15 @@ public class UploadBucketCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        if (Objects.equals(CommandSession.extractFolder, "")) {
-            throw new IllegalArgumentException("Extract folder name is empty.");
-        }
-
+        if (!validPreconditions()) return;
         GoogleBucket.getInstance(CommandSession.bucketName).uploadDirectoryContents(Path.of(CommandSession.extractFolder));
+    }
+
+    private static boolean validPreconditions() {
+        if (Objects.equals(CommandSession.extractFolder, "")) {
+            System.out.println("Extract folder name is empty.");
+            return false;
+        }
+        return true;
     }
 }

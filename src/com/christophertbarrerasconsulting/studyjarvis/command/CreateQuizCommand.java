@@ -15,6 +15,26 @@ public class CreateQuizCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        System.out.println(Jarvis.getInstance().createQuiz(Integer.parseInt(args.get(0))));
+        Integer numberOfQuestions = getNumberOfQuestions(args);
+        if (numberOfQuestions == null) return;
+        System.out.println(Jarvis.getInstance().createQuiz(numberOfQuestions));
+    }
+
+    private static Integer getNumberOfQuestions(List<String> args) {
+        if (args.isEmpty()) {
+            System.out.println("No number is given.");
+            return null;
+        }
+        int numberOfQuestions = 0;
+        try { numberOfQuestions = Integer.parseInt(args.get(0)); } catch (NumberFormatException e) {
+            System.out.println(args.get(0) + " is not a valid number.");
+            return null;
+        }
+
+        if ( numberOfQuestions <= 0) {
+            System.out.println(args.get(0) + " must be greater than 0.");
+            return null;
+        }
+        return numberOfQuestions;
     }
 }

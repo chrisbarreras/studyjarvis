@@ -16,9 +16,15 @@ public class ClearExtractFolderCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        if (Objects.equals(CommandSession.extractFolder, "")) {
-            throw new IllegalArgumentException("Extract folder can't be empty string.");
-        }
+        if (!validPreconditions()) return;
         FileHandler.clearDirectory(Path.of(CommandSession.extractFolder));
+    }
+
+    private static boolean validPreconditions() {
+        if (Objects.equals(CommandSession.extractFolder, "")) {
+            System.out.println("No extract folder.");
+            return false;
+        }
+        return true;
     }
 }
