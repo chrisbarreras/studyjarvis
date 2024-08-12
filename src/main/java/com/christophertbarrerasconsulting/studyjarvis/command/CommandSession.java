@@ -16,7 +16,7 @@ public class CommandSession {
         String commandText = scanner.nextLine();
 
         while (!commandText.equalsIgnoreCase("quit")) {
-            CommandParser.run(commandText);
+            CommandParser.getInstance().run(commandText);
             System.out.print("> ");
             commandText = scanner.nextLine();
         }

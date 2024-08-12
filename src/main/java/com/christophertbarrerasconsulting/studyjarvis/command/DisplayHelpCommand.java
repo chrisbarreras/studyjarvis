@@ -12,7 +12,7 @@ public class DisplayHelpCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        for (Command command: CommandParser.commands) {
+        for (Command command: CommandParser.getInstance().commands) {
             System.out.printf("%-25s %-10s %-10s\n", command.commandText, command.shortCut, command.helpText);
         }
     }
