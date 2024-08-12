@@ -3,6 +3,7 @@ package com.christophertbarrerasconsulting.studyjarvis.command;
 import org.junit.jupiter.api.Assertions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,9 +12,11 @@ class CommandParserTest {
 
     private class DummyCommand extends Command {
         public boolean runCalled = false;
+        public List<String> args;
         @Override
         public void run(List<String> args) throws IOException {
             runCalled = true;
+            this.args = args;
         }
     }
 
@@ -48,5 +51,41 @@ class CommandParserTest {
         commandParser.run("foo bar");
 
         Assertions.assertFalse(command.runCalled);
+    }
+
+    @org.junit.jupiter.api.Test
+    void runRunsCommandWhenShortCutIsFound() throws IOException {
+        DummyCommand command = new DummyCommand();
+        command.shortCut = "foo";
+
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        commandParser.run("foo bar");
+
+        Assertions.assertTrue(command.runCalled);
+    }
+
+    @org.junit.jupiter.api.Test
+    void runDoesntRunCommandWhenShortCutIsNotFound() throws IOException {
+        DummyCommand command = new DummyCommand();
+        command.shortCut = "goo";
+
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        commandParser.run("foo bar");
+
+        Assertions.assertFalse(command.runCalled);
+    }
+
+    @org.junit.jupiter.api.Test
+    void runPassesCorrectArgsToCommand() throws IOException {
+        DummyCommand command = new DummyCommand();
+        command.shortCut = "foo";
+
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        commandParser.run("Foo bar");
+
+        List<String> testBar = new ArrayList<>();
+        testBar.add("bar");
+
+        Assertions.assertEquals(testBar, command.args);
     }
 }
