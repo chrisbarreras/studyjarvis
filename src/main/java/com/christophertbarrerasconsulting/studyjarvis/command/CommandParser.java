@@ -24,17 +24,19 @@ public class CommandParser {
             add(new CreateKeyPointsCommand());
             add(new CreateStudyGuideCommand());
             add(new CreateInteractiveQuizCommand());
-        }});
+        }}, new UnrecognizedCommand());
     }
     public static CommandParser getInstance(){
         return CommandParserSingleton.instance;
     }
 
-    public CommandParser (List<Command> commands){
+    public CommandParser (List<Command> commands, Command unrecognizedCommand){
         this.commands.addAll(commands);
+        this.unrecognizedCommand = unrecognizedCommand;
     }
 
     public final List<Command> commands = new ArrayList<>();
+    private Command unrecognizedCommand = null;
 
     public void run(String commandText) throws IOException {
         List<String> splitCommand = StringSplitter.splitStringBySpaceIgnoringQuotes(commandText);
@@ -46,6 +48,6 @@ public class CommandParser {
                 return;
             }
         }
-        (new UnrecognizedCommand()).run(new ArrayList<>());
+        unrecognizedCommand.run(new ArrayList<>());
     }
 }

@@ -35,44 +35,52 @@ class CommandParserTest {
     void runRunsCommandWhenCommandTextIsFound() throws IOException {
         DummyCommand command = new DummyCommand();
         command.commandText = "foo";
+        DummyCommand unrecognizedCommand = new DummyCommand();
 
-        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}), unrecognizedCommand);
         commandParser.run("foo bar");
 
         Assertions.assertTrue(command.runCalled);
+        Assertions.assertFalse(unrecognizedCommand.runCalled);
     }
 
     @org.junit.jupiter.api.Test
     void runDoesntRunCommandWhenCommandTextIsNotFound() throws IOException {
         DummyCommand command = new DummyCommand();
         command.commandText = "goo";
+        DummyCommand unrecognizedCommand = new DummyCommand();
 
-        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}), unrecognizedCommand);
         commandParser.run("foo bar");
 
         Assertions.assertFalse(command.runCalled);
+        Assertions.assertTrue(unrecognizedCommand.runCalled);
     }
 
     @org.junit.jupiter.api.Test
     void runRunsCommandWhenShortCutIsFound() throws IOException {
         DummyCommand command = new DummyCommand();
         command.shortCut = "foo";
+        DummyCommand unrecognizedCommand = new DummyCommand();
 
-        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}), unrecognizedCommand);
         commandParser.run("foo bar");
 
         Assertions.assertTrue(command.runCalled);
+        Assertions.assertFalse(unrecognizedCommand.runCalled);
     }
 
     @org.junit.jupiter.api.Test
     void runDoesntRunCommandWhenShortCutIsNotFound() throws IOException {
         DummyCommand command = new DummyCommand();
         command.shortCut = "goo";
+        DummyCommand unrecognizedCommand = new DummyCommand();
 
-        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}), unrecognizedCommand);
         commandParser.run("foo bar");
 
         Assertions.assertFalse(command.runCalled);
+        Assertions.assertTrue(unrecognizedCommand.runCalled);
     }
 
     @org.junit.jupiter.api.Test
@@ -80,12 +88,9 @@ class CommandParserTest {
         DummyCommand command = new DummyCommand();
         command.shortCut = "foo";
 
-        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}));
+        CommandParser commandParser = new CommandParser(List.of(new Command[]{command}), new UnrecognizedCommand());
         commandParser.run("Foo bar");
 
-        List<String> testBar = new ArrayList<>();
-        testBar.add("bar");
-
-        Assertions.assertEquals(testBar, command.args);
+        Assertions.assertEquals(List.of("bar"), command.args);
     }
 }
