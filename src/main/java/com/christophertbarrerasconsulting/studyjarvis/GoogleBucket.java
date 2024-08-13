@@ -57,8 +57,6 @@ public class GoogleBucket {
                             + " completed with status "
                             + result.getStatus());
         }
-
-
     }
 
     public void clearBucket(){

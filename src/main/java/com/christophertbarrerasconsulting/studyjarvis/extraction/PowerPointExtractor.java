@@ -4,13 +4,11 @@ import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import org.apache.poi.xslf.usermodel.*;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
 
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -25,52 +23,58 @@ public class PowerPointExtractor {
     }
 
     public static void extractSlidesAsText(String powerPointFilePath, String outputFolderPath, int fileNumber) throws IOException {
-        FileInputStream inputStream = new FileInputStream(powerPointFilePath);
-        XMLSlideShow ppt = new XMLSlideShow(inputStream);
+        try (FileInputStream inputStream = new FileInputStream(powerPointFilePath);
+             XMLSlideShow ppt = new XMLSlideShow(inputStream)) {
 
+            int slideNumber = 1;
+            for (XSLFSlide slide : ppt.getSlides()) {
+                StringBuilder textContent = new StringBuilder();
 
-        int slideNumber = 1;
-        for (XSLFSlide slide : ppt.getSlides()) {
-            StringBuilder textContent = new StringBuilder();
-            for (XSLFTextShape shape : slide.getPlaceholders()) {
-                textContent.append(shape.getText()).append("\n");
+                for (XSLFShape shape : slide.getShapes()) {
+                    if (shape instanceof XSLFTextShape textShape) {
+                        textContent.append(textShape.getText()).append("\n");
+                    }
+                }
+
+                if (!textContent.isEmpty()) {
+                    String filePath = FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber, ".txt");
+                    FileHandler.writeTextToFile(textContent.toString(), filePath);
+                    // logger.info("Extracted text from slide " + slideNumber + " to " + filePath);
+                }
+                slideNumber++;
             }
-            if (!textContent.isEmpty()) {
-                FileHandler.writeTextToFile(textContent.toString(), FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, fileNumber, slideNumber, ".txt"));
-            }
-            slideNumber++;
         }
-
-        ppt.close();
-        inputStream.close();
     }
+
 
     public static void extractSlidesAsImages(String powerPointFilePath, String outputFolderPath, int nextFileNumber) throws IOException {
-        FileInputStream inputStream = new FileInputStream(new File(powerPointFilePath));
-        XMLSlideShow ppt = new XMLSlideShow(inputStream);
+        try (FileInputStream inputStream = new FileInputStream(new File(powerPointFilePath));
+             XMLSlideShow ppt = new XMLSlideShow(inputStream)) {
 
-        int slideCounter = 1;
-        for (XSLFSlide slide : ppt.getSlides()) {
-            BufferedImage img = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics = img.createGraphics();
+            int slideCounter = 1;
+            for (XSLFSlide slide : ppt.getSlides()) {
+                Dimension pageSize = ppt.getPageSize();
+                BufferedImage img = new BufferedImage(pageSize.width, pageSize.height, BufferedImage.TYPE_INT_RGB);
+                Graphics2D graphics = img.createGraphics();
 
-            // Set background color and fill
-            graphics.setColor(Color.WHITE);
-            graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
+                // Set background color and fill
+                graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                graphics.setColor(Color.WHITE);
+                graphics.fillRect(0, 0, img.getWidth(), img.getHeight());
 
-            // Render the slide into the image
-            slide.draw(graphics);
+                // Render the slide into the image
+                slide.draw(graphics);
+                graphics.dispose();
 
-            // Save the image
-            String imageFilePath = FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, nextFileNumber, slideCounter, ".png");
-            ImageIO.write(img, "png", new File(imageFilePath));
-//            System.out.println("Converted slide to image: " + imageFilePath);
-            slideCounter++;
+                // Save the image
+                String imageFilePath = FileHandler.getNextFilePath(outputFolderPath, powerPointFilePath, nextFileNumber, slideCounter, ".png");
+                ImageIO.write(img, "png", new File(imageFilePath));
+//            logger.info("Converted slide to image: " + imageFilePath);
+                slideCounter++;
+            }
         }
-
-        ppt.close();
-        inputStream.close();
     }
+
 
     public static void Test() throws IOException {
         XMLSlideShow ppt = new XMLSlideShow();

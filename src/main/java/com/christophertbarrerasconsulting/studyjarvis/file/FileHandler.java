@@ -91,6 +91,7 @@ public class FileHandler {
 
         // Write the text to the file
         writer.write(text);
+        writer.close();
     }
 
     public static String mimeTypeFromUri(String uri){
