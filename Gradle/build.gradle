@@ -38,3 +38,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+sourceSets {
+    functional {
+        java {
+            srcDir 'src/functional/java'
+        }
+        resources {
+            srcDir 'src/functional/resources'
+        }
+//        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+//        runtimeClasspath += output + compileClasspath
+    }
+}
