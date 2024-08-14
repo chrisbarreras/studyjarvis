@@ -24,6 +24,7 @@ public class CommandParser {
             add(new CreateKeyPointsCommand());
             add(new CreateStudyGuideCommand());
             add(new CreateInteractiveQuizCommand());
+            add(new CountBucketCommand());
         }}, new UnrecognizedCommand());
     }
     public static CommandParser getInstance(){

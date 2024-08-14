@@ -60,7 +60,6 @@ public class GoogleBucket {
     }
 
     public void clearBucket(){
-
         // Create a Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
 
@@ -90,9 +89,6 @@ public class GoogleBucket {
         // Create a Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
 
-        // Get the bucket
-        Bucket bucket = storage.get(bucketName);
-
         // List URIs of all objects in the bucket
         ArrayList<String> uris = new ArrayList<>();
         for (Blob blob : storage.list(bucketName, BlobListOption.fields(Storage.BlobField.NAME)).iterateAll()) {
@@ -101,6 +97,22 @@ public class GoogleBucket {
         }
 
        return uris;
+    }
+
+    public int countBucket () {
+        // Instantiate a Google Cloud Storage client
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+
+        // Get the bucket
+        Bucket bucket = storage.get(bucketName);
+
+        // Count the number of blobs (objects) in the bucket
+        int objectCount = 0;
+
+        for (Blob blob : bucket.list().iterateAll()) {
+            objectCount++;
+        }
+        return objectCount;
     }
 
 //    public static void uploadObject(String projectId, String bucketName, String objectName, String filePath) {

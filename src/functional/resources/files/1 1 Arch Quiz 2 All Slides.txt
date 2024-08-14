@@ -1,0 +1,8 @@
+UML – 
+Unified Modeling Language 	
+   A graphical language consisting of diagrams of many different types, each referring to a system seen from a specific point of view.
+
+	To promote Object Oriented (OO) design, three leading OO programming researchers combined their languages (Union of All Modeling Languages) in mid 1990s:
+Grady Booch    (BOOCH)
+Jim Rumbaugh (OML: object modeling technique)
+Ivar Jacobsen   (OOSE: object oriented software Eng.)
