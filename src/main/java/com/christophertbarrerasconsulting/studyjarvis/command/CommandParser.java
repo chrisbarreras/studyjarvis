@@ -2,7 +2,6 @@ package com.christophertbarrerasconsulting.studyjarvis.command;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +16,7 @@ public class CommandParser {
             add(new ClearExtractFolderCommand());
             add(new ExtractFileCommand());
             add(new ClearBucketCommand());
+            add(new CountBucketCommand());
             add(new UploadBucketCommand());
             add(new CreateQuizCommand());
             add(new AskQuestionCommand());
@@ -24,7 +24,7 @@ public class CommandParser {
             add(new CreateKeyPointsCommand());
             add(new CreateStudyGuideCommand());
             add(new CreateInteractiveQuizCommand());
-            add(new CountBucketCommand());
+            add(new QuitCommand());
         }}, new UnrecognizedCommand());
     }
     public static CommandParser getInstance(){

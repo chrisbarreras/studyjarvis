@@ -9,16 +9,20 @@ public class CommandSession {
     public static String geminiProjectId;
     public static String geminiModelName;
     public static String geminiLocation;
+    public static boolean quit = false;
 
     public static void start() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("> ");
         String commandText = scanner.nextLine();
 
-        while (!commandText.equalsIgnoreCase("quit")) {
+        while (true) {
             CommandParser.getInstance().run(commandText);
             System.out.print("> ");
             commandText = scanner.nextLine();
+            if (!quit) {
+                break;
+            }
         }
     }
 }
