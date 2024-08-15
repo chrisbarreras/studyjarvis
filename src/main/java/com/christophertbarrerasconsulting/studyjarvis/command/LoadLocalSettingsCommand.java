@@ -17,13 +17,11 @@ public class LoadLocalSettingsCommand extends Command{
 
     @Override
     public void run(List<String> args) throws IOException {
-        Properties properties = ConfigReader.readProperties();
-
-        CommandSession.bucketName = properties.getProperty(AppSettings.BucketName.toString());
-        CommandSession.extractFolder = properties.getProperty(AppSettings.ExtractFolder.toString());
-        CommandSession.geminiLocation = properties.getProperty(AppSettings.GeminiLocation.toString());
-        CommandSession.geminiModelName = properties.getProperty(AppSettings.GeminiModelName.toString());
-        CommandSession.geminiProjectId = properties.getProperty(AppSettings.GeminiProjectId.toString());
+        CommandSession.bucketName = AppSettings.BucketName.getBucketName();
+        CommandSession.extractFolder = AppSettings.ExtractFolder.getExtractFolder();
+        CommandSession.geminiLocation = AppSettings.GeminiLocation.getGeminiLocation();
+        CommandSession.geminiModelName = AppSettings.GeminiModelName.getGeminiModelName();
+        CommandSession.geminiProjectId = AppSettings.GeminiProjectId.getGeminiProjectId();
 
         Command displaySettings = new DisplayLocalSettingsCommand();
         displaySettings.run(new ArrayList<>());

@@ -1,4 +1,4 @@
-package com.christophertbarreras.studyjarvis.extraction;
+package com.christophertbarreras.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.Gemini;
 import com.christophertbarrerasconsulting.studyjarvis.Jarvis;

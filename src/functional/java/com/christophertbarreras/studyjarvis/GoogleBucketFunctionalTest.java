@@ -1,7 +1,6 @@
-package com.christophertbarreras.studyjarvis.extraction;
+package com.christophertbarreras.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.GoogleBucket;
-import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
 import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 import com.christophertbarrerasconsulting.studyjarvis.file.ConfigReader;
 import org.junit.jupiter.api.Assertions;

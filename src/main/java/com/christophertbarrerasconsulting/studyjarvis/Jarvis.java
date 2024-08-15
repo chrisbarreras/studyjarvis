@@ -1,6 +1,8 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
+import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
+import com.christophertbarrerasconsulting.studyjarvis.file.ConfigReader;
 import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuiz;
 import com.christophertbarrerasconsulting.studyjarvis.quiz.InteractiveQuizType;
 
@@ -9,7 +11,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Jarvis {
-    public static Jarvis getInstance () {
+    public static Jarvis getInstance () throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){
             throw new IllegalArgumentException("Bucket name is empty.");
         }
@@ -23,7 +25,7 @@ public class Jarvis {
             throw new IllegalArgumentException("Gemini location is empty.");
         }
 
-        return new Jarvis(CommandSession.bucketName, CommandSession.geminiProjectId, CommandSession.geminiModelName, CommandSession.geminiLocation);
+        return new Jarvis(AppSettings.BucketName.getBucketName(), AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation());
     }
 
     Gemini gemini;
