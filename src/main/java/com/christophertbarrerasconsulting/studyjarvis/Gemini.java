@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Gemini implements AutoCloseable{
-    private String projectId;
-    private String location;
-    private String modelName;
+    private final String projectId;
+    private final String location;
+    private final String modelName;
     VertexAI vertexAI;
     GenerativeModel generativeModel;
     ArrayList<Object> parts;
