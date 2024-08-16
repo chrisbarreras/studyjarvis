@@ -27,7 +27,9 @@ public class CreateInteractiveQuizCommand extends Command {
 
         try {
             ConsoleInteractiveQuizRunner consoleInteractiveQuizRunner = new ConsoleInteractiveQuizRunner();
-            consoleInteractiveQuizRunner.runQuiz(Jarvis.getInstance().createInteractiveQuiz(type, numberOfQuestions));
+            try (Jarvis jarvis = Jarvis.getInstance()) {
+                consoleInteractiveQuizRunner.runQuiz(jarvis.createInteractiveQuiz(type, numberOfQuestions));
+            }
         } catch (
                 IOException | IllegalArgumentException e) {
             throw new RuntimeException(e);

@@ -15,6 +15,8 @@ public class CreateKeyPointsCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        System.out.println(Jarvis.getInstance().createKeyPoints());
+        try (Jarvis jarvis = Jarvis.getInstance()) {
+            System.out.println(jarvis.createKeyPoints());
+        }
     }
 }

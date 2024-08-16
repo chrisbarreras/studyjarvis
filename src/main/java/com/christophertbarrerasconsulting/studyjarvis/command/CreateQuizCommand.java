@@ -17,7 +17,9 @@ public class CreateQuizCommand extends Command {
     public void run(List<String> args) throws IOException {
         Integer numberOfQuestions = getNumberOfQuestions(args);
         if (numberOfQuestions == null) return;
-        System.out.println(Jarvis.getInstance().createQuiz(numberOfQuestions));
+        try (Jarvis jarvis = Jarvis.getInstance()) {
+            System.out.println(jarvis.createQuiz(numberOfQuestions));
+        }
     }
 
     private static Integer getNumberOfQuestions(List<String> args) {

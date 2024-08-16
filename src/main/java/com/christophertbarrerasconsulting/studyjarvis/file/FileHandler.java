@@ -87,11 +87,10 @@ public class FileHandler {
 
     public static void writeTextToFile(String text, String filePath) throws IOException {
         // Create a BufferedWriter object
-        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
-
-        // Write the text to the file
-        writer.write(text);
-        writer.close();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));) {
+            // Write the text to the file
+            writer.write(text);
+        }
     }
 
     public static String mimeTypeFromUri(String uri){

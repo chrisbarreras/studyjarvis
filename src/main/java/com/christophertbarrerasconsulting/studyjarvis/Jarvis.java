@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Jarvis {
+public class Jarvis implements AutoCloseable{
     public static Jarvis getInstance () throws IOException {
         if (Objects.equals(CommandSession.bucketName, "")){
             throw new IllegalArgumentException("Bucket name is empty.");
@@ -59,5 +59,9 @@ public class Jarvis {
 
     public InteractiveQuiz createInteractiveQuiz(InteractiveQuizType quizType, int numberOfQuestions) throws IOException {
         return InteractiveQuiz.getQuiz(quizType, gemini, numberOfQuestions);
+    }
+
+    public void close() {
+        gemini.close();
     }
 }

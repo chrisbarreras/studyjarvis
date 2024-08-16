@@ -74,11 +74,5 @@ public class PowerPointExtractor {
             }
         }
     }
-
-
-    public static void Test() throws IOException {
-        XMLSlideShow ppt = new XMLSlideShow();
-        ppt.close();
-    }
 }
 

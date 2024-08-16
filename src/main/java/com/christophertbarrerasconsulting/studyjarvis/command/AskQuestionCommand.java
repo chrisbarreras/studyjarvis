@@ -16,11 +16,13 @@ public class AskQuestionCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.print("\n\nEnter your question: ");
+            String question = scanner.nextLine();
 
-        System.out.print("\n\nEnter your question: ");
-        String question = scanner.nextLine();
-
-        System.out.println(Jarvis.getInstance().askQuestion(question));
+            try (Jarvis jarvis = Jarvis.getInstance()) {
+                System.out.println(jarvis.askQuestion(question));
+            }
+        }
     }
 }
