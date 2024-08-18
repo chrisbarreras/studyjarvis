@@ -38,6 +38,14 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox-tools:3.0.2'
     implementation 'org.apache.pdfbox:fontbox:3.0.2'
     implementation 'org.apache.pdfbox:pdfbox-io:3.0.2'
+    implementation 'io.javalin:javalin:6.2.0'
+    implementation 'com.auth0:java-jwt:4.4.0'
+    implementation 'org.postgresql:postgresql:42.7.3'
+    implementation 'org.mindrot:jbcrypt:0.4'
+    implementation 'org.slf4j:slf4j-simple:2.0.16'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.17.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.17.2'
 }
 
 test {
