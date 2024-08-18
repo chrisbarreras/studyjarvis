@@ -8,8 +8,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.sql.*;
 
 class JwtUtil {
-    private static final String SECRET = "your_secret_key";
-    private static final String ISSUER = "JarvisServer";
+    private static final String SECRET_KEY = System.getenv("STUDYJARVIS_SERVER_SECRET_KEY"); // Get the secret key from environment variables
+    private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET_KEY);
+    private static final String ISSUER = "StudyJarvisServer";
     private static final long EXPIRY = 86400000; // 24 hours in milliseconds
 
     public static String generateToken(String username) {
@@ -17,12 +18,12 @@ class JwtUtil {
                 .withIssuer(ISSUER)
                 .withClaim("username", username)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRY))
-                .sign(Algorithm.HMAC256(SECRET));
+                .sign(ALGORITHM);
     }
 
     public static String validateToken(String token) {
         try {
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET))
+            JWTVerifier verifier = JWT.require(ALGORITHM)
                     .withIssuer(ISSUER)
                     .build();
             DecodedJWT jwt = verifier.verify(token);

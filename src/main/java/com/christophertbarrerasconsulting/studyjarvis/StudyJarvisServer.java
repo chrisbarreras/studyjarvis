@@ -2,8 +2,6 @@ package com.christophertbarrerasconsulting.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
-import io.javalin.http.UploadedFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.mindrot.jbcrypt.BCrypt;
@@ -12,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JarvisServer {
+public class StudyJarvisServer {
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
