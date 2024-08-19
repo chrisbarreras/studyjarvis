@@ -1,8 +1,9 @@
-package com.christophertbarrerasconsulting.studyjarvis;
+package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import io.javalin.Javalin;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.javalin.http.Handler;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -31,7 +32,7 @@ public class StudyJarvisServer {
                     ctx.status(409).result("User already exists");
                     return;
                 }
-                String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+                String hashedPassword = PasswordHasher.hashPassword(user.getPassword());
                 PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO users (username, password_hash) VALUES (?, ?)");
                 insertStmt.setString(1, user.getUsername());
                 insertStmt.setString(2, hashedPassword);
@@ -44,25 +45,7 @@ public class StudyJarvisServer {
         });
 
         // User login
-        app.post("/Login", ctx -> {
-            ObjectMapper mapper = new ObjectMapper();
-            User user = mapper.readValue(ctx.body(), User.class);
-            try (Connection conn = Database.connect()) {
-                PreparedStatement stmt = conn.prepareStatement("SELECT password_hash FROM users WHERE username = ?");
-                stmt.setString(1, user.getUsername());
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next() && BCrypt.checkpw(user.getPassword(), rs.getString("password_hash"))) {
-                    String token = JwtUtil.generateToken(user.getUsername());
-                    ctx.header("Authorization", "Bearer " + token);
-                    ctx.result("Login successful");
-                } else {
-                    ctx.status(401).result("Invalid username or password");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                ctx.status(500).result("Database error");
-            }
-        });
+        app.post("/Login", LoginHandler.getInstance());
 
         // User logout
         app.post("/Logout", ctx -> {

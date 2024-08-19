@@ -1,6 +1,7 @@
-package com.christophertbarreras.studyjarvis.extraction;
+package com.christophertbarrerasconsulting.studyjarvis.extraction;
 
 import com.christophertbarrerasconsulting.studyjarvis.extraction.PDFExtractor;
+import com.christophertbarrerasconsulting.studyjarvis.extraction.PowerPointExtractor;
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import org.junit.jupiter.api.Assertions;
 
@@ -11,12 +12,10 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-class PDFExtractorFunctionalTest {
-
+public class PowerPointExtractorFunctionalTest {
     String tempFolder = "";
 
     @org.junit.jupiter.api.BeforeEach
@@ -25,7 +24,7 @@ class PDFExtractorFunctionalTest {
         String tempDir = System.getProperty("java.io.tmpdir");
 
         // Generate a unique name using UUID
-        String uniqueFolderName = "PDFExtractorFunctionalTest_" + UUID.randomUUID();
+        String uniqueFolderName = "PowerPointFunctionalTest_" + UUID.randomUUID();
 
         // Create a new folder with the unique name within the temp directory
         File newFolder = new File(tempDir, uniqueFolderName);
@@ -52,11 +51,11 @@ class PDFExtractorFunctionalTest {
 
     @org.junit.jupiter.api.Test
     void extractExtracts() throws URISyntaxException, IOException {
-        URL resourceUrl = getClass().getClassLoader().getResource("FUS SFE Intro_Lecture No_12 SW Estimation.pdf");
+        URL resourceUrl = getClass().getClassLoader().getResource("Arch Quiz 2 All Slides.pptx");
 
-        Path pdfPath = Paths.get(resourceUrl.toURI());
+        Path powerPointPath = Paths.get(resourceUrl.toURI());
 
-        PDFExtractor.extract(pdfPath.toAbsolutePath().toString(), tempFolder);
+        PowerPointExtractor.extract(powerPointPath.toAbsolutePath().toString(), tempFolder);
 
         try (Stream<Path> files = Files.list(Path.of(tempFolder))){
             Assertions.assertEquals(10, files.count());

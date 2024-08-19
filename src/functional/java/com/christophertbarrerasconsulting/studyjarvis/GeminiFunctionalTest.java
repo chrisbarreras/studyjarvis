@@ -1,4 +1,4 @@
-package com.christophertbarreras.studyjarvis;
+package com.christophertbarrerasconsulting.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.Gemini;
 import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;

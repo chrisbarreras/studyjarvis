@@ -1,4 +1,4 @@
-package com.christophertbarrerasconsulting.studyjarvis;
+package com.christophertbarrerasconsulting.studyjarvis.server;
 import java.sql.*;
 
 class Database {
