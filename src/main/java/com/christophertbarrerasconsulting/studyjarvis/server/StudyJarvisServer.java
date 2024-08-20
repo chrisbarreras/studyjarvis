@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudyJarvisServer {
-    public static void main(String[] args) {
-        Javalin app = Javalin.create(config -> {
+    Javalin app = null;
+    public void start(int port){
+        app = Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule((CorsPluginConfig.CorsRule::anyHost));
             });
-        }).start(7000);
+        }).start(port);
 
         // User account creation
         app.post("/CreateAccount", ctx -> {
@@ -45,7 +46,7 @@ public class StudyJarvisServer {
         });
 
         // User login
-        app.post("/Login", LoginHandler.getInstance());
+        app.post("/login", LoginHandler.getInstance());
 
         // User logout
         app.post("/Logout", ctx -> {
@@ -114,5 +115,14 @@ public class StudyJarvisServer {
             String message = ctx.body();
             ctx.result("Received your message: " + message);
         });
+    }
+
+    public void stop(){
+        app.stop();
+    }
+
+    public static void main(String[] args) {
+        StudyJarvisServer server = new StudyJarvisServer();
+        server.start(7000);
     }
 }
