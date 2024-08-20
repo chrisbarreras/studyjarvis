@@ -85,5 +85,6 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-io:11.0.21" level="project" />
     <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.7.3" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:2.0.16" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.17.2" level="project" />
   </component>
 </module>
