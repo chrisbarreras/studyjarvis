@@ -71,7 +71,6 @@
     <orderEntry type="library" name="Gradle: io.javalin:javalin-testtools:6.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:4.12.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:24.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: kong.unirest:unirest-java:4.4.4" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio-jvm:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.24" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.24" level="project" />
@@ -84,5 +83,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-servlet:11.0.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-security:11.0.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-io:11.0.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.7.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:2.0.16" level="project" />
   </component>
 </module>
