@@ -35,7 +35,7 @@ public class DeleteSessionHandler implements Handler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            context.status(500).result("Database error");
+            context.status(500).result("Error");
         }
     }
 }

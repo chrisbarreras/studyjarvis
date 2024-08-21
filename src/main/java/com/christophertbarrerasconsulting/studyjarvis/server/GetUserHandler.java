@@ -25,29 +25,18 @@ public class GetUserHandler implements Handler {
             return;
         }
 
-        try (Connection conn = Database.connect()) {
-            System.out.println("Getting user with username: " + username);
+        try {
+            User user = UserReader.getUser(username);
 
-            String query = "SELECT username, password_hash, is_administrator FROM users WHERE username = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, username);
-
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        User user = new User(
-                                rs.getString("username"),
-                                rs.getString("password_hash"),
-                                rs.getBoolean("is_administrator")
-                        );
-                        context.json(user);
-                    } else {
-                        context.status(404).result("User not found");
-                    }
-                }
+            if (user == null) {
+                context.status(404).result("User not found");
             }
-        } catch (SQLException e) {
+            else {
+                context.json(user);
+            }
+        } catch (SQLException e){
             e.printStackTrace();
-            context.status(500).result("Database error");
+            context.status(500).result("Error");
         }
     }
 }

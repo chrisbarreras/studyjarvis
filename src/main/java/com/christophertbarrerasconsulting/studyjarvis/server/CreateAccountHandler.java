@@ -38,7 +38,7 @@ public class CreateAccountHandler implements Handler {
             context.status(201).result("User created successfully");
         } catch (SQLException e) {
             e.printStackTrace();
-            context.status(500).result("Database error");
+            context.status(500).result("Error");
         }
     }
 }

@@ -31,35 +31,25 @@ public class StudyJarvisServer {
         });
 
         // Middleware to check JWT in Authorization header
-        app.before("/secure/*", ctx -> {
-            String authHeader = ctx.header("Authorization");
-            if (authHeader != null && authHeader.startsWith("Bearer ")) {
-                String token = authHeader.substring(7);
-                String username = JwtUtil.validateToken(token);
-                if (username == null) {
-                    ctx.status(401).result("Unauthorized");
-                } else {
-                    ctx.attribute("username", username); // Pass username to downstream handlers
-                }
-            } else {
-                ctx.status(401).result("Unauthorized");
-            }
-        });
+        app.before("/secure/*", AuthorizationHandler.getInstance());
+
+        // Makes sure that if you are using an admin path that you are admin
+        app.before("/secure/admin/*", AdminAuthorizationHandler.getInstance());
 
         // User account creation
-        app.post("/secure/createaccount", CreateAccountHandler.getInstance());
+        app.post("/secure/admin/createaccount", CreateAccountHandler.getInstance());
 
         // Gets user
-        app.get("/secure/getuser", GetUserHandler.getInstance());
+        app.get("/secure/admin/getuser", GetUserHandler.getInstance());
 
         // Deletes user
-        app.delete("/secure/deleteuser", DeleteUserHandler.getInstance());
+        app.delete("/secure/admin/deleteuser", DeleteUserHandler.getInstance());
 
         // Gets session
-        app.get("/secure/getsession", GetSessionHandler.getInstance());
+        app.get("/secure/admin/getsession", GetSessionHandler.getInstance());
 
         //Deletes session
-        app.delete("/secure/deletesession", DeleteSessionHandler.getInstance());
+        app.delete("/secure/admin/deletesession", DeleteSessionHandler.getInstance());
 
         // Upload files
         app.post("/secure/UploadFiles", ctx -> {
@@ -92,17 +82,17 @@ public class StudyJarvisServer {
                 ctx.json(files);
             } catch (SQLException e) {
                 e.printStackTrace();
-                ctx.status(500).result("Database error");
+                ctx.status(500).result("Error");
             }
         });
 
         // Get a message
-        app.get("/GetMessage", ctx -> {
+        app.get("/secure/GetMessage", ctx -> {
             ctx.result("This is a message from your Javalin server.");
         });
 
         // Send a message
-        app.post("/SendMessage", ctx -> {
+        app.post("/secure/SendMessage", ctx -> {
             String message = ctx.body();
             ctx.result("Received your message: " + message);
         });

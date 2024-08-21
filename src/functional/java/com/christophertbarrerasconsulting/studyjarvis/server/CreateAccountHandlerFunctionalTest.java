@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CreateAccountHandlerFunctionalTest {
     private static Client client = new Client();
-    private static final String BASE_URL = "http://localhost:7070";
-
     private static StudyJarvisServer server;
 
     @BeforeAll
@@ -37,10 +35,36 @@ public class CreateAccountHandlerFunctionalTest {
     @Test
     void cantCreateUserIfNotLoggedIn() throws IOException {
         Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":true}", UUID.randomUUID()),
-                "/secure/createaccount");
+                "/secure/admin/createaccount");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(401, response.code());
             assertTrue(response.body().string().contains("Unauthorized"));
+        }
+    }
+
+    @Test
+    void cantCreateUserIfNotAdmin() throws IOException {
+        client.login();
+        String username = UUID.randomUUID().toString();
+        String username2 = UUID.randomUUID().toString();
+        try {
+            Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username),
+                    "/secure/admin/createaccount");
+            try (Response response = client.newCall(request).execute()) {
+                assertEquals(201, response.code());
+            }
+            client.logout();
+
+            client.login(username, "password");
+            request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username2),
+                    "/secure/admin/createaccount");
+            try (Response response = client.newCall(request).execute()) {
+                assertEquals(403, response.code());
+                assertTrue(response.body().string().contains("Forbidden"));
+            }
+        } finally {
+            deleteUserIfExists(username);
+            deleteUserIfExists(username2);
         }
     }
 
@@ -49,7 +73,7 @@ public class CreateAccountHandlerFunctionalTest {
         client.login();
 
         Request request = client.postRequest("{\"username\":\"admin\",\"password\":\"password\",\"is_administrator\":true}",
-                "/secure/createaccount");
+                "/secure/admin/createaccount");
 
         try (Response response = client.newCall(request).execute()) {
             assertEquals(409, response.code());
@@ -67,7 +91,7 @@ public class CreateAccountHandlerFunctionalTest {
         // Ensure the user does not already exist before attempting to create
         deleteUserIfExists(username);
 
-        Request request = client.postRequest(json, "/secure/createaccount");
+        Request request = client.postRequest(json, "/secure/admin/createaccount");
 
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
@@ -78,7 +102,7 @@ public class CreateAccountHandlerFunctionalTest {
         Thread.sleep(1000); // Add a delay if the database is slow in reflecting changes
 
         // Verify the user was created
-        request = client.getRequest("/secure/getuser?username=" + username);
+        request = client.getRequest("/secure/admin/getuser?username=" + username);
 
         try (Response getResponse = client.newCall(request).execute()) {
             assertEquals(200, getResponse.code(), "User retrieval failed with status code: " + getResponse.code());
@@ -97,13 +121,15 @@ public class CreateAccountHandlerFunctionalTest {
 
 
     private void deleteUserIfExists(String username) throws IOException {
+        client.login();
+
         // Check if the user exists
-        Request getRequest = client.getRequest("/secure/getuser?username=" + username);
+        Request getRequest = client.getRequest("/secure/admin/getuser?username=" + username);
 
         try (Response getResponse = client.newCall(getRequest).execute()) {
             if (getResponse.code() == 200) {
                 // User exists, so delete them
-                Request deleteRequest = client.deleteRequest("/secure/deleteuser?username=" + username);
+                Request deleteRequest = client.deleteRequest("/secure/admin/deleteuser?username=" + username);
 
                 try (Response deleteResponse = client.newCall(deleteRequest).execute()) {
                     assertEquals(200, deleteResponse.code(), "Failed to delete existing user with status code: " + deleteResponse.code());

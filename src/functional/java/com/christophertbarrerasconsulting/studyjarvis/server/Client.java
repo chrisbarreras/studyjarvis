@@ -1,8 +1,11 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import okhttp3.*;
+import org.eclipse.jetty.util.IO;
 import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
 import org.junit.platform.engine.support.hierarchical.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -11,11 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Client {
     private static final String BASE_URL = "http://localhost:7070";
+    private static final Logger log = LoggerFactory.getLogger(Client.class);
     private final OkHttpClient client = new OkHttpClient();
     private String authorizationHeader = "";
 
     public void login() throws IOException {
-        String json = "{\"username\":\"admin\",\"password\":\"password\"}";
+        login("admin", "password");
+    }
+
+    public void login(String username, String password) throws IOException {
+        String json = String.format("{\"username\":\"%s\",\"password\":\"%s\"}", username, password);
         RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
         Request request = new Request.Builder()
                 .url("http://localhost:7070/login")
