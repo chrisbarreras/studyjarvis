@@ -5,6 +5,7 @@ import io.javalin.Javalin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Handler;
 import io.javalin.plugin.bundled.CorsPluginConfig;
+import org.jetbrains.annotations.NotNull;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -21,32 +22,16 @@ public class StudyJarvisServer {
         }).start(port);
 
         // User account creation
-        app.post("/CreateAccount", ctx -> {
-            ObjectMapper mapper = new ObjectMapper();
-            User user = mapper.readValue(ctx.body(), User.class);
-
-            try (Connection conn = Database.connect()) {
-                PreparedStatement checkStmt = conn.prepareStatement("SELECT 1 FROM users WHERE username = ?");
-                checkStmt.setString(1, user.getUsername());
-                ResultSet rs = checkStmt.executeQuery();
-                if (rs.next()) {
-                    ctx.status(409).result("User already exists");
-                    return;
-                }
-                String hashedPassword = PasswordHasher.hashPassword(user.getPassword());
-                PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO users (username, password_hash) VALUES (?, ?)");
-                insertStmt.setString(1, user.getUsername());
-                insertStmt.setString(2, hashedPassword);
-                insertStmt.executeUpdate();
-                ctx.status(201).result("User created successfully");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                ctx.status(500).result("Database error");
-            }
-        });
+        app.post("/createaccount", CreateAccountHandler.getInstance());
 
         // User login
         app.post("/login", LoginHandler.getInstance());
+
+        // Gets user
+        app.get("/getuser", GetUserHandler.getInstance());
+
+        // Deletes user
+        app.delete("/deleteuser", DeleteUserHandler.getInstance());
 
         // User logout
         app.post("/Logout", ctx -> {

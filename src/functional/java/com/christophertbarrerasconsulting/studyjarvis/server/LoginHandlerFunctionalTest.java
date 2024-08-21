@@ -1,6 +1,5 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
-import io.javalin.Javalin;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,6 +40,20 @@ class LoginHandlerFunctionalTest {
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
             assertTrue(response.body().string().contains("Login successful"));
+        }
+    }
+
+    @Test
+    void testFailedLogin() throws Exception {
+        String json = "{\"username\":\"admin\",\"password\":\"pass\"}";
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(URL)
+                .post(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            assertEquals(401, response.code());
         }
     }
 }
