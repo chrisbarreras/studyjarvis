@@ -33,6 +33,12 @@ public class StudyJarvisServer {
         // Deletes user
         app.delete("/deleteuser", DeleteUserHandler.getInstance());
 
+        // Gets session
+        app.get("/getsession", GetSessionHandler.getInstance());
+
+        //Deletes session
+        app.delete("/deletesession", DeleteSessionHandler.getInstance());
+
         // User logout
         app.post("/Logout", ctx -> {
             // JWT is stateless, just instruct client to discard the token
