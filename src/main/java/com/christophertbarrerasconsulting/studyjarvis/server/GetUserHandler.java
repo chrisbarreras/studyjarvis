@@ -12,8 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GetUserHandler implements Handler {
-    public static GetUserHandler getInstance() {
-        return new GetUserHandler();
+    public static Handler getInstance() {
+        return HandlerDecorator.getInstance(new GetUserHandler());
     }
 
     @Override

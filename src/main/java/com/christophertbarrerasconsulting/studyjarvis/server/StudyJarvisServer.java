@@ -21,26 +21,11 @@ public class StudyJarvisServer {
             });
         }).start(port);
 
-        // User account creation
-        app.post("/createaccount", CreateAccountHandler.getInstance());
-
         // User login
         app.post("/login", LoginHandler.getInstance());
 
-        // Gets user
-        app.get("/getuser", GetUserHandler.getInstance());
-
-        // Deletes user
-        app.delete("/deleteuser", DeleteUserHandler.getInstance());
-
-        // Gets session
-        app.get("/getsession", GetSessionHandler.getInstance());
-
-        //Deletes session
-        app.delete("/deletesession", DeleteSessionHandler.getInstance());
-
         // User logout
-        app.post("/Logout", ctx -> {
+        app.post("/logout", ctx -> {
             // JWT is stateless, just instruct client to discard the token
             ctx.result("Logged out successfully");
         });
@@ -60,6 +45,21 @@ public class StudyJarvisServer {
                 ctx.status(401).result("Unauthorized");
             }
         });
+
+        // User account creation
+        app.post("/secure/createaccount", CreateAccountHandler.getInstance());
+
+        // Gets user
+        app.get("/secure/getuser", GetUserHandler.getInstance());
+
+        // Deletes user
+        app.delete("/secure/deleteuser", DeleteUserHandler.getInstance());
+
+        // Gets session
+        app.get("/secure/getsession", GetSessionHandler.getInstance());
+
+        //Deletes session
+        app.delete("/secure/deletesession", DeleteSessionHandler.getInstance());
 
         // Upload files
         app.post("/secure/UploadFiles", ctx -> {

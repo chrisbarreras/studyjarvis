@@ -12,8 +12,8 @@ import java.sql.SQLException;
 
 public class GetSessionHandler implements Handler {
 
-    public static GetSessionHandler getInstance() {
-        return new GetSessionHandler();
+    public static Handler getInstance() {
+        return HandlerDecorator.getInstance(new GetSessionHandler());
     }
 
     @Override

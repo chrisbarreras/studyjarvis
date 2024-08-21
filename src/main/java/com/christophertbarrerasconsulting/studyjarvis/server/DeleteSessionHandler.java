@@ -10,8 +10,8 @@ import java.sql.SQLException;
 
 public class DeleteSessionHandler implements Handler {
 
-    public static DeleteSessionHandler getInstance() {
-        return new DeleteSessionHandler();
+    public static Handler getInstance() {
+        return HandlerDecorator.getInstance(new DeleteSessionHandler());
     }
 
     @Override

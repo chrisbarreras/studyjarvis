@@ -9,8 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DeleteUserHandler implements Handler {
-    public static DeleteUserHandler getInstance() {
-        return new DeleteUserHandler();
+    public static Handler getInstance() {
+        return HandlerDecorator.getInstance(new DeleteUserHandler());
     }
 
     @Override
