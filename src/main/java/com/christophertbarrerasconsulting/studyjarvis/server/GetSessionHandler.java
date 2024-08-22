@@ -1,5 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.User;
+import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
@@ -25,32 +27,22 @@ public class GetSessionHandler implements Handler {
             return;
         }
 
-        try (Connection conn = Database.connect()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT session_id FROM sessions WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+        User user = UserReader.getUser(username);
+        if (user == null) {
+            context.status(404).result("User not found");
+            return;
+        }
 
-            if (rs.next()) {
-                String sessionId = rs.getString("session_id");
-                context.json(new SessionResponse(sessionId));
-            } else {
+        try  {
+            Session session = SessionReader.getSession(user.getUserId());
+            if (session == null) {
                 context.status(404).result("Session not found");
+            } else {
+                context.json(session);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             context.status(500).result("Error");
-        }
-    }
-
-    private static class SessionResponse {
-        private final String sessionId;
-
-        public SessionResponse(String sessionId) {
-            this.sessionId = sessionId;
-        }
-
-        public String getSessionId() {
-            return sessionId;
         }
     }
 }

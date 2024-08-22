@@ -9,19 +9,24 @@ public class AuthorizationHandler implements Handler {
         return new AuthorizationHandler();
     }
 
-    @Override
-    public void handle(@NotNull Context context) throws Exception {
+    public static String getUsernameFromContext(Context context){
         String authHeader = context.header("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            String username = JwtUtil.validateToken(token);
-            if (username == null) {
-                context.status(401).result("Unauthorized");
-            } else {
-                context.attribute("username", username); // Pass username to downstream handlers
-            }
+            return JwtUtil.validateToken(token);
         } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void handle(@NotNull Context context) throws Exception {
+        String username = getUsernameFromContext(context);
+
+        if (username == null) {
             context.status(401).result("Unauthorized");
+        } else {
+            context.attribute("username", username); // Pass username to downstream handlers
         }
     }
 }

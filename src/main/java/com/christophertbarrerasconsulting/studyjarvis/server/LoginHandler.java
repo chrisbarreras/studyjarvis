@@ -19,13 +19,16 @@ public class LoginHandler implements Handler {
     @Override
     public void handle(@org.jetbrains.annotations.NotNull Context context) throws Exception {
         try (Connection conn = Database.connect()) {
+
             ObjectMapper mapper = new ObjectMapper();
             User user = mapper.readValue(context.body(), User.class);
-            PreparedStatement stmt = conn.prepareStatement("SELECT password_hash FROM users WHERE username = ?");
-            stmt.setString(1, user.getUsername());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next() && BCrypt.checkpw(user.getPassword(), rs.getString("password_hash"))) {
-                System.out.println("Checking user " + user.getUsername());
+            System.out.println("Checking user " + user.getUsername());
+
+            User storedUser = UserReader.getUser(user.getUsername());
+
+            if (storedUser!=null && BCrypt.checkpw(user.getPassword(), storedUser.getPassword())) {
+                SessionWriter.createSession(storedUser.getUserId());
+
                 String token = JwtUtil.generateToken(user.getUsername());
                 context.header("Authorization", "Bearer " + token);
                 context.result("Login successful");

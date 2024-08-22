@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
+    private int userId;
     private String username;
     private String password;
     private boolean isAdministrator;
@@ -11,14 +12,27 @@ public class User {
     public User() {}
 
     public User (String username, String password){
-        this(username, password, false);
+        this(0, username, password, false);
+    }
+
+    public User (String username, String password, boolean isAdministrator){
+        this(0, username, password, isAdministrator);
     }
 
     @JsonCreator
-    public User (@JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("is_administrator") boolean isAdministrator){
+    public User (@JsonProperty("user_id") int userId, @JsonProperty("username") String username, @JsonProperty("password") String password, @JsonProperty("is_administrator") boolean isAdministrator){
+        setUserId(userId);
         setUsername(username);
         setPassword(password);
         setIsAdministrator(isAdministrator);
+    }
+
+    private void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getUserId(){
+        return userId;
     }
 
     public String getUsername() {

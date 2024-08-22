@@ -25,10 +25,7 @@ public class StudyJarvisServer {
         app.post("/login", LoginHandler.getInstance());
 
         // User logout
-        app.post("/logout", ctx -> {
-            // JWT is stateless, just instruct client to discard the token
-            ctx.result("Logged out successfully");
-        });
+        app.post("/logout", LogoutHandler.getInstance());
 
         // Middleware to check JWT in Authorization header
         app.before("/secure/*", AuthorizationHandler.getInstance());

@@ -40,6 +40,7 @@ public class Client {
         String json = "";
         RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
         Request request = new Request.Builder()
+                .header("Authorization", authorizationHeader)
                 .url("http://localhost:7070/logout")
                 .post(body)
                 .build();

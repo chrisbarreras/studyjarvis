@@ -12,16 +12,17 @@ public class UserReader {
         try (Connection conn = Database.connect()) {
             System.out.println("Getting user with username: " + username);
 
-            String query = "SELECT username, password_hash, is_administrator FROM users WHERE username = ?";
+            String query = "SELECT user_id, username, password_hash, is_administrator FROM users WHERE username = ?";
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, username);
 
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
                         return new User(
-                            rs.getString("username"),
-                            rs.getString("password_hash"),
-                            rs.getBoolean("is_administrator")
+                                rs.getInt("user_id"),
+                                rs.getString("username"),
+                                rs.getString("password_hash"),
+                                rs.getBoolean("is_administrator")
                         );
                     }
                 }

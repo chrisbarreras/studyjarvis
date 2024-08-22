@@ -13,6 +13,10 @@ import java.util.stream.Stream;
 
 public class FileHandler {
 
+    public static String createNewTempFolder(String prefix) throws IOException {
+        return Files.createTempDirectory(prefix).toString();
+    }
+
     private static int extractNumber(String input) {
         // Split the input string based on the first space
         String[] parts = input.split(" ", 2);
@@ -98,6 +102,13 @@ public class FileHandler {
             return"image/png";
         }
         return "text/plain";
+    }
+
+    public static boolean directoryExists(String path){
+        Path folderPath = Path.of(path);
+
+        // Check if the folder exists and is indeed a directory
+        return (Files.exists(folderPath) && Files.isDirectory(folderPath));
     }
 
     public static void clearDirectory(Path directory) throws IOException {

@@ -1,16 +1,19 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import okhttp3.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 import java.util.UUID;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.christophertbarrerasconsulting.studyjarvis.Util.deleteUserIfExists;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateAccountHandlerFunctionalTest {
     private static Client client = new Client();
@@ -82,7 +85,7 @@ public class CreateAccountHandlerFunctionalTest {
     }
 
     @Test
-    void createUserAndVerifyThenDelete() throws IOException, InterruptedException {
+    void createUserAndVerifyThenDelete() throws IOException, InterruptedException, SQLException {
         client.login();
 
         String username = "testuser";
@@ -98,45 +101,32 @@ public class CreateAccountHandlerFunctionalTest {
             assertTrue(createResponse.body().string().contains("User created successfully"));
         }
 
-        // Pause to ensure the database has processed the insert before we query
-        Thread.sleep(1000); // Add a delay if the database is slow in reflecting changes
-
         // Verify the user was created
-        request = client.getRequest("/secure/admin/getuser?username=" + username);
-
-        try (Response getResponse = client.newCall(request).execute()) {
-            assertEquals(200, getResponse.code(), "User retrieval failed with status code: " + getResponse.code());
-            String responseBody = getResponse.body().string();
-            assertTrue(responseBody.contains(username));
-        }
+        User user = UserReader.getUser("testuser");
+        assertNotNull(user, "testuser was not created");
+        assertEquals("testuser", user.getUsername(), "Wrong username");
+        assertFalse(user.getIsAdministrator(), "User should be non-admin");
 
         // Delete the user
         deleteUserIfExists(username);
 
-        // Confirm the user was deleted
-        try (Response getResponseAfterDelete = client.newCall(request).execute()) {
-            assertEquals(404, getResponseAfterDelete.code(), "User deletion failed or user still exists after deletion.");
+        // Verify user deleted
+        user = UserReader.getUser("testuser");
+        assertNull(user, "testuser was not deleted");
+
+        // Try with an admin user
+        json = "{\"username\":\"" + username + "\",\"password\":\"testpassword\",\"is_administrator\":true}";
+        request = client.postRequest(json, "/secure/admin/createaccount");
+
+        try (Response createResponse = client.newCall(request).execute()) {
+            assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
+            assertTrue(createResponse.body().string().contains("User created successfully"));
         }
-    }
 
-
-    private void deleteUserIfExists(String username) throws IOException {
-        client.login();
-
-        // Check if the user exists
-        Request getRequest = client.getRequest("/secure/admin/getuser?username=" + username);
-
-        try (Response getResponse = client.newCall(getRequest).execute()) {
-            if (getResponse.code() == 200) {
-                // User exists, so delete them
-                Request deleteRequest = client.deleteRequest("/secure/admin/deleteuser?username=" + username);
-
-                try (Response deleteResponse = client.newCall(deleteRequest).execute()) {
-                    assertEquals(200, deleteResponse.code(), "Failed to delete existing user with status code: " + deleteResponse.code());
-                }
-            } else if (getResponse.code() != 404) {
-                throw new IOException("Unexpected response code when checking user existence: " + getResponse.code());
-            }
-        }
+        // Verify the user was created
+        user = UserReader.getUser("testuser");
+        assertNotNull(user, "testuser was not created");
+        assertEquals("testuser", user.getUsername(), "Wrong username");
+        assertTrue(user.getIsAdministrator(), "User should be admin");
     }
 }

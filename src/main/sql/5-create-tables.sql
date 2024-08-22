@@ -11,7 +11,7 @@ CREATE TABLE sessions (
     extract_folder TEXT,
     session_creation TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     last_session_activity TIMESTAMP WITHOUT TIME ZONE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 CREATE INDEX idx_sessions_user_id ON sessions(user_id);
 CREATE INDEX idx_sessions_last_activity ON sessions(last_session_activity);
