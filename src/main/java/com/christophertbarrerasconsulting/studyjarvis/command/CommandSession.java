@@ -20,7 +20,7 @@ public class CommandSession {
             CommandParser.getInstance().run(commandText);
             System.out.print("> ");
             commandText = scanner.nextLine();
-            if (!quit) {
+            if (quit) {
                 break;
             }
         }
