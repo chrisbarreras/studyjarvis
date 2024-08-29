@@ -7,7 +7,6 @@ import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 public class ExtractFileCommand extends Command {
     ExtractFileCommand () {
@@ -18,29 +17,35 @@ public class ExtractFileCommand extends Command {
 
     @Override
     public void run(List<String> args) throws IOException {
-        String outputDirectory = getOutputDirectory(args);
-        if (outputDirectory == null) return;
-        String fileType = FileHandler.getFileType(outputDirectory);
+        String filePath = getFilePath(args);
+        if (filePath == null) return;
+        String fileType = FileHandler.getFileType(filePath);
 
-        if (fileType.equals("pdf")){
-            PDFExtractor.extract(outputDirectory, CommandSession.extractFolder);
-        }
-        else {
-            PowerPointExtractor.extract(outputDirectory, CommandSession.extractFolder);
+        if (fileType.equalsIgnoreCase("pdf")) {
+            PDFExtractor.extract(filePath, CommandSession.extractFolder);
+        } else {
+            PowerPointExtractor.extract(filePath, CommandSession.extractFolder);
         }
     }
 
-    private static String getOutputDirectory(List<String> args) {
+    private static String getFilePath(List<String> args) {
         if (args.isEmpty()) {
-            System.out.println("No output directory given.");
+            System.out.println("No file path given.");
             return null;
         }
-        String outputDirectory = args.get(0);
-        File folder = new File(outputDirectory);
-        if (folder.exists() && folder.isDirectory()) {
-            return outputDirectory;
+        String filePath = args.get(0);
+        File file = new File(filePath);
+
+        if (file.exists() && file.isFile()) {
+            String fileType = FileHandler.getFileType(filePath);
+            if ("pdf".equalsIgnoreCase(fileType) || "ppt".equalsIgnoreCase(fileType) || "pptx".equalsIgnoreCase(fileType)) {
+                return filePath;
+            } else {
+                System.out.println("The file is not a PDF or PowerPoint.");
+                return null;
+            }
         } else {
-            System.out.println("The folder does not exist.");
+            System.out.println("The file does not exist.");
             return null;
         }
     }
