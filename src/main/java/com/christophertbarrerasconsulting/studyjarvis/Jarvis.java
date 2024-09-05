@@ -54,7 +54,7 @@ public class Jarvis implements AutoCloseable{
     }
 
     public String createStudyGuide() throws IOException {
-        return gemini.respond("Generate a study guide including all of the topics.");
+        return gemini.respond("Generate a Q&A style study guide including all of the topics.");
     }
 
     public InteractiveQuiz createInteractiveQuiz(InteractiveQuizType quizType, int numberOfQuestions) throws IOException {
