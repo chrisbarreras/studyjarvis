@@ -6,12 +6,14 @@ import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.sql.Date;
+import java.util.List;
 
 public class SessionWriter {
     public static void createSession(int userId) throws SQLException, IOException {
@@ -27,12 +29,17 @@ public class SessionWriter {
         }
     }
 
-    public static int deleteSessions(String username) throws SQLException {
+    public static int deleteSessions(String username) throws SQLException, IOException {
         User user = UserReader.getUser(username);
         int deletedCount = 0;
 
         if (user != null){
             int userId = user.getUserId();
+            List<Session> sessions = SessionReader.getSessions(userId);
+            for (Session session: sessions){
+                FileHandler.clearDirectory(Path.of(session.getExtractFolder()));
+                FileHandler.clearDirectory(Path.of(session.getUploadedFilesPath()));
+            }
             try (Connection conn = Database.connect()) {
                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM sessions WHERE user_id = ?");
                 stmt.setInt(1, userId);
