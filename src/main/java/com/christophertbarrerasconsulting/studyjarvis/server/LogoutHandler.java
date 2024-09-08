@@ -13,8 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LogoutHandler implements Handler {
-    public static Handler getInstance() {
+
+    static Handler getInstance(Handler deleteSessionHandler){
         return new LogoutHandler();
+    }
+
+    public static Handler getInstance() {
+        return getInstance(DeleteSessionHandler.getInstance());
     }
 
     @Override
