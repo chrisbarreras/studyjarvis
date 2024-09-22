@@ -14,12 +14,12 @@ import java.sql.SQLException;
 
 public class LogoutHandler implements Handler {
 
-    static Handler getInstance(Handler deleteSessionHandler){
-        return new LogoutHandler();
-    }
+//    static Handler getInstance(Handler deleteSessionHandler){
+//        return new LogoutHandler();
+//    }
 
     public static Handler getInstance() {
-        return getInstance(DeleteSessionHandler.getInstance());
+        return new LogoutHandler();
     }
 
     @Override
