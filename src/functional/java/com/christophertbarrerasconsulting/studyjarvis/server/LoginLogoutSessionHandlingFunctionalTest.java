@@ -13,16 +13,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.runtime.ObjectMethods;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import java.io.IOException;
-import java.util.concurrent.ForkJoinPool;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SessionFunctionalTest {
+public class LoginLogoutSessionHandlingFunctionalTest {
     private static Client client = new Client();
     private static StudyJarvisServer server;
     private static ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +42,7 @@ public class SessionFunctionalTest {
     }
 
     @Test
-    public void LoginCreatesASession() throws IOException {
+    public void loginCreatesASession() throws IOException {
         Request request = client.getRequest("/secure/admin/getsession?username=admin");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
@@ -56,7 +54,7 @@ public class SessionFunctionalTest {
     }
 
     @Test
-    public void LogoutRemovesASession() throws IOException, SQLException {
+    public void logoutRemovesASession() throws IOException, SQLException {
         String username = UUID.randomUUID().toString();
 
         try {

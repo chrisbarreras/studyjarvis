@@ -46,7 +46,7 @@ public class CreateAccountHandlerFunctionalTest {
     }
 
     @Test
-    void cantCreateUserIfNotAdmin() throws IOException {
+    void cantCreateUserIfNotAdmin() throws IOException, SQLException {
         client.login();
         String username = UUID.randomUUID().toString();
         String username2 = UUID.randomUUID().toString();

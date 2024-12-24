@@ -7,25 +7,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.sql.Date;
 import java.util.List;
 
 public class SessionWriter {
-    public static void createSession(int userId) throws SQLException, IOException {
+    public static Session createSession(int userId) throws SQLException, IOException {
         try (Connection conn = Database.connect()) {
             Date now = Date.valueOf(LocalDateTime.now().toLocalDate());
-            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO sessions (user_id, uploaded_files_path, extract_folder, session_creation, last_session_activity) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO sessions (user_id, uploaded_files_path, extract_folder, session_creation, last_session_activity) VALUES (?, ?, ?, ?, ?) RETURNING session_id");
             insertStmt.setInt(1, userId);
-            insertStmt.setString(2, FileHandler.createNewTempFolder("upload_" + userId));
-            insertStmt.setString(3,  FileHandler.createNewTempFolder("extract_" + userId));
+            String uploadFolder = FileHandler.createNewTempFolder("upload_" + userId);
+            insertStmt.setString(2, uploadFolder);
+            String extractFolder = FileHandler.createNewTempFolder("extract_" + userId);
+            insertStmt.setString(3,  extractFolder);
             insertStmt.setDate(4, now);
             insertStmt.setDate(5, now);
-            insertStmt.executeUpdate();
+
+            int sessionId;
+            try (ResultSet rs = insertStmt.executeQuery()) {
+                if (rs.next()) {
+                    sessionId = rs.getInt(1);  // Get the session_id
+                } else {
+                    throw new SQLException("Creating session failed, no session_id obtained.");
+                }
+            }
+            return new Session(sessionId, userId, uploadFolder, extractFolder, now, now);
         }
     }
 
@@ -47,5 +55,15 @@ public class SessionWriter {
             }
         }
         return deletedCount;
+    }
+
+    public static boolean deleteSession(int sessionId) {
+//        try {
+//
+//        }
+//        catch{
+//
+//        }
+        return false;
     }
 }

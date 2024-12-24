@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserWriter {
-    public static void createNewUser(User user) throws SQLException {
+    public static User createNewUser(User user) throws SQLException {
         try (Connection conn = Database.connect()) {
             String hashedPassword = PasswordHasher.hashPassword(user.getPassword());
             PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO users (username, password_hash, is_administrator) VALUES (?, ?, ?)");
@@ -16,6 +16,7 @@ public class UserWriter {
             insertStmt.setString(2, hashedPassword);
             insertStmt.setBoolean(3, user.getIsAdministrator());
             insertStmt.executeUpdate();
+            return UserReader.getUser(user.getUsername());
         }
     }
 }

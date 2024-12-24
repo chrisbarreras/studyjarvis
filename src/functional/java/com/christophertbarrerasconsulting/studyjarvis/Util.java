@@ -1,31 +1,35 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.christophertbarrerasconsulting.studyjarvis.server.Client;
+import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Util {
-    private static Client client = new Client();
-    public static void deleteUserIfExists(String username) throws IOException {
-        client.login();
+    public static void deleteUserIfExists(String username) throws SQLException {
+        try (Connection conn = TestDatabase.connect()) {
+            PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM users WHERE username = ?");
+            deleteStmt.setString(1, username);
+            deleteStmt.execute();
+        }
+    }
 
-        // Check if the user exists
-        Request getRequest = client.getRequest("/secure/admin/getuser?username=" + username);
-
-        try (Response getResponse = client.newCall(getRequest).execute()) {
-            if (getResponse.code() == 200) {
-                // User exists, so delete them
-                Request deleteRequest = client.deleteRequest("/secure/admin/deleteuser?username=" + username);
-
-                try (Response deleteResponse = client.newCall(deleteRequest).execute()) {
-                    assertEquals(200, deleteResponse.code(), "Failed to delete existing user with status code: " + deleteResponse.code());
-                }
-            } else if (getResponse.code() != 404) {
-                throw new IOException("Unexpected response code when checking user existence: " + getResponse.code());
+    public static void deleteSessionIfExists(Session session) throws SQLException, IOException {
+        if (session != null) {
+            FileHandler.deletePathIfExists(session.getExtractFolder());
+            FileHandler.deletePathIfExists(session.getUploadedFilesPath());
+            try (Connection conn = TestDatabase.connect()) {
+                PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM sessions WHERE session_id = ?");
+                deleteStmt.setInt(1, session.getSessionId());
+                deleteStmt.execute();
             }
         }
     }

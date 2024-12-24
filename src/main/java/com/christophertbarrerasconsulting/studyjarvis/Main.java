@@ -13,9 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // TODO:
 
-//        Create a Command Processor
-//        Unit Tests
-//        Functional Tests
+//        Display code responses
 //        Web UI
 //        Multi User
 //        Android App

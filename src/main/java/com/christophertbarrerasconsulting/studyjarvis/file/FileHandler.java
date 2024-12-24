@@ -108,7 +108,12 @@ public class FileHandler {
         Path folderPath = Path.of(path);
 
         // Check if the folder exists and is indeed a directory
-        return (Files.exists(folderPath) && Files.isDirectory(folderPath));
+        return directoryExists(folderPath);
+    }
+
+    public static boolean directoryExists(Path path){
+        // Check if the folder exists and is indeed a directory
+        return (Files.exists(path) && Files.isDirectory(path));
     }
 
     public static void clearDirectory(Path directory) throws IOException {
@@ -127,6 +132,17 @@ public class FileHandler {
 
     public static void deletePath(Path path) throws IOException {
         Files.delete(path);
+    }
+
+    public static void deletePathIfExists(Path path) throws IOException {
+        if (directoryExists(path)) {
+            clearDirectory(path);
+            Files.delete(path);
+        }
+    }
+
+    public static void deletePathIfExists(String path) throws IOException {
+        deletePathIfExists(Path.of(path));
     }
 
     public static String getFileType(String filePath) {
