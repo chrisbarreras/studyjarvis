@@ -25,7 +25,6 @@ public class Session implements Serializable {
     {
         this.sessionId = sessionId;
         this.userId = userId;
-        this.extractFolder = extractFolder;
         this.uploadedFilesPath = uploadedFilesPath;
         this.extractFolder = extractFolder;
         this.sessionCreationDate = sessionCreationDate;

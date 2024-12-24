@@ -74,7 +74,7 @@ public class FileHandler {
         return fileName.substring(0, lastIndexOfDot);
     }
 
-    private static String concatenatePath(String folderPath, String fileName) {
+    public static String concatenatePath(String folderPath, String fileName) {
         // Create a File object for the folder path
         File folder = new File(folderPath);
 

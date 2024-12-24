@@ -29,6 +29,8 @@ public class SessionReaderFunctionalTest {
                 assertNotNull(session);
                 assertTrue(FileHandler.directoryExists((session.getUploadedFilesPath())), "Upload directory not created");
                 assertTrue(FileHandler.directoryExists((session.getExtractFolder())), "Extract directory not created");
+
+                assertNotNull(SessionReader.getSessionBySessionId(session.getSessionId()), "SessionReader did not get session");
             }finally {
                 deleteSessionIfExists(session);
             }
