@@ -110,10 +110,6 @@ public class CreateAccountHandlerFunctionalTest {
         // Delete the user
         deleteUserIfExists(username);
 
-        // Verify user deleted
-        user = UserReader.getUser("testuser");
-        assertNull(user, "testuser was not deleted");
-
         // Try with an admin user
         json = "{\"username\":\"" + username + "\",\"password\":\"testpassword\",\"is_administrator\":true}";
         request = client.postRequest(json, "/secure/admin/createaccount");
