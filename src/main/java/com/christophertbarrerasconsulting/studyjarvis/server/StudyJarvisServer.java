@@ -41,7 +41,7 @@ public class StudyJarvisServer {
         app.get("/secure/admin/sessions", GetSessionHandler.getInstance());
 
         //Deletes session
-        app.delete("/secure/admin/deletesession", DeleteSessionHandler.getInstance());
+        app.delete("/secure/admin/sessions", DeleteSessionHandler.getInstance());
 
         // Upload files
         app.post("/secure/UploadFiles", ctx -> {
