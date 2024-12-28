@@ -107,7 +107,7 @@ public class DeleteUserFunctionalTest {
         client.login();
 
         Session session;
-        Request request = client.getRequest("/secure/admin/getsession?username=testuser");
+        Request request = client.getRequest("/secure/admin/sessions?username=testuser");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code(), "Failed to get session with status code: " + response.code());
             assertNotNull(response.body(), "Invalid response body");
@@ -120,7 +120,7 @@ public class DeleteUserFunctionalTest {
             assertEquals(204, createResponse.code(), "Attempted to delete with non admin user failed with response code: " + createResponse.code());
         }
 
-        request = client.getRequest("/secure/admin/getsession?username=testuser");
+        request = client.getRequest("/secure/admin/sessions?username=testuser");
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(404, createResponse.code(), "Incorrect status code: " + createResponse.code());
         }

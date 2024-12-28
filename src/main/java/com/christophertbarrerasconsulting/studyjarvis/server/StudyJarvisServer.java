@@ -38,7 +38,7 @@ public class StudyJarvisServer {
         app.delete("/secure/admin/users", DeleteUserHandler.getInstance());
 
         // Gets session
-        app.get("/secure/admin/getsession", GetSessionHandler.getInstance());
+        app.get("/secure/admin/sessions", GetSessionHandler.getInstance());
 
         //Deletes session
         app.delete("/secure/admin/deletesession", DeleteSessionHandler.getInstance());

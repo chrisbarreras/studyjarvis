@@ -43,7 +43,7 @@ public class LoginLogoutSessionHandlingFunctionalTest {
 
     @Test
     public void loginCreatesASession() throws IOException {
-        Request request = client.getRequest("/secure/admin/getsession?username=admin");
+        Request request = client.getRequest("/secure/admin/sessions?username=admin");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
             String body = response.body().string();
@@ -63,7 +63,7 @@ public class LoginLogoutSessionHandlingFunctionalTest {
             client.login(username, "password");
 
             // Get session info
-            Request request = client.getRequest("/secure/admin/getsession?username=" + username);
+            Request request = client.getRequest("/secure/admin/sessions?username=" + username);
             try (Response response = client.newCall(request).execute()) {
                 assertEquals(200, response.code());
                 String body = response.body().string();
