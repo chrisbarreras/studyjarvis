@@ -42,7 +42,7 @@ public class DeleteUserFunctionalTest {
         deleteUserIfExists(username);
 
         client.login();
-        Request request = client.postRequest(json, "/secure/admin/user");
+        Request request = client.postRequest(json, "/secure/admin/users");
         try (Response createResponse = client.newCall(request).execute()) {}
         client.logout();
     }
@@ -70,7 +70,7 @@ public class DeleteUserFunctionalTest {
         String username = UUID.randomUUID().toString();
 
         Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username),
-                "/secure/admin/user");
+                "/secure/admin/users");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(201, response.code());
         }

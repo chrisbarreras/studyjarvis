@@ -29,10 +29,10 @@ public class StudyJarvisServer {
         app.before("/secure/admin/*", AdminAuthorizationHandler.getInstance());
 
         // User account creation
-        app.post("/secure/admin/user", CreateUserHandler.getInstance());
+        app.post("/secure/admin/users", CreateUserHandler.getInstance());
 
         // Gets user
-        app.get("/secure/admin/getuser", GetUserHandler.getInstance());
+        app.get("/secure/admin/users", GetUserHandler.getInstance());
 
         // Deletes user
         app.delete("/secure/admin/deleteuser", DeleteUserHandler.getInstance());

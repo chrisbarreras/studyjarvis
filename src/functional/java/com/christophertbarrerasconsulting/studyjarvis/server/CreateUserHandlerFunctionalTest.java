@@ -38,7 +38,7 @@ public class CreateUserHandlerFunctionalTest {
     @Test
     void cantCreateUserIfNotLoggedIn() throws IOException {
         Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":true}", UUID.randomUUID()),
-                "/secure/admin/user");
+                "/secure/admin/users");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(401, response.code());
             assertTrue(response.body().string().contains("Unauthorized"));
@@ -52,7 +52,7 @@ public class CreateUserHandlerFunctionalTest {
         String username2 = UUID.randomUUID().toString();
         try {
             Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username),
-                    "/secure/admin/user");
+                    "/secure/admin/users");
             try (Response response = client.newCall(request).execute()) {
                 assertEquals(201, response.code());
             }
@@ -60,7 +60,7 @@ public class CreateUserHandlerFunctionalTest {
 
             client.login(username, "password");
             request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username2),
-                    "/secure/admin/user");
+                    "/secure/admin/users");
             try (Response response = client.newCall(request).execute()) {
                 assertEquals(403, response.code());
                 assertTrue(response.body().string().contains("Forbidden"));
@@ -76,7 +76,7 @@ public class CreateUserHandlerFunctionalTest {
         client.login();
 
         Request request = client.postRequest("{\"username\":\"admin\",\"password\":\"password\",\"is_administrator\":true}",
-                "/secure/admin/user");
+                "/secure/admin/users");
 
         try (Response response = client.newCall(request).execute()) {
             assertEquals(409, response.code());
@@ -94,7 +94,7 @@ public class CreateUserHandlerFunctionalTest {
         // Ensure the user does not already exist before attempting to create
         deleteUserIfExists(username);
 
-        Request request = client.postRequest(json, "/secure/admin/user");
+        Request request = client.postRequest(json, "/secure/admin/users");
 
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
@@ -112,7 +112,7 @@ public class CreateUserHandlerFunctionalTest {
 
         // Try with an admin user
         json = "{\"username\":\"" + username + "\",\"password\":\"testpassword\",\"is_administrator\":true}";
-        request = client.postRequest(json, "/secure/admin/user");
+        request = client.postRequest(json, "/secure/admin/users");
 
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
