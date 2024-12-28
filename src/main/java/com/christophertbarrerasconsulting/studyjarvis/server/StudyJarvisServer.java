@@ -1,12 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
-import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import io.javalin.Javalin;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.javalin.http.Handler;
 import io.javalin.plugin.bundled.CorsPluginConfig;
-import org.jetbrains.annotations.NotNull;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,7 +29,7 @@ public class StudyJarvisServer {
         app.before("/secure/admin/*", AdminAuthorizationHandler.getInstance());
 
         // User account creation
-        app.post("/secure/admin/createaccount", CreateAccountHandler.getInstance());
+        app.post("/secure/admin/user", CreateUserHandler.getInstance());
 
         // Gets user
         app.get("/secure/admin/getuser", GetUserHandler.getInstance());

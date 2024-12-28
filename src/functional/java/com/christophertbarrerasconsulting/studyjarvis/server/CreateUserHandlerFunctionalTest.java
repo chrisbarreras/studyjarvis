@@ -15,7 +15,7 @@ import java.io.IOException;
 import static com.christophertbarrerasconsulting.studyjarvis.Util.deleteUserIfExists;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CreateAccountHandlerFunctionalTest {
+public class CreateUserHandlerFunctionalTest {
     private static Client client = new Client();
     private static StudyJarvisServer server;
 
@@ -38,7 +38,7 @@ public class CreateAccountHandlerFunctionalTest {
     @Test
     void cantCreateUserIfNotLoggedIn() throws IOException {
         Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":true}", UUID.randomUUID()),
-                "/secure/admin/createaccount");
+                "/secure/admin/user");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(401, response.code());
             assertTrue(response.body().string().contains("Unauthorized"));
@@ -52,7 +52,7 @@ public class CreateAccountHandlerFunctionalTest {
         String username2 = UUID.randomUUID().toString();
         try {
             Request request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username),
-                    "/secure/admin/createaccount");
+                    "/secure/admin/user");
             try (Response response = client.newCall(request).execute()) {
                 assertEquals(201, response.code());
             }
@@ -60,7 +60,7 @@ public class CreateAccountHandlerFunctionalTest {
 
             client.login(username, "password");
             request = client.postRequest(String.format("{\"username\":\"%s\",\"password\":\"password\",\"is_administrator\":false}", username2),
-                    "/secure/admin/createaccount");
+                    "/secure/admin/user");
             try (Response response = client.newCall(request).execute()) {
                 assertEquals(403, response.code());
                 assertTrue(response.body().string().contains("Forbidden"));
@@ -76,7 +76,7 @@ public class CreateAccountHandlerFunctionalTest {
         client.login();
 
         Request request = client.postRequest("{\"username\":\"admin\",\"password\":\"password\",\"is_administrator\":true}",
-                "/secure/admin/createaccount");
+                "/secure/admin/user");
 
         try (Response response = client.newCall(request).execute()) {
             assertEquals(409, response.code());
@@ -94,7 +94,7 @@ public class CreateAccountHandlerFunctionalTest {
         // Ensure the user does not already exist before attempting to create
         deleteUserIfExists(username);
 
-        Request request = client.postRequest(json, "/secure/admin/createaccount");
+        Request request = client.postRequest(json, "/secure/admin/user");
 
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
@@ -112,7 +112,7 @@ public class CreateAccountHandlerFunctionalTest {
 
         // Try with an admin user
         json = "{\"username\":\"" + username + "\",\"password\":\"testpassword\",\"is_administrator\":true}";
-        request = client.postRequest(json, "/secure/admin/createaccount");
+        request = client.postRequest(json, "/secure/admin/user");
 
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(201, createResponse.code(), "User creation failed with status code: " + createResponse.code());
