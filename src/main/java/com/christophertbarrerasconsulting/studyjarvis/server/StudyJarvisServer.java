@@ -44,7 +44,7 @@ public class StudyJarvisServer {
         app.delete("/secure/admin/sessions", DeleteSessionHandler.getInstance());
 
         // Upload files
-        app.post("/secure/UploadFiles", ctx -> {
+        app.post("/secure/files", ctx -> {
             String username = ctx.attribute("username");
             ctx.uploadedFiles("files").forEach(file -> {
                 try (Connection conn = Database.connect()) {
