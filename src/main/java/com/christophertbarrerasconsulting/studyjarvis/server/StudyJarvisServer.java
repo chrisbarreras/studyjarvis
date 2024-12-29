@@ -32,10 +32,10 @@ public class StudyJarvisServer {
         app.post("/secure/admin/users", CreateUserHandler.getInstance());
 
         // Gets user
-        app.get("/secure/admin/users", GetUserHandler.getInstance());
+        app.get("/secure/admin/users/{username}", GetUserHandler.getInstance());
 
         // Deletes user
-        app.delete("/secure/admin/users", DeleteUserHandler.getInstance());
+        app.delete("/secure/admin/users/{username}", DeleteUserHandler.getInstance());
 
         // Gets session
         app.get("/secure/admin/sessions", GetSessionHandler.getInstance());

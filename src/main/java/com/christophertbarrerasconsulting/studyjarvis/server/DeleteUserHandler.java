@@ -18,8 +18,8 @@ public class DeleteUserHandler implements Handler {
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        String username = context.queryParam("username");
-        if (username == null) {
+        String username = context.pathParam("username");
+        if (username.isEmpty()) {
             context.status(400).result("Username is required");
             return;
         }

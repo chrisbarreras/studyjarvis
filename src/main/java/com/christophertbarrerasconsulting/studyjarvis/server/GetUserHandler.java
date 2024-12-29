@@ -18,9 +18,9 @@ public class GetUserHandler implements Handler {
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
-        String username = context.queryParam("username");
+        String username = context.pathParam("username");
 
-        if (username == null || username.isEmpty()) {
+        if (username.isEmpty()) {
             context.status(400).result("Username query parameter is required");
             return;
         }
@@ -32,7 +32,8 @@ public class GetUserHandler implements Handler {
                 context.status(404).result("User not found");
             }
             else {
-                context.json(user);
+                User returnedUser = new User(user.getUserId(), user.getUsername(), null, user.getIsAdministrator());
+                context.json(returnedUser);
             }
         } catch (SQLException e){
             e.printStackTrace();

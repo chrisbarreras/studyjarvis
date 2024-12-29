@@ -54,7 +54,7 @@ public class DeleteUserFunctionalTest {
 
     @Test
     public void deleteUserCantDeleteIfNotLoggedIn () throws SQLException, IOException {
-        Request request = client.deleteRequest("/secure/admin/users?username=testuser");
+        Request request = client.deleteRequest("/secure/admin/users/testuser");
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(401, createResponse.code(), "Attempted to delete with non admin user failed with response code: " + createResponse.code());
         }
@@ -77,7 +77,7 @@ public class DeleteUserFunctionalTest {
         client.logout();
         client.login(username, "password");
 
-        request = client.deleteRequest("/secure/admin/users?username=testuser");
+        request = client.deleteRequest("/secure/admin/users/testuser");
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(403, createResponse.code(), "Attempted to delete with non admin user failed with response code: " + createResponse.code());
         }
@@ -91,7 +91,7 @@ public class DeleteUserFunctionalTest {
     public void deleteUserDeletesUser () throws IOException, SQLException {
         client.login();
 
-        Request request = client.deleteRequest("/secure/admin/users?username=testuser");
+        Request request = client.deleteRequest("/secure/admin/users/testuser");
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(204, createResponse.code(), "Attempted to delete with non admin user failed with response code: " + createResponse.code());
         }
@@ -115,7 +115,7 @@ public class DeleteUserFunctionalTest {
             session = mapper.readValue(body, Session.class);
         }
 
-        request = client.deleteRequest("/secure/admin/users?username=testuser");
+        request = client.deleteRequest("/secure/admin/users/testuser");
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(204, createResponse.code(), "Attempted to delete with non admin user failed with response code: " + createResponse.code());
         }
