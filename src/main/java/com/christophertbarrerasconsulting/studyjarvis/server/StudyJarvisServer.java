@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.eclipse.jetty.server.Server;
 
 public class StudyJarvisServer {
     Javalin app = null;
@@ -17,6 +17,10 @@ public class StudyJarvisServer {
     public void start(int port){
         logger.info("Starting the Javalin application...");
         app = Javalin.create(config -> {
+            config.jetty.modifyServer(server -> {
+                // Limit maximum form content size to 10 MB (10_000_000 bytes)
+                server.setAttribute("org.eclipse.jetty.server.Request.maxFormContentSize", 10_000_000);
+            });
             config.requestLogger.http((ctx, executionTimeMs) -> {
                 // Log each request (method, path, status, time)
                 logger.info("{} {} -> {} (took {} ms)",

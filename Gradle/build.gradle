@@ -42,7 +42,7 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox-tools:3.0.2'
     implementation 'org.apache.pdfbox:fontbox:3.0.2'
     implementation 'org.apache.pdfbox:pdfbox-io:3.0.2'
-    implementation 'io.javalin:javalin:6.2.0'
+    implementation 'io.javalin:javalin:6.4.0'
     implementation 'com.auth0:java-jwt:4.4.0'
     implementation 'org.postgresql:postgresql:42.7.3'
     implementation 'org.mindrot:jbcrypt:0.4'

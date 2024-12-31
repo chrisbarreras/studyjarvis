@@ -90,5 +90,7 @@
     <orderEntry type="library" name="Gradle: org.checkerframework:checker-qual:3.44.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.17.2" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.16" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:11.0.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:11.0.21" level="project" />
   </component>
 </module>
