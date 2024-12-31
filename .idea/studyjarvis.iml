@@ -89,7 +89,6 @@
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.17.2" level="project" />
     <orderEntry type="library" name="Gradle: org.checkerframework:checker-qual:3.44.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.17.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: io.grpc:grpc-xds:1.65.1" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.16" level="project" />
   </component>
 </module>
