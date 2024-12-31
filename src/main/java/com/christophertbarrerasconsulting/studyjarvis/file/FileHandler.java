@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
+import okhttp3.*;
 
 public class FileHandler {
 
@@ -156,5 +157,52 @@ public class FileHandler {
 
         // Return the file extension
         return filePath.substring(lastDotIndex + 1);
+    }
+
+    public static MediaType getMediaType(File file) {
+        String fileName = file.getName().toLowerCase();
+
+        // Common image types
+        if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+            return MediaType.parse("image/jpeg");
+        } else if (fileName.endsWith(".png")) {
+            return MediaType.parse("image/png");
+        } else if (fileName.endsWith(".gif")) {
+            return MediaType.parse("image/gif");
+        }
+
+        // PDF
+        if (fileName.endsWith(".pdf")) {
+            return MediaType.parse("application/pdf");
+        }
+
+        // Microsoft Word
+        if (fileName.endsWith(".doc")) {
+            return MediaType.parse("application/msword");
+        } else if (fileName.endsWith(".docx")) {
+            return MediaType.parse("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        }
+
+        // Microsoft Excel
+        if (fileName.endsWith(".xls")) {
+            return MediaType.parse("application/vnd.ms-excel");
+        } else if (fileName.endsWith(".xlsx")) {
+            return MediaType.parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        }
+
+        // Microsoft PowerPoint
+        if (fileName.endsWith(".ppt")) {
+            return MediaType.parse("application/vnd.ms-powerpoint");
+        } else if (fileName.endsWith(".pptx")) {
+            return MediaType.parse("application/vnd.openxmlformats-officedocument.presentationml.presentation");
+        }
+
+        // Text
+        if (fileName.endsWith(".txt")) {
+            return MediaType.parse("text/plain");
+        }
+
+        // Default / fallback
+        return MediaType.parse("application/octet-stream");
     }
 }

@@ -6,15 +6,35 @@ import io.javalin.plugin.bundled.CorsPluginConfig;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class StudyJarvisServer {
     Javalin app = null;
+    private static final Logger logger = LoggerFactory.getLogger(StudyJarvisServer.class);
+
     public void start(int port){
+        logger.info("Starting the Javalin application...");
         app = Javalin.create(config -> {
+            config.requestLogger.http((ctx, executionTimeMs) -> {
+                // Log each request (method, path, status, time)
+                logger.info("{} {} -> {} (took {} ms)",
+                        ctx.method(),
+                        ctx.path(),
+                        ctx.status(),
+                        executionTimeMs
+                );
+            });
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule((CorsPluginConfig.CorsRule::anyHost));
             });
         }).start(port);
+
+        app.exception(Exception.class, (e, ctx) -> {
+            logger.error("An error occurred while handling request {}", ctx.path(), e);
+            ctx.status(500).result("Internal Server Error.");
+        });
 
         // User login
         app.post("/login", LoginHandler.getInstance());
@@ -44,21 +64,7 @@ public class StudyJarvisServer {
         app.delete("/secure/admin/sessions", DeleteSessionHandler.getInstance());
 
         // Upload files
-        app.post("/secure/files", ctx -> {
-            String username = ctx.attribute("username");
-            ctx.uploadedFiles("files").forEach(file -> {
-                try (Connection conn = Database.connect()) {
-                    PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO files (username, filename, filecontent) VALUES (?, ?)");
-                    insertStmt.setString(1, username);
-                    insertStmt.setString(2, file.filename());
-                    insertStmt.setBlob(3, file.content());
-                    insertStmt.executeUpdate();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-            ctx.status(200).result("Files uploaded successfully");
-        });
+        app.post("/secure/files", UploadFilesHandler.getInstance());
 
         // Display uploaded files
         app.get("/secure/DisplayUploadedFiles", ctx -> {

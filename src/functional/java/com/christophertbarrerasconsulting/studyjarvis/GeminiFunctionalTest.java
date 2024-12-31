@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class GeminiFunctionalTest {
     @Test
-    void textInputResponse () throws IOException {
+    void textInputResponse() throws IOException {
         try (Gemini gemini = new Gemini(AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation())) {
             String test = gemini.textInput("Hello.");
             System.out.println(test);
@@ -18,7 +18,7 @@ public class GeminiFunctionalTest {
     }
 
     @Test
-    void respondRemembersConversation () throws IOException{
+    void respondRemembersConversation() throws IOException{
         try (Gemini gemini = new Gemini(AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation())) {
             String response = gemini.respond("My name is Chris. Who are you?");
             System.out.println(response);

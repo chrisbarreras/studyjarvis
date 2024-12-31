@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import okhttp3.*;
 import org.eclipse.jetty.util.IO;
 import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
@@ -7,6 +8,7 @@ import org.junit.platform.engine.support.hierarchical.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -58,6 +60,35 @@ public class Client {
                 .header("Authorization", authorizationHeader)
                 .url(BASE_URL + url)
                 .post(body)
+                .build();
+    }
+
+    public Request postRequest(File[] files, String url){
+        // Start building the multipart request
+        MultipartBody.Builder multipartBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+
+        // Loop through your file array
+        for (File file : files) {
+            MediaType mediaType = FileHandler.getMediaType(file);
+            RequestBody fileBody = RequestBody.create(file, mediaType);
+
+            // Add each file to the multipart builder
+            multipartBuilder.addFormDataPart(
+                    "files",
+                    file.getName(),
+                    fileBody
+            );
+        }
+
+        // Build the request body
+        RequestBody requestBody = multipartBuilder.build();
+
+        // Create the request
+        return new Request.Builder()
+                .header("Authorization", authorizationHeader)
+                .url(BASE_URL + url)
+                .post(requestBody)
                 .build();
     }
 

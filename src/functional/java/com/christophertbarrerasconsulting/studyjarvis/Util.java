@@ -1,19 +1,19 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
-import com.christophertbarrerasconsulting.studyjarvis.server.Client;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
-import okhttp3.Request;
-import okhttp3.Response;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class Util {
+    static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
     public static void deleteUserIfExists(String username) throws SQLException {
         try (Connection conn = TestDatabase.connect()) {
             PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM users WHERE username = ?");
@@ -31,6 +31,18 @@ public class Util {
                 deleteStmt.setInt(1, session.getSessionId());
                 deleteStmt.execute();
             }
+        }
+    }
+
+    public static void createUser(String username, String password, boolean isAdmin) throws SQLException {
+        deleteUserIfExists(username);
+        try (Connection conn = TestDatabase.connect()) {
+            String hashedPassword = hashPassword(password);
+            PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO users (username, password_hash, is_administrator) VALUES (?, ?, ?)");
+            insertStmt.setString(1, username);
+            insertStmt.setString(2, hashedPassword);
+            insertStmt.setBoolean(3, isAdmin);
+            insertStmt.executeUpdate();
         }
     }
 }

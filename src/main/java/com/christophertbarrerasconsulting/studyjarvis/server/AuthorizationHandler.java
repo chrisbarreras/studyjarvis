@@ -3,8 +3,11 @@ package com.christophertbarrerasconsulting.studyjarvis.server;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthorizationHandler implements Handler {
+    private static final Logger logger = LoggerFactory.getLogger(AuthorizationHandler.class);
     public static AuthorizationHandler getInstance() {
         return new AuthorizationHandler();
     }
@@ -24,6 +27,7 @@ public class AuthorizationHandler implements Handler {
         String username = getUsernameFromContext(context);
 
         if (username == null) {
+            logger.info("User Unauthorized");
             context.status(401).result("Unauthorized");
         } else {
             context.attribute("username", username); // Pass username to downstream handlers
