@@ -31,7 +31,7 @@ public class Jarvis implements AutoCloseable{
     Gemini gemini;
     GoogleBucket bucket;
 
-    private Jarvis(String bucketName, String geminiProjectID, String geminiModelName, String geminiLocation) {
+    private Jarvis(String bucketName, String geminiProjectID, String geminiModelName, String geminiLocation) { //Need constructor with userId TODO
         gemini = new Gemini(geminiProjectID, geminiModelName, geminiLocation);
         bucket = GoogleBucket.getInstance(bucketName);
         gemini.initializeMultiModalInput(bucket.getURIs().toArray(new String[0]));

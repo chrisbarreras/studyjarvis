@@ -70,34 +70,33 @@ public class StudyJarvisServer {
         // Upload files
         app.post("/secure/files", UploadFilesHandler.getInstance());
 
-        // Display uploaded files
-        app.get("/secure/DisplayUploadedFiles", ctx -> {
-            String username = ctx.attribute("username");
-            try (Connection conn = Database.connect()) {
-                PreparedStatement stmt = conn.prepareStatement("SELECT filename FROM files WHERE username = ?");
-                stmt.setString(1, username);
-                ResultSet rs = stmt.executeQuery();
-                List<String> files = new ArrayList<>();
-                while (rs.next()) {
-                    files.add(rs.getString("filename"));
-                }
-                ctx.json(files);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                ctx.status(500).result("Error");
-            }
-        });
+//        app.post("/secure/files/prepare", PrepareFilesHandler.getInstance()); TODO
 
-        // Get a message
-        app.get("/secure/GetMessage", ctx -> {
-            ctx.result("This is a message from your Javalin server.");
-        });
+//        app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance()); TODO
 
-        // Send a message
-        app.post("/secure/SendMessage", ctx -> {
-            String message = ctx.body();
-            ctx.result("Received your message: " + message);
-        });
+//        app.post("/secure/jarvis/create-notes", JarvisCreateNotesHandler.getInstance()); TODO
+
+//        app.post("/secure/jarvis/create-study-guide", JarvisCreateStudyGuideHandler.getInstance()); TODO
+
+//        app.post("/secure/jarvis/create-key-points", JarvisCreateKeyPointsHandler.getInstance()); TODO
+
+//        // Display uploaded files
+//        app.get("/secure/files", ctx -> {
+//            String username = ctx.attribute("username");
+//            try (Connection conn = Database.connect()) {
+//                PreparedStatement stmt = conn.prepareStatement("SELECT filename FROM files WHERE username = ?");
+//                stmt.setString(1, username);
+//                ResultSet rs = stmt.executeQuery();
+//                List<String> files = new ArrayList<>();
+//                while (rs.next()) {
+//                    files.add(rs.getString("filename"));
+//                }
+//                ctx.json(files);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//                ctx.status(500).result("Error");
+//            }
+//        });
     }
 
     public void stop(){

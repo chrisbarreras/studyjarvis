@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.GoogleBucket;
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
@@ -47,6 +48,7 @@ public class SessionWriter {
             for (Session session: sessions){
                 FileHandler.deletePathIfExists(Path.of(session.getExtractFolder()));
                 FileHandler.deletePathIfExists(Path.of(session.getUploadedFilesPath()));
+//                GoogleBucket.getInstance().clearBucket(); TODO
             }
             try (Connection conn = Database.connect()) {
                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM sessions WHERE user_id = ?");

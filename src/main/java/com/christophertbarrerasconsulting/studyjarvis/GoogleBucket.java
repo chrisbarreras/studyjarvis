@@ -22,7 +22,7 @@ import com.google.cloud.storage.Storage.BlobField;
 import com.google.cloud.storage.Blob;
 
 public class GoogleBucket {
-    public static GoogleBucket getInstance(String bucketName) {
+    public static GoogleBucket getInstance(String bucketName) { //Make one with UserId TODO
         if (Objects.equals(bucketName, "")) {
             throw new IllegalArgumentException("Bucket name is empty.");
         }
@@ -35,11 +35,9 @@ public class GoogleBucket {
         this.bucketName = bucketName;
     }
 
-    public void uploadDirectoryContents(Path sourceDirectory)
-            throws IOException {
+    public void uploadDirectoryContents(Path sourceDirectory) throws IOException {
         TransferManager transferManager = TransferManagerConfig.newBuilder().build().getService();
-        ParallelUploadConfig parallelUploadConfig =
-                ParallelUploadConfig.newBuilder().setBucketName(bucketName).build();
+        ParallelUploadConfig parallelUploadConfig = ParallelUploadConfig.newBuilder().setBucketName(bucketName).build();
 
         // Create a list to store the file paths
         List<Path> filePaths = new ArrayList<>();
@@ -85,6 +83,32 @@ public class GoogleBucket {
         System.out.println("Bucket cleared.");
     }
 
+    public void clearBucket(int userId){
+//        // Create a Storage client TODO
+//        Storage storage = StorageOptions.getDefaultInstance().getService();
+//
+//        // List and delete all objects in the bucket
+//        Bucket bucket = storage.get(bucketName);
+//        if (bucket == null) {
+//            System.out.println("Bucket not found");
+//            return;
+//        }
+//
+//        // Iterate over the objects in the bucket and delete each one
+//        for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
+//            String blobName = blob.getName();
+//            System.out.println("Deleting object: " + blobName);
+//            boolean deleted = storage.delete(bucketName, blobName);
+//            if (deleted) {
+//                System.out.println("Deleted: " + blobName);
+//            } else {
+//                System.out.println("Failed to delete: " + blobName);
+//            }
+//        }
+//
+//        System.out.println("Bucket cleared.");
+    }
+
     public ArrayList<String> getURIs(){
         // Create a Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
@@ -98,6 +122,20 @@ public class GoogleBucket {
 
        return uris;
     }
+
+//    public ArrayList<String> getURIs(int userId){
+//        // Create a Storage client TODO
+//        Storage storage = StorageOptions.getDefaultInstance().getService();
+//
+//        // List URIs of all objects in the bucket
+//        ArrayList<String> uris = new ArrayList<>();
+//        for (Blob blob : storage.list(bucketName, BlobListOption.fields(Storage.BlobField.NAME)).iterateAll()) {
+//            String uri = "gs://" + bucketName + "/" + blob.getName();
+//            if (blob.getName().startsWith(userId + "-")) uris.add(uri);
+//        }
+//
+//        return uris;
+//    }
 
     public int countBucket () {
         // Instantiate a Google Cloud Storage client

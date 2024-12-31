@@ -27,7 +27,7 @@ public class UploadFilesHandler implements Handler {
         context.uploadedFiles("files").forEach(file -> {
             Path uploadedFilesPath = Path.of(session.getUploadedFilesPath());
             Path uploadedFileNamePath = Path.of(file.filename());
-            Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName());
+            Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName()); //Append UserID to this TODO
             try {
                 Files.copy(file.content(), uploadToFilePath);
             } catch (IOException e) {
