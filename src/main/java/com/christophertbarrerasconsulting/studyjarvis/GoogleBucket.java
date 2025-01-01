@@ -15,10 +15,9 @@ import com.google.cloud.storage.Storage.BlobField;
 
 public class GoogleBucket {
     private static final int DEFAULT_USER_ID = -1;
-    private final int userId;
     String bucketName;
     private final Storage storage;
-    private final String prefix;
+    public final String prefix;
 
     public static GoogleBucket getInstance(String bucketName) {
         return getInstance(bucketName, DEFAULT_USER_ID);
@@ -32,7 +31,6 @@ public class GoogleBucket {
     }
 
     private GoogleBucket (String bucketName, int userId){
-        this.userId = userId;
         this.bucketName = bucketName;
         this.storage = StorageOptions.getDefaultInstance().getService();
         this.prefix = "user " + userId + ":";
@@ -106,8 +104,10 @@ public class GoogleBucket {
         // List URIs of all objects in the bucket
         ArrayList<String> uris = new ArrayList<>();
         for (Blob blob : storage.list(bucketName, BlobListOption.fields(Storage.BlobField.NAME)).iterateAll()) {
-            String uri = "gs://" + bucketName + "/" + blob.getName();
-            uris.add(uri);
+            if (blob.getName().startsWith(prefix)) {
+                String uri = "gs://" + bucketName + "/" + blob.getName();
+                uris.add(uri);
+            }
         }
 
        return uris;
