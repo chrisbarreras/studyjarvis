@@ -1,61 +1,72 @@
 package com.christophertbarrerasconsulting.studyjarvis;
 
-import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
 
-import com.google.cloud.storage.transfermanager.ParallelUploadConfig;
-import com.google.cloud.storage.transfermanager.TransferManager;
-import com.google.cloud.storage.transfermanager.TransferManagerConfig;
-import com.google.cloud.storage.transfermanager.UploadResult;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage.BlobListOption;
 import com.google.cloud.storage.Storage.BlobField;
-import com.google.cloud.storage.Blob;
 
 public class GoogleBucket {
-    public static GoogleBucket getInstance(String bucketName) { //Make one with UserId TODO
+    private static final int DEFAULT_USER_ID = -1;
+    private final int userId;
+    String bucketName;
+    private final Storage storage;
+    private final String prefix;
+
+    public static GoogleBucket getInstance(String bucketName) {
+        return getInstance(bucketName, DEFAULT_USER_ID);
+    }
+
+    public static GoogleBucket getInstance(String bucketName, int userId) {
         if (Objects.equals(bucketName, "")) {
             throw new IllegalArgumentException("Bucket name is empty.");
         }
-        return new GoogleBucket(bucketName);
+        return new GoogleBucket(bucketName, userId);
     }
 
-    String bucketName;
-
-    private GoogleBucket (String bucketName){
+    private GoogleBucket (String bucketName, int userId){
+        this.userId = userId;
         this.bucketName = bucketName;
+        this.storage = StorageOptions.getDefaultInstance().getService();
+        this.prefix = "user " + userId + ":";
     }
 
     public void uploadDirectoryContents(Path sourceDirectory) throws IOException {
-        TransferManager transferManager = TransferManagerConfig.newBuilder().build().getService();
-        ParallelUploadConfig parallelUploadConfig = ParallelUploadConfig.newBuilder().setBucketName(bucketName).build();
-
-        // Create a list to store the file paths
-        List<Path> filePaths = new ArrayList<>();
-        // Get all files in the directory
-        // try-with-resource to ensure pathStream is closed
         try (Stream<Path> pathStream = Files.walk(sourceDirectory)) {
-            pathStream.filter(Files::isRegularFile).forEach(filePaths::add);
-        }
-        List<UploadResult> results =
-                transferManager.uploadFiles(filePaths, parallelUploadConfig).getUploadResults();
-        for (UploadResult result : results) {
-            System.out.println(
-                    "Upload for "
-                            + result.getInput().getName()
-                            + " completed with status "
-                            + result.getStatus());
+            pathStream
+                    // Only process regular files (skip directories, symlinks, etc.)
+                    .filter(Files::isRegularFile)
+                    .forEach(filePath -> {
+                        // Compute relative path (so subdirectories are preserved in the object name)
+                        Path relativePath = sourceDirectory.relativize(filePath);
+                        // Ensure forward slashes in the object name
+                        String normalizedPath = relativePath.toString().replace("\\", "/");
+                        // Prepend the "folder" prefix
+                        String objectName = prefix + normalizedPath;
+
+                        // Create a BlobId, then a BlobInfo describing the file to upload
+                        BlobId blobId = BlobId.of(bucketName, objectName);
+                        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+
+                        // Read file bytes and upload
+                        try {
+                            byte[] fileBytes = Files.readAllBytes(filePath);
+                            storage.create(blobInfo, fileBytes);
+                            System.out.printf("Uploaded %s to gs://%s/%s%n", filePath, bucketName, objectName);
+                        } catch (IOException e) {
+                            System.err.printf("Failed to upload %s: %s%n", filePath, e.getMessage());
+                        }
+                    });
         }
     }
+
 
     public void clearBucket(){
         // Create a Storage client
@@ -71,42 +82,21 @@ public class GoogleBucket {
         // Iterate over the objects in the bucket and delete each one
         for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
             String blobName = blob.getName();
-            System.out.println("Deleting object: " + blobName);
-            boolean deleted = storage.delete(bucketName, blobName);
-            if (deleted) {
-                System.out.println("Deleted: " + blobName);
-            } else {
-                System.out.println("Failed to delete: " + blobName);
+            if (blobName.startsWith(prefix)) {
+                System.out.println("Deleting object: " + blobName);
+                boolean deleted = storage.delete(bucketName, blobName);
+                if (deleted) {
+                    System.out.println("Deleted: " + blobName);
+                } else {
+                    System.out.println("Failed to delete: " + blobName);
+                }
+            }
+            else {
+                System.out.println("Skipping: " + blobName);
             }
         }
 
         System.out.println("Bucket cleared.");
-    }
-
-    public void clearBucket(int userId){
-//        // Create a Storage client TODO
-//        Storage storage = StorageOptions.getDefaultInstance().getService();
-//
-//        // List and delete all objects in the bucket
-//        Bucket bucket = storage.get(bucketName);
-//        if (bucket == null) {
-//            System.out.println("Bucket not found");
-//            return;
-//        }
-//
-//        // Iterate over the objects in the bucket and delete each one
-//        for (Blob blob : storage.list(bucketName, BlobListOption.fields(BlobField.NAME)).iterateAll()) {
-//            String blobName = blob.getName();
-//            System.out.println("Deleting object: " + blobName);
-//            boolean deleted = storage.delete(bucketName, blobName);
-//            if (deleted) {
-//                System.out.println("Deleted: " + blobName);
-//            } else {
-//                System.out.println("Failed to delete: " + blobName);
-//            }
-//        }
-//
-//        System.out.println("Bucket cleared.");
     }
 
     public ArrayList<String> getURIs(){
@@ -123,20 +113,6 @@ public class GoogleBucket {
        return uris;
     }
 
-//    public ArrayList<String> getURIs(int userId){
-//        // Create a Storage client TODO
-//        Storage storage = StorageOptions.getDefaultInstance().getService();
-//
-//        // List URIs of all objects in the bucket
-//        ArrayList<String> uris = new ArrayList<>();
-//        for (Blob blob : storage.list(bucketName, BlobListOption.fields(Storage.BlobField.NAME)).iterateAll()) {
-//            String uri = "gs://" + bucketName + "/" + blob.getName();
-//            if (blob.getName().startsWith(userId + "-")) uris.add(uri);
-//        }
-//
-//        return uris;
-//    }
-
     public int countBucket () {
         // Instantiate a Google Cloud Storage client
         Storage storage = StorageOptions.getDefaultInstance().getService();
@@ -148,30 +124,8 @@ public class GoogleBucket {
         int objectCount = 0;
 
         for (Blob blob : bucket.list().iterateAll()) {
-            objectCount++;
+            if(blob.getName().startsWith(prefix)) objectCount++;
         }
         return objectCount;
     }
-
-//    public static void uploadObject(String projectId, String bucketName, String objectName, String filePath) {
-//        // Initialize the client
-//        Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-//
-//        try {
-//            // Read file content
-//            Path path = Paths.get(filePath);
-//            byte[] data = Files.readAllBytes(path);
-//
-//            // Create a BlobId with bucket name, file name (object name)
-//            BlobId blobId = BlobId.of(bucketName, objectName);
-//
-//            // Create a BlobInfo with the BlobId and content type
-//            BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-//
-//            // Upload the file
-//            storage.create(blobInfo, data);
-//            System.out.println("File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
-//        } catch (IOException e) {
-//            System.err.println("Failed to upload file: " + e.getMessage());
-//        }
-    }
+}
