@@ -18,8 +18,6 @@ public class Main {
 //        Multi User
 //        Android App
 
-//        String slidesDir = "C:\\slides";
-
         ZipSecureFile.setMinInflateRatio(0.002);
         Command command = new LoadLocalSettingsCommand();
         command.run(new ArrayList<>());

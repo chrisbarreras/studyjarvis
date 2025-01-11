@@ -22,7 +22,7 @@ public class PowerPointExtractor {
         extractSlidesAsText(powerPointFilePath, outputFolderPath, nextFileNumber);
     }
 
-    public static void extractSlidesAsText(String powerPointFilePath, String outputFolderPath, int fileNumber) throws IOException {
+    private static void extractSlidesAsText(String powerPointFilePath, String outputFolderPath, int fileNumber) throws IOException {
         try (FileInputStream inputStream = new FileInputStream(powerPointFilePath);
              XMLSlideShow ppt = new XMLSlideShow(inputStream)) {
 
@@ -47,7 +47,7 @@ public class PowerPointExtractor {
     }
 
 
-    public static void extractSlidesAsImages(String powerPointFilePath, String outputFolderPath, int nextFileNumber) throws IOException {
+    private static void extractSlidesAsImages(String powerPointFilePath, String outputFolderPath, int nextFileNumber) throws IOException {
         try (FileInputStream inputStream = new FileInputStream(new File(powerPointFilePath));
              XMLSlideShow ppt = new XMLSlideShow(inputStream)) {
 

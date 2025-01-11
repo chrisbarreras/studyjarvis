@@ -1,6 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.file;
 
 import java.io.File;
+import java.nio.file.DirectoryStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedWriter;
@@ -10,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
+
+import com.christophertbarrerasconsulting.studyjarvis.command.CommandSession;
+import com.christophertbarrerasconsulting.studyjarvis.extraction.PDFExtractor;
+import com.christophertbarrerasconsulting.studyjarvis.extraction.PowerPointExtractor;
 import okhttp3.*;
 
 public class FileHandler {
@@ -204,5 +209,54 @@ public class FileHandler {
 
         // Default / fallback
         return MediaType.parse("application/octet-stream");
+    }
+
+    private static List<Path> listFilesInDirectory(Path dir) throws IOException {
+        List<Path> filePaths = new ArrayList<>();
+
+        // Use Files.list() to get the files in the directory
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+            for (Path entry : stream) {
+                if (Files.isRegularFile(entry)) { // Check if it's a regular file (including PDF, PowerPoint, etc.)
+                    filePaths.add(entry);
+                }
+            }
+        }
+
+        return filePaths;
+    }
+
+    // Function to check if the MediaType is any PowerPoint format (ppt, pptx, pps, etc.)
+    private static boolean isPowerPoint(MediaType mediaType) {
+        String type = mediaType.toString();
+        return type.equals("application/vnd.ms-powerpoint") ||
+                type.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation") ||
+                type.equals("application/vnd.ms-powerpoint.presentation.macroEnabled.12") ||
+                type.equals("application/vnd.openxmlformats-officedocument.presentationml.slideshow") ||
+                type.equals("application/vnd.ms-powerpoint.slideshow.macroEnabled.12") ||
+                type.equals("application/vnd.ms-powerpoint.template.macroEnabled.12") ||
+                type.equals("application/vnd.openxmlformats-officedocument.presentationml.template");
+    }
+
+    // Function to check if the MediaType is PDF
+    private static boolean isPDF(MediaType mediaType) {
+        return mediaType.toString().equals("application/pdf");
+    }
+
+    public static void extractFilesInDirectory(Path inputDirectory, Path outputDirectory) throws IOException {
+        List<Path> paths = listFilesInDirectory(inputDirectory);
+
+        for (Path path : paths) {
+            MediaType fileType = FileHandler.getMediaType(path.toFile());
+
+            if (isPDF(fileType)) {
+                // Extract PDF
+                PDFExtractor.extract(path.toString(), outputDirectory.toString());
+            } else if (isPowerPoint(fileType))
+            {
+                // Extract PowerPoint
+                PowerPointExtractor.extract(path.toString(), outputDirectory.toString());
+            }
+        }
     }
 }

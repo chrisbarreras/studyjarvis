@@ -64,7 +64,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.junit.jupiter:junit-jupiter-api:5.10.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.junit.platform:junit-platform-engine:1.10.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.junit.platform:junit-platform-commons:1.10.0" level="project" />
-    <orderEntry type="library" name="Gradle: io.javalin:javalin:6.2.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.javalin:javalin:6.4.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.17.2" level="project" />
     <orderEntry type="library" name="Gradle: org.mindrot:jbcrypt:0.4" level="project" />
     <orderEntry type="library" name="Gradle: com.auth0:java-jwt:4.4.0" level="project" />
@@ -74,15 +74,14 @@
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio-jvm:3.6.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.24" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.24" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.24" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.25" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty.toolchain:jetty-jakarta-servlet-api:5.0.2" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-http:11.0.21" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:slf4j-api:2.0.16" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-util:11.0.21" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-server:11.0.21" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-servlet:11.0.21" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-security:11.0.21" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-io:11.0.21" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-util:11.0.24" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-server:11.0.24" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-servlet:11.0.24" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-security:11.0.24" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-io:11.0.24" level="project" />
     <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.7.3" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:2.0.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.17.2" level="project" />
@@ -92,5 +91,8 @@
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.16" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:11.0.21" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:11.0.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:11.0.24" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-util:11.0.24" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.eclipse.jetty:jetty-http:11.0.24" level="project" />
   </component>
 </module>

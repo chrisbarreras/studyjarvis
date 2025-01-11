@@ -70,7 +70,8 @@ public class StudyJarvisServer {
         // Upload files
         app.post("/secure/files", UploadFilesHandler.getInstance());
 
-//        app.post("/secure/files/prepare", PrepareFilesHandler.getInstance()); TODO
+        // Prepare Files
+        app.post("/secure/files/prepare", PrepareFilesHandler.getInstance());
 
 //        app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance()); TODO
 

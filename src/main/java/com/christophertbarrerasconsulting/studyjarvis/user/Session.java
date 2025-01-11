@@ -8,12 +8,12 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Session implements Serializable {
-    private int sessionId;
-    private int userId;
-    private String uploadedFilesPath;
-    private String extractFolder;
-    private Date sessionCreationDate;
-    private Date lastSessionActivityDate;
+    private final int sessionId;
+    private final int userId;
+    private final String uploadedFilesPath;
+    private final String extractFolder;
+    private final Date sessionCreationDate;
+    private final Date lastSessionActivityDate;
 
     @JsonCreator
     public Session(@JsonProperty("session_id") int sessionId,
