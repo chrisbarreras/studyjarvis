@@ -11,14 +11,19 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Client {
     private static final String BASE_URL = "http://localhost:7070";
     private static final Logger log = LoggerFactory.getLogger(Client.class);
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client;
     private String authorizationHeader = "";
+
+    public Client() {
+        client = new OkHttpClient.Builder() .connectTimeout(300, TimeUnit.SECONDS) .writeTimeout(300, TimeUnit.SECONDS) .readTimeout(300, TimeUnit.SECONDS) .build();
+    }
 
     public void login() throws IOException {
         login("admin", "password");

@@ -7,8 +7,18 @@
         </encoder>
     </appender>
 
+    <!-- File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/studyjarvis.log</file> <!-- Path to the log file -->
+        <append>true</append>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %level - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- Root logger at INFO level -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>

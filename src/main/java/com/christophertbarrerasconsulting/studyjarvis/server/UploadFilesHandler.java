@@ -33,15 +33,6 @@ public class UploadFilesHandler implements Handler {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-//            try (Connection conn = Database.connect()) {
-//                PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO files (username, filename, filecontent) VALUES (?, ?)");
-//                insertStmt.setString(1, username);
-//                insertStmt.setString(2, file.filename());
-//                insertStmt.setBlob(3, file.content());
-//                insertStmt.executeUpdate();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
         });
         context.status(201).result("Files uploaded successfully");
     }

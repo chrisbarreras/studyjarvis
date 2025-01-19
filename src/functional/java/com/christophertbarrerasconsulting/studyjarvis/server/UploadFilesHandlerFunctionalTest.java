@@ -23,20 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class UploadFilesHandlerFunctionalTest {
     private static Client client = new Client();
     private static StudyJarvisServer server;
-    private static ObjectMapper mapper = new ObjectMapper();
     private static Path file1;
     private static Path file2;
-
-    public static Path createTempFile(String text) throws IOException {
-        // Create the temp file. Prefix must be at least 3 characters.
-        Path tempPath = Files.createTempFile("uploadTest-", ".txt");
-        System.out.println("Temp file created: " + tempPath.toAbsolutePath());
-
-        // From Java 11 onwards, you can use writeString:
-        Files.writeString(tempPath, text, StandardOpenOption.WRITE);
-
-        return tempPath;
-    }
 
     @BeforeAll
     public static void startServer() throws SQLException {

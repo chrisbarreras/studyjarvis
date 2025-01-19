@@ -22,13 +22,13 @@ public class PrepareFilesHandler implements Handler {
         User user = UserReader.getUser(username);
         int userId = user.getUserId();
         GoogleBucket googleBucket = GoogleBucket.getInstance(AppSettings.BucketName.getBucketName(), userId);
-        googleBucket.clearBucket();
+        if(googleBucket.countBucket() > 0) googleBucket.clearBucket();
 
         Session session = SessionReader.getSession(userId);
         String uploadedFilesPath = session.getUploadedFilesPath();
         Path extractedFilesPath = Path.of(session.getExtractFolder());
 
-        if (FileHandler.directoryExists(extractedFilesPath)) FileHandler.clearDirectory(extractedFilesPath);
+        //if (FileHandler.directoryExists(extractedFilesPath)) FileHandler.clearDirectory(extractedFilesPath);
 
         FileHandler.extractFilesInDirectory(Path.of(uploadedFilesPath), extractedFilesPath);
 
