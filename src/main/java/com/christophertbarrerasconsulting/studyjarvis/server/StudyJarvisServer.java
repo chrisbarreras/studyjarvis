@@ -76,9 +76,11 @@ public class StudyJarvisServer {
 
 //        app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance()); TODO
 
+        app.post("/secure/jarvis/create-quiz", JarvisCreateQuizHandler.getInstance());
+
 //        app.post("/secure/jarvis/create-notes", JarvisCreateNotesHandler.getInstance()); TODO
 
-//        app.post("/secure/jarvis/create-study-guide", JarvisCreateStudyGuideHandler.getInstance()); TODO
+        app.post("/secure/jarvis/create-study-guide", JarvisCreateStudyGuideHandler.getInstance());
 
 //        app.post("/secure/jarvis/create-key-points", JarvisCreateKeyPointsHandler.getInstance()); TODO
 

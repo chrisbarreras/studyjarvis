@@ -12,6 +12,16 @@ import java.util.Scanner;
 
 public class Jarvis implements AutoCloseable{
     public static Jarvis getInstance () throws IOException {
+        validateConfiguration();
+        return new Jarvis(AppSettings.BucketName.getBucketName(), AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation());
+    }
+
+    public static Jarvis getInstance (int userId) throws IOException {
+        validateConfiguration();
+        return new Jarvis(AppSettings.BucketName.getBucketName(), AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation(), userId);
+    }
+
+    private static void validateConfiguration() {
         if (Objects.equals(CommandSession.bucketName, "")){
             throw new IllegalArgumentException("Bucket name is empty.");
         }
@@ -24,8 +34,6 @@ public class Jarvis implements AutoCloseable{
         if (Objects.equals(CommandSession.geminiLocation, "")){
             throw new IllegalArgumentException("Gemini location is empty.");
         }
-
-        return new Jarvis(AppSettings.BucketName.getBucketName(), AppSettings.GeminiProjectId.getGeminiProjectId(), AppSettings.GeminiModelName.getGeminiModelName(), AppSettings.GeminiLocation.getGeminiLocation());
     }
 
     Gemini gemini;
