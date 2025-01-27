@@ -2,14 +2,8 @@ package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jetty.server.Server;
 
 public class StudyJarvisServer {
     Javalin app = null;
