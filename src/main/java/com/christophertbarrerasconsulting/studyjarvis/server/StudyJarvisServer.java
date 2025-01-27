@@ -74,14 +74,19 @@ public class StudyJarvisServer {
         // Prepare Files
         app.post("/secure/files/prepare", PrepareFilesHandler.getInstance());
 
+        // Ask Question
         app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance());
 
+        // Create Quiz
         app.post("/secure/jarvis/create-quiz", JarvisCreateQuizHandler.getInstance());
 
+        // Create Nots
         app.post("/secure/jarvis/create-notes", JarvisCreateNotesHandler.getInstance());
 
+        // Create Study Guide
         app.post("/secure/jarvis/create-study-guide", JarvisCreateStudyGuideHandler.getInstance());
 
+        // Create Key Points
         app.post("/secure/jarvis/create-key-points", JarvisCreateKeyPointsHandler.getInstance());
 
 //        // Display uploaded files
