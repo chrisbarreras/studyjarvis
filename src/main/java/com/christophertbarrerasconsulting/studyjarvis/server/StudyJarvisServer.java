@@ -74,7 +74,7 @@ public class StudyJarvisServer {
         // Prepare Files
         app.post("/secure/files/prepare", PrepareFilesHandler.getInstance());
 
-//        app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance()); TODO
+        app.post("/secure/jarvis/ask", JarvisAskQuestionHandler.getInstance());
 
         app.post("/secure/jarvis/create-quiz", JarvisCreateQuizHandler.getInstance());
 
