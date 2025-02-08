@@ -4,6 +4,10 @@ import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -16,6 +20,16 @@ public class GetUserHandler implements Handler {
         return HandlerDecorator.getInstance(new GetUserHandler());
     }
 
+//    @OpenApi(
+//            summary = "Get user",
+//            operationId = "getUser",
+//            path = "/secure/admin/users/{username}",
+//            methods = HttpMethod.GET,
+//            tags = {"User"},
+//            responses = {
+//                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = User.class)})
+//            }
+//    )
     @Override
     public void handle(@NotNull Context context) throws Exception {
         String username = context.pathParam("username");

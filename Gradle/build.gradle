@@ -53,6 +53,10 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'org.postgresql:postgresql:42.7.3'
     implementation 'ch.qos.logback:logback-classic:1.4.12'
+    implementation 'io.swagger.core.v3:swagger-models:2.2.28'
+    implementation 'io.javalin.community.openapi:javalin-openapi-plugin:6.4.0'
+    implementation "io.javalin.community.openapi:javalin-swagger-plugin:6.4.0"
+    implementation "io.javalin.community.openapi:javalin-redoc-plugin:6.4.0"
 }
 
 test {

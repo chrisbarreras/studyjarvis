@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -16,6 +20,19 @@ public class LoginHandler implements Handler {
     public static Handler getInstance() {
         return HandlerDecorator.getInstance(new LoginHandler());
     }
+
+    @OpenApi(
+            summary = "Login",
+            operationId = "login",
+            path = "/login",
+            methods = HttpMethod.POST,
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = User.class)}),
+                    @OpenApiResponse(status = "401", content = {@OpenApiContent(format = "Invalid username or password")}),
+                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+            }
+    )
+
     @Override
     public void handle(@org.jetbrains.annotations.NotNull Context context) throws Exception {
         try (Connection conn = Database.connect()) {

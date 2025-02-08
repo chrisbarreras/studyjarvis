@@ -1,9 +1,21 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import io.javalin.Javalin;
+import io.javalin.openapi.OpenApiContact;
+import io.javalin.openapi.OpenApiInfo;
+import io.javalin.openapi.OpenApiLicense;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.javalin.openapi.plugin.OpenApiPlugin;
+import io.javalin.openapi.plugin.OpenApiPluginConfiguration;
+import io.javalin.openapi.plugin.redoc.ReDocConfiguration;
+import io.javalin.openapi.plugin.redoc.ReDocPlugin;
+import io.javalin.openapi.plugin.swagger.SwaggerConfiguration;
+import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
+import io.javalin.apibuilder.*;
+
+import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class StudyJarvisServer {
     Javalin app = null;
@@ -28,6 +40,18 @@ public class StudyJarvisServer {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule((CorsPluginConfig.CorsRule::anyHost));
             });
+            config.registerPlugin(new OpenApiPlugin(pluginConfig -> {
+                pluginConfig.withDefinitionConfiguration((version, definition) -> {
+                    //definition.withInfo(info -> info.setTitle("Javalin OpenAPI"));
+                });
+            }));
+            config.registerPlugin(new SwaggerPlugin());
+            config.registerPlugin(new ReDocPlugin());
+//            config.router.apiBuilder(() -> {
+//                path("login", () -> {
+//                    post(LoginHandler.getInstance());
+//                });
+//            });
         }).start(port);
 
         app.exception(Exception.class, (e, ctx) -> {
