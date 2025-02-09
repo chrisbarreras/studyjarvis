@@ -1,21 +1,15 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.fasterxml.jackson.databind.node.TextNode;
 import io.javalin.Javalin;
-import io.javalin.openapi.OpenApiContact;
-import io.javalin.openapi.OpenApiInfo;
-import io.javalin.openapi.OpenApiLicense;
+import io.javalin.openapi.*;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.javalin.openapi.plugin.OpenApiPlugin;
-import io.javalin.openapi.plugin.OpenApiPluginConfiguration;
-import io.javalin.openapi.plugin.redoc.ReDocConfiguration;
 import io.javalin.openapi.plugin.redoc.ReDocPlugin;
-import io.javalin.openapi.plugin.swagger.SwaggerConfiguration;
-import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
-import io.javalin.apibuilder.*;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import java.util.Set;
 
 public class StudyJarvisServer {
     Javalin app = null;
@@ -40,18 +34,48 @@ public class StudyJarvisServer {
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule((CorsPluginConfig.CorsRule::anyHost));
             });
-            config.registerPlugin(new OpenApiPlugin(pluginConfig -> {
-                pluginConfig.withDefinitionConfiguration((version, definition) -> {
-                    //definition.withInfo(info -> info.setTitle("Javalin OpenAPI"));
-                });
+
+            config.registerPlugin(new OpenApiPlugin(openApiConfig ->
+                    openApiConfig
+                            .withDocumentationPath("/api/openapi")
+                            .withDefinitionConfiguration((version, definition) -> definition
+                                    .withInfo((openApiInfo) -> {
+                                        OpenApiContact openApiContact = new OpenApiContact();
+                                        openApiContact.setName("API Support");
+                                        openApiContact.setUrl("https://www.example.com/support");
+                                        openApiContact.setEmail("support@example.com");
+
+                                        OpenApiLicense openApiLicense = new OpenApiLicense();
+                                        openApiLicense.setName("Apache 2.0");
+                                        openApiLicense.setIdentifier("Apache-2.0");
+
+                                        openApiInfo.setDescription("App description goes right here");
+                                        openApiInfo.setTermsOfService("https://example.com/tos");
+                                        openApiInfo.setContact(openApiContact);
+                                        openApiInfo.setLicense(openApiLicense);
+                                    })
+                                    .withServer((openApiServer) -> {
+                                        openApiServer.setUrl(("http://localhost:{port}{basePath}/" + version + "/"));
+                                        openApiServer.setDescription("Server description goes here");
+                                        openApiServer.addVariable("port", String.valueOf(port), new String[] { String.valueOf(port) }, "Port of the server");
+                                        openApiServer.addVariable("basePath", "", new String[] { "", "v1" }, "Base path of the server");
+                                    })
+                                    .withDefinitionProcessor(content -> { // you can add whatever you want to this document using your favourite json api
+                                        content.set("test", new TextNode("Value"));
+                                        return content.toPrettyString();
+                                    }))
+            ));
+
+            config.registerPlugin(new ReDocPlugin(reDocConfiguration -> {
+                reDocConfiguration.setDocumentationPath("/api/openapi");
+                reDocConfiguration.setUiPath("/api/docs");
             }));
-            config.registerPlugin(new SwaggerPlugin());
-            config.registerPlugin(new ReDocPlugin());
-//            config.router.apiBuilder(() -> {
-//                path("login", () -> {
-//                    post(LoginHandler.getInstance());
-//                });
-//            });
+
+            Set<JsonSchemaResource> generatedSchemes = new JsonSchemaLoader().loadGeneratedSchemes();
+            for (JsonSchemaResource generatedJsonSchema : generatedSchemes) {
+                System.out.println(generatedJsonSchema.getName());
+                System.out.println(generatedJsonSchema.getContentAsString());
+            }
         }).start(port);
 
         app.exception(Exception.class, (e, ctx) -> {

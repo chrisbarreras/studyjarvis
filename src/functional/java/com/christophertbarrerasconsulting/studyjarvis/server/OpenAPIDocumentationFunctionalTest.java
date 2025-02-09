@@ -37,7 +37,7 @@ public class OpenAPIDocumentationFunctionalTest {
 
     @Test
     public void OpenAPIDoc() throws IOException {
-        Request request = client.getRequest("/openapi");
+        Request request = client.getRequest("/api/openapi");
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
             String body = response.body().string();
