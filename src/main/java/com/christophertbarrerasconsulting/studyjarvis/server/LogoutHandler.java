@@ -5,6 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -13,14 +17,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LogoutHandler implements Handler {
-
-//    static Handler getInstance(Handler deleteSessionHandler){
-//        return new LogoutHandler();
-//    }
-
     public static Handler getInstance() {
         return new LogoutHandler();
     }
+
+    @OpenApi(
+            summary = "Logout",
+            description = "Logs a user out",
+            operationId = "logout",
+            path = "/logout",
+            methods = HttpMethod.POST,
+            responses = {
+                    @OpenApiResponse(status = "200"),
+                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+            }
+    )
 
     @Override
     public void handle(@org.jetbrains.annotations.NotNull Context context) throws Exception {

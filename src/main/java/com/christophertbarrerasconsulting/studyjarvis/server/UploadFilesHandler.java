@@ -4,7 +4,9 @@ import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.PropertyKey;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +20,25 @@ public class UploadFilesHandler implements Handler {
         return HandlerDecorator.getInstance(new UploadFilesHandler());
     }
 
+    @OpenApi(
+            summary = "Upload Files",
+            description = "Uploads one or more files.",
+            operationId = "uploadFiles",
+            path = "/secure/files",
+            methods = {HttpMethod.POST},
+            requestBody = @OpenApiRequestBody(
+                    content = {
+                            @OpenApiContent(mimeType = ContentType.FORM_DATA_MULTIPART)
+                    },
+                    required = true
+            ),
+            responses = {
+                    @OpenApiResponse(status = "201", description = "Files uploaded successfully"),
+                    @OpenApiResponse(status = "401", description = "Unauthorized"),
+                    @OpenApiResponse(status = "500", description = "Internal server error")
+            }
+    )
+
     @Override
     public void handle(@NotNull Context context) throws Exception {
         String username = context.attribute("username");
@@ -27,7 +48,7 @@ public class UploadFilesHandler implements Handler {
         context.uploadedFiles("files").forEach(file -> {
             Path uploadedFilesPath = Path.of(session.getUploadedFilesPath());
             Path uploadedFileNamePath = Path.of(file.filename());
-            Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName()); //Append UserID to this TODO
+            Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName());
             try {
                 Files.copy(file.content(), uploadToFilePath);
             } catch (IOException e) {

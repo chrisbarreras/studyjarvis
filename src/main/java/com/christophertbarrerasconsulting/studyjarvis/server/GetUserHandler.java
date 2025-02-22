@@ -4,10 +4,7 @@ import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
-import io.javalin.openapi.HttpMethod;
-import io.javalin.openapi.OpenApi;
-import io.javalin.openapi.OpenApiContent;
-import io.javalin.openapi.OpenApiResponse;
+import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -20,22 +17,32 @@ public class GetUserHandler implements Handler {
         return HandlerDecorator.getInstance(new GetUserHandler());
     }
 
-//    @OpenApi(
-//            summary = "Get user",
-//            operationId = "getUser",
-//            path = "/secure/admin/users/{username}",
-//            methods = HttpMethod.GET,
-//            tags = {"User"},
-//            responses = {
-//                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = User.class)})
-//            }
-//    )
+    @OpenApi(
+            summary = "Get User",
+            description = "Retrieves user details by username.",
+            operationId = "getUser",
+            path = "/secure/admin/users/{username}",
+            methods = {HttpMethod.GET},
+            pathParams = {
+                    @OpenApiParam(name = "username", description = "The username of the user to retrieve", required = true)
+            },
+            responses = {
+                    @OpenApiResponse(status = "200", description = "User retrieved successfully", content = {@OpenApiContent(from = User.class)}),
+                    @OpenApiResponse(status = "400", description = "Username is required"),
+                    @OpenApiResponse(status = "401", description = "Unauthorized"),
+                    @OpenApiResponse(status = "403", description = "Forbidden"),
+                    @OpenApiResponse(status = "404", description = "User not found"),
+                    @OpenApiResponse(status = "500", description = "Internal server error")
+            }
+    )
+
+
     @Override
     public void handle(@NotNull Context context) throws Exception {
         String username = context.pathParam("username");
 
         if (username.isEmpty()) {
-            context.status(400).result("Username query parameter is required");
+            context.status(400).result("Username is required");
             return;
         }
 

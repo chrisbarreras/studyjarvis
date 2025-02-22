@@ -5,6 +5,10 @@ import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.HttpMethod;
+import io.javalin.openapi.OpenApi;
+import io.javalin.openapi.OpenApiContent;
+import io.javalin.openapi.OpenApiResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -17,6 +21,23 @@ public class GetSessionHandler implements Handler {
     public static Handler getInstance() {
         return HandlerDecorator.getInstance(new GetSessionHandler());
     }
+
+    @OpenApi(
+            summary = "Get Session",
+            description = "Gets a session.",
+            operationId = "getSession",
+            path = "/secure/admin/sessions",
+            methods = HttpMethod.GET,
+            responses = {
+                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Session.class)}),
+                    @OpenApiResponse(status = "400", content = {@OpenApiContent(format = "Username is required")}),
+                    @OpenApiResponse(status = "401", content = {@OpenApiContent(format = "Unauthorized")}),
+                    @OpenApiResponse(status = "403", content = {@OpenApiContent(format = "Forbidden")}),
+                    @OpenApiResponse(status = "404", content = {@OpenApiContent(format = "User not found")}),
+                    @OpenApiResponse(status = "404", content = {@OpenApiContent(format = "Session not found")}),
+                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+            }
+    )
 
     @Override
     public void handle(@NotNull Context context) throws Exception {

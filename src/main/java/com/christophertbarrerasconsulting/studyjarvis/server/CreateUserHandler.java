@@ -4,6 +4,7 @@ import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -13,6 +14,26 @@ public class CreateUserHandler implements Handler {
     public static Handler getInstance() {
         return HandlerDecorator.getInstance(new CreateUserHandler());
     }
+
+    @OpenApi(
+            summary = "Create User",
+            description = "Creates a new user.",
+            operationId = "createUser",
+            path = "/secure/admin/users",
+            methods = HttpMethod.POST,
+            requestBody = @OpenApiRequestBody(
+                    content = {
+                            @OpenApiContent(from = User.class, mimeType = ContentType.JSON)
+                    }
+            ),
+            responses = {
+                    @OpenApiResponse(status = "201", content = {@OpenApiContent(format = "User created successfully")}),
+                    @OpenApiResponse(status = "401", content = {@OpenApiContent(format = "Unauthorized")}),
+                    @OpenApiResponse(status = "403", content = {@OpenApiContent(format = "Forbidden")}),
+                    @OpenApiResponse(status = "409", content = {@OpenApiContent(format = "User already exists")}),
+                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+            }
+    )
 
     @Override
     public void handle(@NotNull Context context) throws Exception {

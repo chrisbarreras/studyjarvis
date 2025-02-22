@@ -1,5 +1,8 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.LoginRequest;
+import com.christophertbarrerasconsulting.studyjarvis.user.LoginResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,7 +42,10 @@ class LoginHandlerFunctionalTest {
 
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
-            assertTrue(response.body().string().contains("Login successful"));
+            ObjectMapper mapper = new ObjectMapper();
+            LoginResponse loginResponse = mapper.readValue(response.body().string(), LoginResponse.class);
+            assertEquals("admin", loginResponse.getUsername());
+            assertTrue(loginResponse.getIsAdmin());
         }
     }
 

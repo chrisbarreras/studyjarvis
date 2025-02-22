@@ -11,10 +11,6 @@ public class User {
 
     public User() {}
 
-    public User (String username, String password){
-        this(0, username, password, false);
-    }
-
     public User (String username, String password, boolean isAdministrator){
         this(0, username, password, isAdministrator);
     }

@@ -1,14 +1,13 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.LoginRequest;
+import com.christophertbarrerasconsulting.studyjarvis.user.LoginResponse;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpStatus;
-import io.javalin.openapi.HttpMethod;
-import io.javalin.openapi.OpenApi;
-import io.javalin.openapi.OpenApiContent;
-import io.javalin.openapi.OpenApiResponse;
+import io.javalin.openapi.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -22,14 +21,26 @@ public class LoginHandler implements Handler {
     }
 
     @OpenApi(
-            summary = "Login",
+            summary = "User Login",
+            description = "Authenticates a user and returns a JWT token.",
             operationId = "login",
             path = "/login",
-            methods = HttpMethod.POST,
+            methods = {HttpMethod.POST},
+            requestBody = @OpenApiRequestBody(
+                    description = "User login credentials",
+                    required = true,
+                    content = {
+                            @OpenApiContent(from = LoginRequest.class, mimeType = ContentType.JSON)
+                    }
+            ),
             responses = {
-                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = User.class)}),
-                    @OpenApiResponse(status = "401", content = {@OpenApiContent(format = "Invalid username or password")}),
-                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+                    @OpenApiResponse(
+                            status = "200",
+                            description = "Login successful. Returns username, isAdmin flag.",
+                            content = {@OpenApiContent(from = LoginResponse.class)}
+                    ),
+                    @OpenApiResponse(status = "401", description = "Invalid username or password"),
+                    @OpenApiResponse(status = "500", description = "Internal server error")
             }
     )
 
@@ -38,17 +49,21 @@ public class LoginHandler implements Handler {
         try (Connection conn = Database.connect()) {
 
             ObjectMapper mapper = new ObjectMapper();
-            User user = mapper.readValue(context.body(), User.class);
-            System.out.println("Checking user " + user.getUsername());
+            LoginRequest loginRequest = mapper.readValue(context.body(), LoginRequest.class);
+            System.out.println("Checking user " + loginRequest.getUsername());
 
-            User storedUser = UserReader.getUser(user.getUsername());
+            User storedUser = UserReader.getUser(loginRequest.getUsername());
 
-            if (storedUser!=null && BCrypt.checkpw(user.getPassword(), storedUser.getPassword())) {
+            if (storedUser!=null && BCrypt.checkpw(loginRequest.getPassword(), storedUser.getPassword())) {
                 SessionWriter.createSession(storedUser.getUserId());
 
-                String token = JwtUtil.generateToken(user.getUsername());
+                String token = JwtUtil.generateToken(loginRequest.getUsername());
                 context.header("Authorization", "Bearer " + token);
-                context.result("Login successful");
+                LoginResponse response = new LoginResponse(
+                        storedUser.getUsername(),
+                        storedUser.getIsAdministrator()
+                );
+                context.json(response);
             } else {
                 context.status(401).result("Invalid username or password");
             }
