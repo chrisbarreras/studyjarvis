@@ -5,6 +5,7 @@ import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
+import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
 
 public class JarvisAskQuestionHandler implements Handler {
@@ -12,7 +13,31 @@ public class JarvisAskQuestionHandler implements Handler {
         return HandlerDecorator.getInstance(new JarvisAskQuestionHandler());
     }
 
-    private static class QuestionConfiguration { public String question; }
+    public static class QuestionConfiguration {
+        private String question;
+
+        public String getQuestion() {
+            return question;
+        }
+    }
+
+    @OpenApi(
+            summary = "Ask Question",
+            description = "Returns an answer.",
+            operationId = "askQuestion",
+            path = "/secure/jarvis/ask",
+            methods = {HttpMethod.POST},
+            requestBody = @OpenApiRequestBody(
+                    content = {
+                            @OpenApiContent(from = QuestionConfiguration.class, mimeType = ContentType.JSON)
+                    }
+            ),
+            responses = {
+                    @OpenApiResponse(status = "200", description = "Returned an answer"),
+                    @OpenApiResponse(status = "401", description = "Unauthorized"),
+                    @OpenApiResponse(status = "500", description = "Internal server error")
+            }
+    )
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
@@ -24,7 +49,7 @@ public class JarvisAskQuestionHandler implements Handler {
         QuestionConfiguration config = mapper.readValue(context.body(), QuestionConfiguration.class);
 
         try (Jarvis jarvis = Jarvis.getInstance(userId)) {
-            String answer = jarvis.askQuestion(config.question);
+            String answer = jarvis.askQuestion(config.getQuestion());
             context.json(answer);
         }
     }

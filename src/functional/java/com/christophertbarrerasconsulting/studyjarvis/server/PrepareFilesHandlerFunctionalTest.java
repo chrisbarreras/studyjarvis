@@ -57,6 +57,7 @@ public class PrepareFilesHandlerFunctionalTest {
 
         request = client.postRequest(files, "/secure/files/prepare");
         response = client.newCall(request).execute();
+        assertEquals(200, response.code());
         response.body().close();
 
         GoogleBucket googleBucket = GoogleBucket.getInstance(AppSettings.BucketName.getBucketName(), UserReader.getUser("TestUser").getUserId());
