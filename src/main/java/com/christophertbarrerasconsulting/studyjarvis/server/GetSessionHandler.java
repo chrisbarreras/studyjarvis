@@ -5,10 +5,7 @@ import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.Context;
 import io.javalin.http.Handler;
-import io.javalin.openapi.HttpMethod;
-import io.javalin.openapi.OpenApi;
-import io.javalin.openapi.OpenApiContent;
-import io.javalin.openapi.OpenApiResponse;
+import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
@@ -24,18 +21,20 @@ public class GetSessionHandler implements Handler {
 
     @OpenApi(
             summary = "Get Session",
-            description = "Gets a session.",
+            description = "Retrieves a user session based on the provided username.",
             operationId = "getSession",
             path = "/secure/admin/sessions",
-            methods = HttpMethod.GET,
+            methods = {HttpMethod.GET},
+            queryParams = {
+                    @OpenApiParam(name = "username", description = "The username of the user whose session is being retrieved", required = true)
+            },
             responses = {
-                    @OpenApiResponse(status = "200", content = {@OpenApiContent(from = Session.class)}),
-                    @OpenApiResponse(status = "400", content = {@OpenApiContent(format = "Username is required")}),
-                    @OpenApiResponse(status = "401", content = {@OpenApiContent(format = "Unauthorized")}),
-                    @OpenApiResponse(status = "403", content = {@OpenApiContent(format = "Forbidden")}),
-                    @OpenApiResponse(status = "404", content = {@OpenApiContent(format = "User not found")}),
-                    @OpenApiResponse(status = "404", content = {@OpenApiContent(format = "Session not found")}),
-                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+                    @OpenApiResponse(status = "200", description = "Session retrieved successfully", content = {@OpenApiContent(from = Session.class)}),
+                    @OpenApiResponse(status = "400", description = "Username is required", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")}),
+                    @OpenApiResponse(status = "401", description = "Unauthorized", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")}),
+                    @OpenApiResponse(status = "403", description = "Forbidden", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")}),
+                    @OpenApiResponse(status = "404", description = "User or session not found", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")}),
+                    @OpenApiResponse(status = "500", description = "Internal Server Error", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")})
             }
     )
 

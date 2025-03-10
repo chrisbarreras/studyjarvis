@@ -16,6 +16,7 @@ public class JarvisAskQuestionHandler implements Handler {
     public static class QuestionConfiguration {
         private String question;
 
+        @OpenApiExample("What is UML?")
         public String getQuestion() {
             return question;
         }
@@ -29,11 +30,29 @@ public class JarvisAskQuestionHandler implements Handler {
             methods = {HttpMethod.POST},
             requestBody = @OpenApiRequestBody(
                     content = {
-                            @OpenApiContent(from = QuestionConfiguration.class, mimeType = ContentType.JSON)
-                    }
+                            @OpenApiContent(
+                                    from = QuestionConfiguration.class,
+                                    mimeType = ContentType.JSON
+                            )
+                    },
+                    required = true
             ),
             responses = {
-                    @OpenApiResponse(status = "200", description = "Returned an answer"),
+                    @OpenApiResponse(
+                            status = "200",
+                            description = "Returned an answer",
+                            content = @OpenApiContent(
+                                    mimeType = "text/plain",
+                                    example = "UML stands for Unified Modeling Language. It's essentially a visual blueprint language used in software development to:\n" +
+                                            "\n" +
+                                            "* **Visualize:** Create clear diagrams that represent a software system's components and their relationships.\n" +
+                                            "* **Specify:** Define how these components interact and behave within the system.\n" +
+                                            "* **Construct:** Guide the actual building of the software based on the modeled design.\n" +
+                                            "* **Document:**  Provide easy-to-understand documentation of the system's design for future reference.\n" +
+                                            "\n" +
+                                            "Think of it like an architect's blueprint, but instead of a building, it's for software. It helps developers communicate ideas, plan the structure, and ensure everyone is on the same page throughout the development process. \n"
+                            )
+                    ),
                     @OpenApiResponse(status = "401", description = "Unauthorized"),
                     @OpenApiResponse(status = "500", description = "Internal server error")
             }

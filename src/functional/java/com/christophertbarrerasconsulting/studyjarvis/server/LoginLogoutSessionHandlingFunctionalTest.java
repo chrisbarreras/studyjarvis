@@ -1,6 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
+import com.christophertbarrerasconsulting.studyjarvis.user.CreateUserRequest;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 
@@ -59,7 +60,7 @@ public class LoginLogoutSessionHandlingFunctionalTest {
 
         try {
             // Create a new admin test user
-            UserWriter.createNewUser(new User(username, "password", true));
+            UserWriter.createNewUser(new CreateUserRequest(username, "password", true));
             client.login(username, "password");
 
             // Get session info

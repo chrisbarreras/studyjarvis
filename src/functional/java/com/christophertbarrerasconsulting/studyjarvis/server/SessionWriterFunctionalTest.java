@@ -1,6 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
+import com.christophertbarrerasconsulting.studyjarvis.user.CreateUserRequest;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class SessionWriterFunctionalTest {
 
         try {
             // Create a new admin test user
-            User user = UserWriter.createNewUser(new User(username, "password", true));
+            User user = UserWriter.createNewUser(new CreateUserRequest(username, "password", true));
             Session session = SessionWriter.createSession(user.getUserId());
             assertTrue(SessionWriter.deleteSession(session.getSessionId()));
             assertFalse(FileHandler.directoryExists((session.getUploadedFilesPath())), "Upload directory not deleted");

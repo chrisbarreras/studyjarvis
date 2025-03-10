@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.CreateUserRequest;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class UserWriterFunctionalTest {
 
         try {
             // Create a new admin test user
-            User user = UserWriter.createNewUser(new User(username, "password", true));
+            User user = UserWriter.createNewUser(new CreateUserRequest(username, "password", true));
 
             assertNotNull(user);
             assertEquals(username, user.getUsername());

@@ -23,13 +23,13 @@ public class LogoutHandler implements Handler {
 
     @OpenApi(
             summary = "Logout",
-            description = "Logs a user out",
+            description = "Logs a user out and invalidates their session.",
             operationId = "logout",
             path = "/logout",
-            methods = HttpMethod.POST,
+            methods = {HttpMethod.POST},
             responses = {
-                    @OpenApiResponse(status = "200"),
-                    @OpenApiResponse(status = "500", content = {@OpenApiContent(format = "Error")})
+                    @OpenApiResponse(status = "200", description = "Logout successful"),
+                    @OpenApiResponse(status = "500", description = "Internal Server Error", content = {@OpenApiContent(from = String.class, mimeType = "text/plain")})
             }
     )
 

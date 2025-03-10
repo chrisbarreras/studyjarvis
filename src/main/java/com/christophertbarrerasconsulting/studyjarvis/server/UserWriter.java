@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.user.CreateUserRequest;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 
 import java.sql.Connection;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserWriter {
-    public static User createNewUser(User user) throws SQLException {
+    public static User createNewUser(CreateUserRequest user) throws SQLException {
         try (Connection conn = Database.connect()) {
             String hashedPassword = PasswordHasher.hashPassword(user.getPassword());
             PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO users (username, password_hash, is_administrator) VALUES (?, ?, ?)");
