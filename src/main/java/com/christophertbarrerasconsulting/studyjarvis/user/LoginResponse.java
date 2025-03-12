@@ -3,12 +3,14 @@ package com.christophertbarrerasconsulting.studyjarvis.user;
 public class LoginResponse {
     private String username;
     private boolean isAdmin;
+    private String authToken;
 
     public LoginResponse() {}
 
-    public LoginResponse(String username, boolean isAdmin) {
+    public LoginResponse(String username, boolean isAdmin, String authToken) {
         this.username = username;
         this.isAdmin = isAdmin;
+        this.authToken = authToken;
     }
 
     public String getUsername() {
@@ -25,5 +27,9 @@ public class LoginResponse {
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 }

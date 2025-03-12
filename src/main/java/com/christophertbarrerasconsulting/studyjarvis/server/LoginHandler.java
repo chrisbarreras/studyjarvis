@@ -58,10 +58,10 @@ public class LoginHandler implements Handler {
                 SessionWriter.createSession(storedUser.getUserId());
 
                 String token = JwtUtil.generateToken(loginRequest.getUsername());
-                context.header("Authorization", "Bearer " + token);
                 LoginResponse response = new LoginResponse(
                         storedUser.getUsername(),
-                        storedUser.getIsAdministrator()
+                        storedUser.getIsAdministrator(),
+                        token
                 );
                 context.json(response);
             } else {

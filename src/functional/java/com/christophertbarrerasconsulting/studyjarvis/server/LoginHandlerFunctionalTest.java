@@ -46,6 +46,7 @@ class LoginHandlerFunctionalTest {
             LoginResponse loginResponse = mapper.readValue(response.body().string(), LoginResponse.class);
             assertEquals("admin", loginResponse.getUsername());
             assertTrue(loginResponse.getIsAdmin());
+            assertFalse(loginResponse.getAuthToken().isEmpty());
         }
     }
 
