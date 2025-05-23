@@ -1,6 +1,8 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
+import com.christophertbarrerasconsulting.studyjarvis.user.LoginResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.eclipse.jetty.util.IO;
 import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
@@ -39,7 +41,9 @@ public class Client {
 
         try (Response response = client.newCall(request).execute()) {
             assertEquals(200, response.code());
-            authorizationHeader = response.header("Authorization");
+            ObjectMapper mapper = new ObjectMapper();
+            LoginResponse loginResponse = mapper.readValue(response.body().string(), LoginResponse.class);
+            authorizationHeader = "Bearer " + loginResponse.getAuthToken();
         }
     }
 
