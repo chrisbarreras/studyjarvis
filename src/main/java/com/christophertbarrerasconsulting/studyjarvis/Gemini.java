@@ -12,7 +12,6 @@ import com.google.cloud.vertexai.generativeai.PartMaker;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Gemini implements AutoCloseable{
@@ -24,7 +23,7 @@ public class Gemini implements AutoCloseable{
     ArrayList<Object> parts;
 
     public Gemini(String projectId, String modelName, String location) {
-        this.modelName = modelName; // "gemini-1.0-pro-002" or "gemini-1.0-pro-001";
+        this.modelName = modelName;
         this.location = location;
         this.projectId = projectId;
         vertexAI = new VertexAI(projectId, location);
@@ -46,47 +45,6 @@ public class Gemini implements AutoCloseable{
             return output;
         }
     }
-
-//    public String imageInput(String imageUri, String mimeType, String textPrompt)
-//            throws IOException {
-//        // Initialize client that will be used to send requests. This client only needs
-//        // to be created once, and can be reused for multiple requests.
-//        try (VertexAI vertexAI = new VertexAI(projectId, location)) {
-//            GenerativeModel model = new GenerativeModel(modelName, vertexAI);
-//            GenerateContentResponse response = model.generateContent(ContentMaker.fromMultiModalData(
-//                    PartMaker.fromMimeTypeAndData(mimeType, imageUri),
-//                    textPrompt
-//            ));
-//
-//            return response.toString();
-//        }
-//    }
-//
-//    public String multiModalInput(String[] imageUris, String [] textPrompts, String textPrompt)
-//            throws IOException {
-//        // Initialize client that will be used to send requests. This client only needs
-//        // to be created once, and can be reused for multiple requests.
-//        try (VertexAI vertexAI = new VertexAI(projectId, location)) {
-//            GenerativeModel model = new GenerativeModel(modelName, vertexAI);
-//
-//            Object[] parts = new Object[imageUris.length + textPrompts.length + 1];
-//            for (int i = 0; i < imageUris.length; i++) {
-////                String mimeType = com.christophertbarrerasconsulting.studyjarvis.file.ImageHandler.mimeTypeFromImageUri(imageUris[i]);
-////                byte[] imageBytes = com.christophertbarrerasconsulting.studyjarvis.file.ImageHandler.readImageFile(imageUris[i]);
-////                parts[i] = PartMaker.fromMimeTypeAndData(mimeType, imageBytes);
-//                parts[i] = imageUris[i];
-//            }
-//            for (int i = 0; i < textPrompts.length; i++) {
-//                parts[i + imageUris.length] = textPrompts[i];
-//            }
-//            parts[parts.length-1] = textPrompt;
-//
-//            Content content = ContentMaker.fromMultiModalData(parts);
-//            GenerateContentResponse response = model.generateContent(content);
-//
-//            return response.toString();
-//        }
-//    }
 
     public void initializeMultiModalInput(String[] uris) {
         parts.clear();

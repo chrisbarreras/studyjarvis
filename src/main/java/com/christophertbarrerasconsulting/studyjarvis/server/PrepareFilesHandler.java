@@ -1,5 +1,7 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.christophertbarrerasconsulting.studyjarvis.GoogleBucket;
 import com.christophertbarrerasconsulting.studyjarvis.file.AppSettings;
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Path;
 
 public class PrepareFilesHandler implements Handler {
+    private static final Logger logger = LoggerFactory.getLogger(PrepareFilesHandler.class);
     public static Handler getInstance() {
         return HandlerDecorator.getInstance(new PrepareFilesHandler());
     }
@@ -44,6 +47,7 @@ public class PrepareFilesHandler implements Handler {
 
         //if (FileHandler.directoryExists(extractedFilesPath)) FileHandler.clearDirectory(extractedFilesPath);
 
+        logger.info("Extracting " + uploadedFilesPath + " to " + extractedFilesPath);
         FileHandler.extractFilesInDirectory(Path.of(uploadedFilesPath), extractedFilesPath);
 
         googleBucket.uploadDirectoryContents(extractedFilesPath);

@@ -6,6 +6,8 @@ import io.javalin.http.Context;
 import io.javalin.http.Handler;
 import io.javalin.openapi.*;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jetbrains.annotations.PropertyKey;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UploadFilesHandler implements Handler {
+    private static final Logger logger = LoggerFactory.getLogger(UploadFilesHandler.class);
     public static Handler getInstance() {
         return HandlerDecorator.getInstance(new UploadFilesHandler());
     }
@@ -45,11 +48,13 @@ public class UploadFilesHandler implements Handler {
         User user = UserReader.getUser(username);
         Session session = SessionReader.getSession(user.getUserId());
 
+        logger.info("Uploading Files Count: " + context.uploadedFiles("files").size());
         context.uploadedFiles("files").forEach(file -> {
             Path uploadedFilesPath = Path.of(session.getUploadedFilesPath());
             Path uploadedFileNamePath = Path.of(file.filename());
             Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName());
             try {
+                logger.info("Uploading " + file.filename() + " to " + uploadedFilesPath);
                 Files.copy(file.content(), uploadToFilePath);
             } catch (IOException e) {
                 throw new RuntimeException(e);

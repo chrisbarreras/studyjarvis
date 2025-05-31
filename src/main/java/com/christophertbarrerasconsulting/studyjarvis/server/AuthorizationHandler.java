@@ -24,6 +24,10 @@ public class AuthorizationHandler implements Handler {
 
     @Override
     public void handle(@NotNull Context context) throws Exception {
+        if (context.method().toString().equalsIgnoreCase("OPTIONS")) {
+            return;
+        }
+
         String username = getUsernameFromContext(context);
 
         if (username == null) {
