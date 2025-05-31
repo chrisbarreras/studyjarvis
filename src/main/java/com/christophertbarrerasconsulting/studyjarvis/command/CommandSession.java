@@ -12,17 +12,17 @@ public class CommandSession {
     public static boolean quit = false;
 
     public static void start() throws IOException {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("> ");
+        Scanner scanner = new Scanner(System.in);
         String commandText = scanner.nextLine();
 
         while (true) {
             CommandParser.getInstance().run(commandText);
-            System.out.print("> ");
-            commandText = scanner.nextLine();
             if (quit) {
                 break;
             }
+            System.out.print("> ");
+            commandText = scanner.nextLine();
         }
     }
 }

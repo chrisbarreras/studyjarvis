@@ -12,7 +12,7 @@ public class ConfigReader {
 
         // Load properties file
         properties.load(new FileInputStream(appDataPath + "//studyjarvis.properties"));
-        System.out.println("Properties loaded from " + appDataPath + "/" + "studyjarvis.properties");
+        //System.out.println("Properties loaded from " + appDataPath + "/" + "studyjarvis.properties");
 
         return properties;
     }
