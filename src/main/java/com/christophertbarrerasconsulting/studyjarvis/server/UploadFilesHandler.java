@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.christophertbarrerasconsulting.studyjarvis.user.User;
 import io.javalin.http.Context;
@@ -54,6 +55,7 @@ public class UploadFilesHandler implements Handler {
             Path uploadedFileNamePath = Path.of(file.filename());
             Path uploadToFilePath = uploadedFilesPath.resolve(uploadedFileNamePath.getFileName());
             try {
+                FileHandler.deletePathIfExists(uploadToFilePath);
                 logger.info("Uploading " + file.filename() + " to " + uploadedFilesPath);
                 Files.copy(file.content(), uploadToFilePath);
             } catch (IOException e) {

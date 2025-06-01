@@ -1,5 +1,6 @@
 package com.christophertbarrerasconsulting.studyjarvis.server;
 
+import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.christophertbarrerasconsulting.studyjarvis.user.Session;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Request;
@@ -75,5 +76,33 @@ public class UploadFilesHandlerFunctionalTest {
         try (Response createResponse = client.newCall(request).execute()) {
             assertEquals(401, createResponse.code(), "Attempted to upload files when not logged in failed with response code: " + createResponse.code());
         }
+    }
+
+    @Test
+    public void reUploadReplacesFile () throws IOException, SQLException {
+        File[] files = {file1.toFile()};
+        Request request = client.postRequest(files, "/secure/files");
+        try (Response createResponse = client.newCall(request).execute()) {
+            assertEquals(201, createResponse.code(), "Attempted to upload files with non admin user failed with response code: " + createResponse.code());
+        }
+
+        String folder = FileHandler.createNewTempFolder("foo");
+        assertTrue(FileHandler.directoryExists(folder));
+
+        String filePathString = FileHandler.concatenatePath(folder, "Arch Quiz 2 All Slides.pptx");
+        FileHandler.writeTextToFile("foo", filePathString);
+        File newFile1 = new File(filePathString);
+
+        request = client.postRequest(new File[]{newFile1}, "/secure/files");
+        try (Response createResponse = client.newCall(request).execute()) {
+            assertEquals(201, createResponse.code(), "Second upload failed.");
+        }
+
+        Session session = SessionReader.getSession(UserReader.getUser("TestUser").getUserId());
+        Path uploadedFile = Path.of(session.getUploadedFilesPath()).resolve(file1.getFileName());
+        assertTrue(uploadedFile.toFile().exists());
+        assertEquals("foo", Files.readString(uploadedFile));
+
+        FileHandler.deletePathIfExists(Path.of(folder));
     }
 }

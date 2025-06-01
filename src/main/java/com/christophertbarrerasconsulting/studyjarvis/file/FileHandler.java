@@ -145,6 +145,9 @@ public class FileHandler {
             clearDirectory(path);
             Files.delete(path);
         }
+        else if (Files.exists(path)) {
+            Files.delete(path);
+        }
     }
 
     public static void deletePathIfExists(String path) throws IOException {
