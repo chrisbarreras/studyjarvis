@@ -51,5 +51,8 @@ public class PrepareFilesHandler implements Handler {
         FileHandler.extractFilesInDirectory(Path.of(uploadedFilesPath), extractedFilesPath);
 
         googleBucket.uploadDirectoryContents(extractedFilesPath);
+
+        FileHandler.clearDirectory(extractedFilesPath);
+        FileHandler.clearDirectory(Path.of(uploadedFilesPath));
     }
 }
