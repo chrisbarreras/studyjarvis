@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build, Unit & Functional Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: studyjarvis
+          POSTGRES_USER: studyjarvis
+          POSTGRES_PASSWORD: studyjarvis
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      STUDYJARVIS_DB_URL: jdbc:postgresql://localhost:5432/studyjarvis
+      STUDYJARVIS_DB_USER: studyjarvis
+      STUDYJARVIS_DB_PASSWORD: studyjarvis
+
+    defaults:
+      run:
+        working-directory: Gradle
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('Gradle/**/*.gradle', 'Gradle/gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
+      - name: Create database schema
+        run: psql -f ../src/main/sql/4-create-tables.sql
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: studyjarvis
+          PGUSER: studyjarvis
+          PGPASSWORD: studyjarvis
+
+      - name: Seed admin user
+        run: psql -f ../src/main/sql/6-create-admin-user.sql
+        env:
+          PGHOST: localhost
+          PGPORT: 5432
+          PGDATABASE: studyjarvis
+          PGUSER: studyjarvis
+          PGPASSWORD: studyjarvis
+
+      - name: Build (compile only)
+        run: ./gradlew classes testClasses functionalTestClasses --no-daemon
+
+      - name: Run unit tests
+        run: ./gradlew test --no-daemon
+
+      - name: Run functional tests (Tier 1 & 2)
+        run: ./gradlew functionalTest --no-daemon
+
+      - name: Upload JaCoCo coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: Gradle/build/reports/jacoco/test/
+          retention-days: 14
+
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: Gradle/build/test-results/test/
+          retention-days: 14
+
+      - name: Upload functional test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: functional-test-results
+          path: Gradle/build/test-results/functionalTest/
+          retention-days: 14
+
+      - name: Publish test summary
+        if: always()
+        uses: test-summary/action@v2
+        with:
+          paths: |
+            Gradle/build/test-results/test/*.xml
+            Gradle/build/test-results/functionalTest/*.xml

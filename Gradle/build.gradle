@@ -85,8 +85,8 @@ sourceSets {
         resources {
             srcDir 'src/functional/resources'
         }
-//        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
-//        runtimeClasspath += output + compileClasspath
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
     }
     integration {
         java {
@@ -95,5 +95,38 @@ sourceSets {
         resources {
             srcDir 'src/integration/resources'
         }
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
     }
+}
+
+// Runs Tier 1 (file system) and Tier 2 (PostgreSQL + server) functional tests.
+// Excludes Tier 3 tests that require Google Cloud credentials.
+task functionalTest(type: Test) {
+    description = 'Runs functional tests that do not require Google Cloud.'
+    group = 'verification'
+    testClassesDirs = sourceSets.functional.output.classesDirs
+    classpath = sourceSets.functional.runtimeClasspath
+    useJUnitPlatform()
+    maxParallelForks = 1
+    exclude '**/GeminiFunctionalTest.class'
+    exclude '**/GoogleBucketFunctionalTest.class'
+    exclude '**/JarvisFunctionalTest.class'
+    exclude '**/PrepareFilesHandlerFunctionalTest.class'
+    exclude '**/JarvisAskQuestionHandlerFunctionalTest.class'
+    exclude '**/JarvisCreateKeyPointsHandlerFunctionalTest.class'
+    exclude '**/JarvisCreateNotesHandlerFunctionalTest.class'
+    exclude '**/JarvisCreateQuizHandlerFunctionalTest.class'
+    exclude '**/JarvisCreateStudyGuideHandlerFunctionalTest.class'
+    shouldRunAfter test
+}
+
+// Runs all integration tests. Requires Google Cloud credentials and a live database.
+task integrationTest(type: Test) {
+    description = 'Runs integration tests (requires Google Cloud credentials).'
+    group = 'verification'
+    testClassesDirs = sourceSets.integration.output.classesDirs
+    classpath = sourceSets.integration.runtimeClasspath
+    useJUnitPlatform()
+    shouldRunAfter functionalTest
 }
