@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64afc7c0-638e-452b-b4b4-6c032c66d734" name="Changes" comment="Fixed duplicate uploads">
-      <change beforePath="$PROJECT_DIR$/Gradle/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Gradle/build.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="64afc7c0-638e-452b-b4b4-6c032c66d734" name="Changes" comment="Added CI" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -420,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748811561561</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added CI">
+      <option name="closed" value="true" />
+      <created>1775079826083</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1775079826083</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -447,6 +453,7 @@
     <MESSAGE value="Added Fixed command line bugs" />
     <MESSAGE value="Made it so that the PrepareFilesHandler deletes the uploaded and extracted files" />
     <MESSAGE value="Fixed duplicate uploads" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed duplicate uploads" />
+    <MESSAGE value="Added CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added CI" />
   </component>
 </project>

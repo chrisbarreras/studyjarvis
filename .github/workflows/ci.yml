@@ -77,7 +77,7 @@ jobs:
           PGPASSWORD: studyjarvis
 
       - name: Build (compile only)
-        run: ./gradlew classes testClasses functionalTestClasses --no-daemon
+        run: ./gradlew classes testClasses functionalClasses --no-daemon
 
       - name: Run unit tests
         run: ./gradlew test --no-daemon
