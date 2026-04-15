@@ -67,8 +67,8 @@ jobs:
           PGUSER: studyjarvis
           PGPASSWORD: studyjarvis
 
-      - name: Seed admin user
-        run: psql -f ../src/main/sql/6-create-admin-user.sql
+      - name: Seed test admin user (ephemeral CI DB only)
+        run: psql -f ../src/functional/resources/sql/ci-seed-admin.sql
         env:
           PGHOST: localhost
           PGPORT: 5432

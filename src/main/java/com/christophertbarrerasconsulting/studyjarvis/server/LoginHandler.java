@@ -50,14 +50,22 @@ public class LoginHandler implements Handler {
 
             ObjectMapper mapper = new ObjectMapper();
             LoginRequest loginRequest = mapper.readValue(context.body(), LoginRequest.class);
-            System.out.println("Checking user " + loginRequest.getUsername());
+            String username = loginRequest.getUsername();
+            System.out.println("Checking user " + username);
 
-            User storedUser = UserReader.getUser(loginRequest.getUsername());
+            LoginRateLimiter rateLimiter = LoginRateLimiter.getInstance();
+            if (rateLimiter.isBlocked(username)) {
+                context.status(429).result("Too many failed login attempts. Try again later.");
+                return;
+            }
+
+            User storedUser = UserReader.getUser(username);
 
             if (storedUser!=null && BCrypt.checkpw(loginRequest.getPassword(), storedUser.getPassword())) {
+                rateLimiter.recordSuccess(username);
                 SessionWriter.createSession(storedUser.getUserId());
 
-                String token = JwtUtil.generateToken(loginRequest.getUsername());
+                String token = JwtUtil.generateToken(username);
                 LoginResponse response = new LoginResponse(
                         storedUser.getUsername(),
                         storedUser.getIsAdministrator(),
@@ -65,6 +73,7 @@ public class LoginHandler implements Handler {
                 );
                 context.json(response);
             } else {
+                rateLimiter.recordFailure(username);
                 context.status(401).result("Invalid username or password");
             }
         } catch (SQLException e) {

@@ -44,7 +44,11 @@ gradle-wrapper.jar
 *.swp
 *~
 
-# Idea personal settings
-!.idea/workspace.xml
-!.idea/shelf/
-!.idea/usage.statistics.xml
+# IntelliJ IDEA project files (developer-specific; can leak local paths/run configs)
+.idea/
+
+# Local-only modernization scratchpad (not for commit)
+docs/modernization/
+
+# Claude Code tool state
+.claude/
