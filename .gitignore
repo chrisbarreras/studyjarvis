@@ -50,5 +50,8 @@ gradle-wrapper.jar
 # Local-only modernization scratchpad (not for commit)
 docs/modernization/
 
+# Business strategy (draft, not ready to commit)
+docs/BUSINESS.md
+
 # Claude Code tool state
 .claude/
