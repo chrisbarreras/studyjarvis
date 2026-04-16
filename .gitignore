@@ -31,8 +31,8 @@ bin/
 .DS_Store
 
 # Gradle files
-Gradle/.gradle/
-Gradle/build/
+.gradle/
+build/
 
 # Gradle Wrapper
 gradle-wrapper.jar

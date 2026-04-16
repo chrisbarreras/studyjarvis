@@ -31,10 +31,6 @@ jobs:
       STUDYJARVIS_DB_USER: studyjarvis
       STUDYJARVIS_DB_PASSWORD: studyjarvis
 
-    defaults:
-      run:
-        working-directory: Gradle
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,7 +47,7 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('Gradle/**/*.gradle', 'Gradle/gradle/wrapper/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
@@ -59,7 +55,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Create database schema
-        run: psql -f ../src/main/sql/4-create-tables.sql
+        run: psql -f src/main/sql/4-create-tables.sql
         env:
           PGHOST: localhost
           PGPORT: 5432
@@ -68,7 +64,7 @@ jobs:
           PGPASSWORD: studyjarvis
 
       - name: Seed test admin user (ephemeral CI DB only)
-        run: psql -f ../src/functional/resources/sql/ci-seed-admin.sql
+        run: psql -f src/functional/resources/sql/ci-seed-admin.sql
         env:
           PGHOST: localhost
           PGPORT: 5432
@@ -90,7 +86,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-coverage-report
-          path: Gradle/build/reports/jacoco/test/
+          path: build/reports/jacoco/test/
           retention-days: 14
 
       - name: Upload unit test results
@@ -98,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-results
-          path: Gradle/build/test-results/test/
+          path: build/test-results/test/
           retention-days: 14
 
       - name: Upload functional test results
@@ -106,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: functional-test-results
-          path: Gradle/build/test-results/functionalTest/
+          path: build/test-results/functionalTest/
           retention-days: 14
 
       - name: Publish test summary
@@ -114,5 +110,5 @@ jobs:
         uses: test-summary/action@v2
         with:
           paths: |
-            Gradle/build/test-results/test/*.xml
-            Gradle/build/test-results/functionalTest/*.xml
+            build/test-results/test/*.xml
+            build/test-results/functionalTest/*.xml

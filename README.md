@@ -45,10 +45,7 @@ Google Cloud credentials are picked up from the ambient environment (`GOOGLE_APP
 
 ## Build and run
 
-The Gradle project lives under [Gradle/](Gradle/).
-
 ```bash
-cd Gradle
 ./gradlew build                 # compile + unit tests
 ./gradlew functionalTest        # functional tests without GCP
 ./gradlew integrationTest       # full tests (requires GCP + Postgres)
@@ -57,14 +54,12 @@ cd Gradle
 Run the CLI:
 
 ```bash
-cd Gradle
 ./gradlew run -PmainClass=com.christophertbarrerasconsulting.studyjarvis.Main
 ```
 
 Run the server (defaults to port 7000, serves ReDoc at `/api/docs`):
 
 ```bash
-cd Gradle
 ./gradlew run -PmainClass=com.christophertbarrerasconsulting.studyjarvis.server.StudyJarvisServer
 ```
 
