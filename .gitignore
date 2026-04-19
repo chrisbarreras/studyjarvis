@@ -56,3 +56,6 @@ docs/BUSINESS.md
 
 # Claude Code tool state
 .claude/
+
+# Local dev launcher secrets
+dev.env.ps1

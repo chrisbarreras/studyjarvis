@@ -51,17 +51,44 @@ Google Cloud credentials are picked up from the ambient environment (`GOOGLE_APP
 ./gradlew integrationTest       # full tests (requires GCP + Postgres)
 ```
 
-Run the CLI:
+Run the server (defaults to port 7000, serves ReDoc at `/api/docs`) — this is the default `mainClass`:
+
+```bash
+./gradlew run
+```
+
+Run the CLI — override `mainClass` via a project property. In PowerShell, quote the value so dots aren't parsed as member access:
+
+```powershell
+./gradlew run "-PmainClass=com.christophertbarrerasconsulting.studyjarvis.Main"
+```
 
 ```bash
 ./gradlew run -PmainClass=com.christophertbarrerasconsulting.studyjarvis.Main
 ```
 
-Run the server (defaults to port 7000, serves ReDoc at `/api/docs`):
+## Local dev (backend + webapp together)
 
-```bash
-./gradlew run -PmainClass=com.christophertbarrerasconsulting.studyjarvis.server.StudyJarvisServer
-```
+The Angular webapp lives in a sibling repo ([studyjarviswebapp-tjb](../studyjarviswebapp-tjb/studyjarviswebapp)) and calls the backend at `http://localhost:7000`. To run both with one command on Windows:
+
+1. One-time setup — make sure the prereqs above are in place (Postgres running, `gcloud auth application-default login`, `studyjarvis.properties` populated), then:
+
+   ```powershell
+   Copy-Item dev.env.example.ps1 dev.env.ps1
+   # edit dev.env.ps1 with your DB password and a JWT secret
+   cd ..\..\studyjarviswebapp-tjb\studyjarviswebapp
+   npm install
+   ```
+
+2. Every run, from the backend repo root:
+
+   ```powershell
+   .\dev.ps1
+   ```
+
+   Two PowerShell windows open — backend on `:7000`, webapp on `:4200`. Close either window to stop that service.
+
+   `dev.env.ps1` is gitignored. Requires PowerShell 7+ (`pwsh`).
 
 ## Documentation
 

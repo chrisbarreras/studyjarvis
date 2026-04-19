@@ -1,6 +1,11 @@
 plugins {
     id 'java'
+    id 'application'
     id 'jacoco'
+}
+
+application {
+    mainClass = project.findProperty('mainClass') ?: 'com.christophertbarrerasconsulting.studyjarvis.server.StudyJarvisServer'
 }
 
 jacoco {
