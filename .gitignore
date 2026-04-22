@@ -25,7 +25,9 @@ bin/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
 *.code-workspace
 
 ### Mac OS ###

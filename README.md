@@ -90,6 +90,32 @@ The Angular webapp lives in a sibling repo ([studyjarviswebapp-tjb](../studyjarv
 
    `dev.env.ps1` is gitignored. Requires PowerShell 7+ (`pwsh`).
 
+## Running tests in VS Code
+
+When you open the backend folder in VS Code, accept the prompt to install the recommended extensions (**Extension Pack for Java** and **Gradle for Java**).
+
+**Unit tests** (`src/test`) — no env vars needed. Open any test class and use the **Run Test** / **Debug Test** CodeLens above a `@Test` method, or the flask-icon Test Explorer sidebar.
+
+**Functional / integration tests** (`src/functional`, `src/integration`) — the VS Code Test Explorer does not reliably discover these custom source sets, so run them via Gradle and attach the debugger:
+
+1. Open a VS Code terminal and source env vars:
+
+   ```powershell
+   . .\dev.env.ps1
+   ```
+
+2. Run the Gradle task with JVM debug enabled:
+
+   ```powershell
+   .\gradlew functionalTest --debug-jvm        # or integrationTest
+   ```
+
+   Gradle prints `Listening for transport dt_socket at address: 5005` and pauses.
+
+3. In **Run and Debug** (`Ctrl+Shift+D`), pick **Attach to Gradle Test (port 5005)** and press F5. Tests execute; breakpoints hit.
+
+To run tests without the debugger, drop `--debug-jvm`, or use the Gradle extension's task panel (studyjarvis → Tasks → verification → `functionalTest` / `integrationTest`).
+
 ## Documentation
 
 - **[Architecture overview](docs/ARCHITECTURE.md)** — narrative walkthrough with embedded diagrams
