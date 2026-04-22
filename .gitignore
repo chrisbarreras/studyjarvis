@@ -25,14 +25,17 @@ bin/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+*.code-workspace
 
 ### Mac OS ###
 .DS_Store
 
 # Gradle files
-Gradle/.gradle/
-Gradle/build/
+.gradle/
+build/
 
 # Gradle Wrapper
 gradle-wrapper.jar
@@ -44,7 +47,17 @@ gradle-wrapper.jar
 *.swp
 *~
 
-# Idea personal settings
-!.idea/workspace.xml
-!.idea/shelf/
-!.idea/usage.statistics.xml
+# IntelliJ IDEA project files (developer-specific; can leak local paths/run configs)
+.idea/
+
+# Local-only modernization scratchpad (not for commit)
+docs/modernization/
+
+# Business strategy (draft, not ready to commit)
+docs/BUSINESS.md
+
+# Claude Code tool state
+.claude/
+
+# Local dev launcher secrets
+dev.env.ps1

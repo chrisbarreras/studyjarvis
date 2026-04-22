@@ -5,8 +5,6 @@ import com.christophertbarrerasconsulting.studyjarvis.user.LoginResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.eclipse.jetty.util.IO;
-import org.junit.platform.engine.support.hierarchical.EngineExecutionContext;
-import org.junit.platform.engine.support.hierarchical.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

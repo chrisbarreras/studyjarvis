@@ -1,6 +1,11 @@
 plugins {
     id 'java'
+    id 'application'
     id 'jacoco'
+}
+
+application {
+    mainClass = project.findProperty('mainClass') ?: 'com.christophertbarrerasconsulting.studyjarvis.server.StudyJarvisServer'
 }
 
 jacoco {
@@ -20,8 +25,9 @@ dependencies {
     implementation 'com.google.cloud:google-cloud-storage:2.40.1'
     implementation 'commons-io:commons-io:2.14.0'
     implementation 'org.apache.commons:commons-compress:1.26.1'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation platform('org.junit:junit-bom:5.14.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'io.javalin:javalin-testtools:6.2.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'com.squareup.okio:okio:3.4.0';
@@ -77,25 +83,20 @@ jacocoTestReport {
     }
 }
 
+configurations {
+    functionalImplementation.extendsFrom testImplementation
+    functionalRuntimeOnly.extendsFrom testRuntimeOnly
+    integrationImplementation.extendsFrom testImplementation
+    integrationRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
 sourceSets {
     functional {
-        java {
-            srcDir 'src/functional/java'
-        }
-        resources {
-            srcDir 'src/functional/resources'
-        }
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        compileClasspath += sourceSets.main.output
         runtimeClasspath += output + compileClasspath
     }
     integration {
-        java {
-            srcDir 'src/integration/java'
-        }
-        resources {
-            srcDir 'src/integration/resources'
-        }
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        compileClasspath += sourceSets.main.output
         runtimeClasspath += output + compileClasspath
     }
 }
