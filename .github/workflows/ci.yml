@@ -30,6 +30,7 @@ jobs:
       STUDYJARVIS_DB_URL: jdbc:postgresql://localhost:5432/studyjarvis
       STUDYJARVIS_DB_USER: studyjarvis
       STUDYJARVIS_DB_PASSWORD: studyjarvis
+      STUDYJARVIS_SERVER_SECRET_KEY: ci-only-hmac-key-not-a-real-secret
 
     steps:
       - name: Checkout repository
