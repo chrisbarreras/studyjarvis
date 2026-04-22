@@ -2,6 +2,9 @@ package com.christophertbarrerasconsulting.studyjarvis;
 
 import com.christophertbarrerasconsulting.studyjarvis.file.FileHandler;
 import com.google.api.gax.rpc.ResourceExhaustedException;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.google.cloud.vertexai.VertexAI;
 import com.google.cloud.vertexai.api.Content;
 import com.google.cloud.vertexai.api.GenerateContentResponse;
@@ -9,12 +12,17 @@ import com.google.cloud.vertexai.generativeai.ContentMaker;
 import com.google.cloud.vertexai.generativeai.GenerativeModel;
 import com.google.cloud.vertexai.generativeai.ResponseHandler;
 import com.google.cloud.vertexai.generativeai.PartMaker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class Gemini implements AutoCloseable{
+    private static final Logger logger = LoggerFactory.getLogger(Gemini.class);
+
     private final String projectId;
     private final String location;
     private final String modelName;
@@ -48,9 +56,31 @@ public class Gemini implements AutoCloseable{
 
     public void initializeMultiModalInput(String[] uris) {
         parts.clear();
+        logger.info("Gemini multi-modal input: {} URI(s)", uris.length);
         for (String uri : uris){
-            parts.add(PartMaker.fromMimeTypeAndData(FileHandler.mimeTypeFromUri(uri), uri));
+            String mime = FileHandler.mimeTypeFromUri(uri);
+            if ("text/plain".equals(mime)) {
+                String text = downloadText(uri);
+                logger.info("  part: mime={} inlined-text={}chars uri={}", mime, text.length(), uri);
+                parts.add(text);
+            } else {
+                logger.info("  part: mime={} uri={}", mime, uri);
+                parts.add(PartMaker.fromMimeTypeAndData(mime, uri));
+            }
         }
+    }
+
+    // Vertex AI rejects text/plain via fileData on Gemini 2.x; it expects text
+    // as an inline string part. Fetch the object's bytes from GCS and return
+    // them as a UTF-8 string so the caller can add it as a text part.
+    private static String downloadText(String gsUri) {
+        String stripped = gsUri.substring("gs://".length());
+        int slash = stripped.indexOf('/');
+        String bucketName = stripped.substring(0, slash);
+        String blobName = stripped.substring(slash + 1);
+        Storage storage = StorageOptions.getDefaultInstance().getService();
+        Blob blob = storage.get(bucketName, blobName);
+        return new String(blob.getContent(), StandardCharsets.UTF_8);
     }
 
     public String respond(String prompt) throws IOException {

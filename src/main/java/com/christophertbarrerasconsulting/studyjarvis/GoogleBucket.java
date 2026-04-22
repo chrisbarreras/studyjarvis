@@ -33,7 +33,13 @@ public class GoogleBucket {
     private GoogleBucket (String bucketName, int userId){
         this.bucketName = bucketName;
         this.storage = StorageOptions.getDefaultInstance().getService();
-        this.prefix = "user " + userId + ":";
+        this.prefix = "users/" + userId + "/";
+    }
+
+    // Replaces characters that are either disallowed or troublesome in a gs:// URI
+    // with underscores, while preserving '/' so subdirectory structure is kept.
+    static String sanitizeForGcsUri(String name) {
+        return name.replaceAll("[^A-Za-z0-9._/-]", "_");
     }
 
     public void uploadDirectoryContents(Path sourceDirectory) throws IOException {
@@ -46,8 +52,10 @@ public class GoogleBucket {
                         Path relativePath = sourceDirectory.relativize(filePath);
                         // Ensure forward slashes in the object name
                         String normalizedPath = relativePath.toString().replace("\\", "/");
-                        // Prepend the "folder" prefix
-                        String objectName = prefix + normalizedPath;
+                        // Prepend the "folder" prefix, sanitizing the relative
+                        // path so the resulting gs:// URI has no spaces or other
+                        // characters that break Vertex AI's URI parser.
+                        String objectName = prefix + sanitizeForGcsUri(normalizedPath);
 
                         // Create a BlobId, then a BlobInfo describing the file to upload
                         BlobId blobId = BlobId.of(bucketName, objectName);
