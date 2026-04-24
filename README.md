@@ -34,7 +34,7 @@ Runs in two modes that share the same core pipeline:
 | **Companion webapp** | Angular 19, TypeScript (separate [repo](../studyjarviswebapp-tjb/studyjarviswebapp)) |
 | **Dev loop** | `dev.ps1` one-command launcher (backend + webapp), VS Code + IntelliJ supported |
 
-## Architecture at a glance
+## Architecture overview
 
 ```mermaid
 flowchart LR
