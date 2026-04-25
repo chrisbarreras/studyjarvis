@@ -46,11 +46,13 @@ if (-not (Test-Path (Join-Path $webappDir "node_modules"))) {
 $backendCmd = "`$host.UI.RawUI.WindowTitle = 'StudyJarvis Backend'; . '$envFile'; & '$backendDir\gradlew.bat' run"
 $webappCmd  = "`$host.UI.RawUI.WindowTitle = 'StudyJarvis Webapp'; npm start"
 
+$shell = if (Get-Command pwsh -ErrorAction SilentlyContinue) { 'pwsh' } else { 'powershell' }
+
 Write-Host "Starting backend on http://localhost:7000 ..." -ForegroundColor Cyan
-Start-Process pwsh -ArgumentList "-NoExit", "-Command", $backendCmd -WorkingDirectory $backendDir
+Start-Process $shell -ArgumentList "-NoExit", "-Command", $backendCmd -WorkingDirectory $backendDir
 
 Write-Host "Starting webapp on http://localhost:4200 ..." -ForegroundColor Cyan
-Start-Process pwsh -ArgumentList "-NoExit", "-Command", $webappCmd -WorkingDirectory $webappDir
+Start-Process $shell -ArgumentList "-NoExit", "-Command", $webappCmd -WorkingDirectory $webappDir
 
 Write-Host ""
 Write-Host "Both launched. Close each window to stop the respective service." -ForegroundColor Green
