@@ -1,0 +1,33 @@
+flowchart LR
+    classDef client fill:#E8F0FE,stroke:#4285F4,color:#1A237E,stroke-width:2px
+    classDef backend fill:#FFF4E5,stroke:#F57C00,color:#3E2723,stroke-width:2px
+    classDef db fill:#E8F5E9,stroke:#388E3C,color:#1B5E20,stroke-width:2px
+    classDef cloud fill:#F3E5F5,stroke:#7B1FA2,color:#311B92,stroke-width:2px
+    classDef llm fill:#FFEBEE,stroke:#C62828,color:#B71C1C,stroke-width:2px
+
+    user("Webapp / API Client"):::client
+
+    subgraph backend["Java Backend"]
+        direction TB
+        api("REST API<br/>Javalin &middot; JWT Auth<br/>OpenAPI / ReDoc"):::backend
+        ext("Document Extraction<br/>PDF (PDFBox) &middot; PowerPoint (POI)"):::backend
+        pg[("PostgreSQL<br/>Users &middot; Sessions")]:::db
+        api --- pg
+        api --- ext
+    end
+
+    subgraph gcp["Google Cloud"]
+        direction TB
+        gcs[("Cloud Storage<br/>Multi-tenant per-user prefix")]:::cloud
+        vai("Vertex AI &mdash; Gemini 2.5<br/>Multi-modal Prompts<br/>Prompt Engineering"):::llm
+        gcs --- vai
+    end
+
+    user -->|HTTPS + JWT| api
+    api -->|Notes &middot; Key Points<br/>Study Guides &middot; Quizzes| user
+    ext -->|stage files| gcs
+    gcs -->|fileData URIs +<br/>inlined text| vai
+    vai -->|markdown| api
+
+    linkStyle 0,1 stroke:#1976D2,stroke-width:2px
+    linkStyle 2,3,4 stroke:#7B1FA2,stroke-width:2px

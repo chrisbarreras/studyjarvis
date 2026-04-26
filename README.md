@@ -6,7 +6,7 @@
 
 **Turn lecture PDFs and PowerPoints into study artifacts — comprehensive notes, key points, study guides, and interactive quizzes — using Google Gemini on Vertex AI.**
 
-![StudyJarvis chat-first home view](docs/images/study-jarvis-home.png)
+![StudyJarvis backend architecture — Java + REST + JWT, PDFBox/POI extraction pipeline, PostgreSQL, Google Cloud Storage, Vertex AI Gemini with prompt engineering](docs/images/architecture.png)
 
 ## Overview
 
