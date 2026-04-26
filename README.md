@@ -1,45 +1,36 @@
 # StudyJarvis
 
 [![CI](https://github.com/Thomas-J-Barreras-Consulting/studyjarvis/actions/workflows/ci.yml/badge.svg)](https://github.com/Thomas-J-Barreras-Consulting/studyjarvis/actions/workflows/ci.yml)
+[![Java 17+](https://img.shields.io/badge/java-17+-orange.svg)](https://www.oracle.com/java/)
+[![Vertex AI](https://img.shields.io/badge/Google_Vertex_AI-Gemini_2.5-4285F4?logo=google&logoColor=white)](https://cloud.google.com/vertex-ai)
 
-> Turn lecture PDFs and PowerPoints into study artifacts — comprehensive notes, key points, study guides, and interactive quizzes — using Google Gemini on Vertex AI.
+**Turn lecture PDFs and PowerPoints into study artifacts — comprehensive notes, key points, study guides, and interactive quizzes — using Google Gemini on Vertex AI.**
 
-![StudyJarvis UI — placeholder screenshot](docs/images/studyjarvis-ui.png)
+![StudyJarvis chat-first home view](docs/images/study-jarvis-home.png)
 
-*UI shown is a placeholder screenshot of the Angular companion webapp; a higher-fidelity shot will replace it.*
+## Overview
 
-## What it does
+StudyJarvis ingests course material (PDFs, PowerPoints, legacy `.ppt`), extracts text and per-slide images, stages them in Google Cloud Storage, and prompts Vertex AI's Gemini multi-modally to produce study artifacts on demand. It runs in two modes that share a single core pipeline:
 
-- **Ingests** PDFs and PowerPoints uploaded through a REST API (or a local CLI).
-- **Extracts** text and per-slide images via Apache PDFBox and POI, stages them to Google Cloud Storage.
-- **Prompts** Gemini multi-modally — per-slide images as `fileData` URIs, extracted text inlined — to produce notes, study guides, key points, and quizzes on demand.
-- **Authenticates** multi-user access with JWT-signed sessions backed by PostgreSQL.
+- **HTTP server** — Javalin app with JWT-authenticated endpoints, Postgres-backed users/sessions, and OpenAPI/ReDoc docs at `/api/docs`. Default target. Drives the [companion Angular webapp](https://github.com/Thomas-J-Barreras-Consulting/studyjarviswebapp).
+- **CLI** — single-user interactive shell for local exploration; no DB required.
 
-Runs in two modes that share the same core pipeline:
+## Screenshots
 
-- **HTTP server** — Javalin app with JWT auth, OpenAPI/ReDoc docs at `/api/docs`, Postgres-backed users/sessions. Default target.
-- **CLI** — single-user interactive shell for local exploration; no DB needed.
+<div align="center">
 
-## Tech stack
+| Chat home | Ask | Comprehensive notes | Interactive quiz |
+| :---: | :---: | :---: | :---: |
+| <img src="docs/images/study-jarvis-home.png" alt="Chat home" width="220" /> | <img src="docs/images/study-jarvis-ask.png" alt="Ask the AI" width="220" /> | <img src="docs/images/study-jarvis-notes.png" alt="Generated notes" width="220" /> | <img src="docs/images/study-jarvis-interactive-quiz.png" alt="Interactive quiz" width="220" /> |
 
-| Layer | Tech |
-| --- | --- |
-| **Backend** | Java 17, Gradle 8.5, Javalin 6.4, PostgreSQL 16 |
-| **AI / Storage** | Google Vertex AI (Gemini 2.5), Google Cloud Storage |
-| **Document extraction** | Apache PDFBox 3, Apache POI 5 |
-| **Auth** | `auth0/java-jwt` HMAC256, `jBCrypt` password hashing |
-| **API docs** | Javalin OpenAPI annotation processor → ReDoc |
-| **Testing** | JUnit 5.14, three Gradle source sets (unit / functional / integration), JaCoCo coverage |
-| **CI** | GitHub Actions with an ephemeral Postgres service container |
-| **Companion webapp** | Angular 19, TypeScript (separate [repo](../studyjarviswebapp-tjb/studyjarviswebapp)) |
-| **Dev loop** | `dev.ps1` one-command launcher (backend + webapp), VS Code + IntelliJ supported |
+</div>
 
-## Architecture overview
+## Architecture
 
 ```mermaid
 flowchart LR
     student([Student / CLI user])
-    apiClient([API Client<br/>webapp or script])
+    apiClient([Webapp / API client])
     admin([Administrator])
 
     subgraph sj[StudyJarvis]
@@ -48,8 +39,8 @@ flowchart LR
         server[HTTP server<br/>StudyJarvisServer]
     end
 
-    gemini[(Google Vertex AI<br/>Gemini model)]
-    gcs[(Google Cloud Storage<br/>bucket)]
+    gemini[(Google Vertex AI<br/>Gemini 2.5)]
+    gcs[(Google Cloud Storage<br/>per-user prefix)]
     pg[(PostgreSQL<br/>users &amp; sessions)]
     fs[(Local filesystem<br/>uploads, extracts, config)]
 
@@ -67,21 +58,82 @@ flowchart LR
     server -->|staging files| fs
 ```
 
-Full container / component / sequence / data-model diagrams live in [docs/diagrams/](docs/diagrams/).
+Container, component, sequence, data-model, and deployment diagrams: [docs/diagrams/](docs/diagrams/) · [Architecture narrative](docs/ARCHITECTURE.md).
+
+## Tech stack
+
+| Layer | Tech |
+| --- | --- |
+| **Language / Build** | Java 17, Gradle 8.5 (`application` plugin) |
+| **HTTP / API** | Javalin 6.4, Jetty 11, Javalin OpenAPI annotation processor → ReDoc |
+| **AI / Storage** | Google Vertex AI (Gemini 2.5), Google Cloud Storage |
+| **Document extraction** | Apache PDFBox 3 (PDF), Apache POI 5 (PPT/PPTX) |
+| **Persistence** | PostgreSQL 16, JDBC 42 |
+| **Auth** | `auth0/java-jwt` HMAC256, `jBCrypt` password hashing |
+| **Logging** | SLF4J + Logback |
+| **Testing** | JUnit 5.14, three Gradle source sets (unit / functional / integration), JaCoCo coverage |
+| **CI** | GitHub Actions with an ephemeral Postgres service container |
+| **Companion webapp** | Angular 19, TypeScript ([studyjarviswebapp](https://github.com/Thomas-J-Barreras-Consulting/studyjarviswebapp)) |
+| **Dev loop** | `dev.ps1` one-command launcher (backend + webapp), VS Code + IntelliJ supported |
+
+## Methodology
+
+The end-to-end pipeline that turns an uploaded file into a study artifact:
+
+```mermaid
+flowchart LR
+    U[Upload<br/>PDF / PPT / PPTX] --> E[Extraction<br/>PDFBox / POI]
+    E --> S[Sanitize names<br/>+ stage to GCS]
+    S --> M[Multi-modal<br/>Gemini prompt]
+    M --> R[Markdown<br/>artifact]
+    R --> P[Parse<br/>e.g. quiz blocks]
+    P --> V[Render in webapp<br/>chat / quiz card]
+```
+
+1. **Ingest & extract.** Uploads land in a per-user staging dir. PDFs go through PDFBox, decks through POI; both produce per-slide PNGs plus a per-slide text file. Legacy `.ppt` is supported via POI's HSLF.
+2. **Stage to GCS.** Object names are namespaced under `users/<userId>/` and run through a URI-safe sanitizer so user filenames can't break Vertex AI's `gs://` parser ([GoogleBucket.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/GoogleBucket.java)). Regression-tested.
+3. **Build a multi-modal prompt.** PNG slides flow as `fileData` URIs; the matching extracted text is downloaded from GCS and inlined as string parts because Gemini 2.x stopped accepting `text/plain` via `fileData`. This split is transparent to callers ([Gemini.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/Gemini.java)).
+4. **Generate.** [Jarvis.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/Jarvis.java) exposes typed entry points — `createComprehensiveNotes`, `createKeyPoints`, `createStudyGuide`, `createQuiz`, `askQuestion`, plus an `InteractiveQuiz` flow — each backed by a small, deterministic prompt template.
+5. **Render.** The webapp parses the model's markdown output (e.g. quizzes via [QuizParserService](https://github.com/Thomas-J-Barreras-Consulting/studyjarviswebapp/blob/main/src/app/chat/quiz/quiz-parser.service.ts)) into interactive UI cards.
 
 ## Engineering highlights
 
-- **Multi-modal LLM integration against Vertex AI.** Per-slide PNG images flow as `fileData` URIs; extracted text is downloaded from GCS and inlined as string parts because Gemini 2.x stopped accepting `text/plain` via `fileData`. The split is transparent to callers ([Gemini.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/Gemini.java)).
-- **Multi-tenant object storage.** Every GCS object is namespaced under `users/<userId>/`, and all paths pass through a URI-safe sanitizer so user filenames can't break Vertex AI's `gs://` parser. Regression-tested in [GoogleBucketTest.java](src/test/java/com/christophertbarrerasconsulting/studyjarvis/GoogleBucketTest.java).
-- **JWT-authenticated handlers with a decorator pattern.** `AuthorizationHandler` wraps each secured route; JWT signing is HMAC256 with a keyed secret from env ([JWTUtil.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/server/JWTUtil.java)), decoupled from the handler implementations.
-- **Generated OpenAPI + interactive docs.** Javalin's OpenAPI annotation processor emits a schema at build time; ReDoc renders it at `/api/docs`, zero hand-maintained swagger files.
-- **Three-tier test strategy.** `test` runs pure unit tests. `functionalTest` spins up the server with Postgres + stubs but skips GCP-calling tests, so CI can run it against an ephemeral Postgres service container. `integrationTest` exercises the full Vertex AI + GCS pipeline — manually run before releases. See [build.gradle](build.gradle) for the source-set wiring (`extendsFrom testImplementation`, task exclusions).
-- **CI with a real database.** [.github/workflows/ci.yml](.github/workflows/ci.yml) uses GitHub Actions services to run Postgres 16 alongside the build so functional tests hit a real JDBC connection, not a mock.
-- **Dev ergonomics.** [dev.ps1](dev.ps1) starts backend + webapp in two pwsh windows with env sourced from a gitignored file. VS Code config committed (`.vscode/extensions.json`, `.vscode/launch.json`) gives one-click extension install and a ready-made "Attach to Gradle Test" debug config on port 5005.
+- **Multi-modal LLM integration against Vertex AI** — images as `fileData`, text inlined; survived the Gemini 2.x deprecation of `text/plain` `fileData`.
+- **Multi-tenant object storage** — `users/<userId>/` prefix plus character allow-list sanitizer (`[A-Za-z0-9._/-]`); regression test in [GoogleBucketTest.java](src/test/java/com/christophertbarrerasconsulting/studyjarvis/GoogleBucketTest.java).
+- **JWT-authenticated handlers, decorator pattern** — `AuthorizationHandler` wraps each secured route; HMAC256 secret is keyed from env, decoupled from handler implementations ([JWTUtil.java](src/main/java/com/christophertbarrerasconsulting/studyjarvis/server/JWTUtil.java)).
+- **Generated OpenAPI + interactive docs** — Javalin's annotation processor emits a schema at compile time; ReDoc renders it at `/api/docs`. Zero hand-maintained Swagger.
+- **Three-tier Gradle source sets** — `test` (pure unit), `functionalTest` (Postgres-backed, GCP-skipping, runs in CI), `integrationTest` (live GCP). Wired with `extendsFrom testImplementation` so IDE tooling resolves the JUnit classpath cleanly across all three.
+- **CI with a real database** — [.github/workflows/ci.yml](.github/workflows/ci.yml) runs Postgres 16 as a GitHub Actions service container so functional tests hit a real JDBC connection, not a mock.
+- **Dev ergonomics** — [dev.ps1](dev.ps1) launches backend + webapp in two pwsh windows with env sourced from a gitignored file. Committed `.vscode/extensions.json` + `.vscode/launch.json` give one-click extension install and a ready-made *Attach to Gradle Test (port 5005)* debug config that works for all three test source sets.
+
+## Engineering & quality
+
+```mermaid
+flowchart LR
+    A[Push or PR<br/>to main] --> B[Build<br/>compile + classes]
+    A --> C[Unit tests<br/>JUnit 5.14]
+    A --> D[Functional tests<br/>Postgres service container]
+    A --> E[Coverage<br/>JaCoCo]
+    B --> F[CI status]
+    C --> F
+    D --> F
+    E --> F
+```
+
+| Tier | Task | What it covers | Where it runs |
+| --- | --- | --- | --- |
+| **Unit** | `./gradlew test` | Pure logic — parsers, sanitizers, password hashing, JSON config deserialization | Every push, in CI |
+| **Functional (Tier 1+2)** | `./gradlew functionalTest` | File extraction (Tier 1) and JWT/session/handler flows hitting a real Postgres (Tier 2). GCP-touching tests are excluded. | Every push, in CI |
+| **Integration (Tier 3)** | `./gradlew integrationTest` | Full Vertex AI + GCS round-trip with real credentials | Locally before releases |
+
+Tests are organized as separate Gradle source sets ([build.gradle](build.gradle)) — see *Three-tier Gradle source sets* above. Unit-test highlights:
+
+- `GoogleBucketTest` — locks in URI-safe sanitization rules so a future filename containing `:` or spaces can't quietly break Vertex AI again.
+- `quiz-parser.service.spec.ts` (in the webapp repo) — guards a regression where Gemini's plain `Answers:` line was being mis-parsed as more questions, doubling the rendered quiz length.
 
 ## Quick start
 
-Prerequisites on Windows: JDK 17, Postgres running locally, `gcloud auth application-default login`, and a populated `%APPDATA%\studyjarvis.properties` (keys listed below).
+Prerequisites on Windows: JDK 17, Postgres running locally, `gcloud auth application-default login`, and a populated `%APPDATA%\studyjarvis.properties` (keys listed in [Configuration](#configuration)).
 
 ```powershell
 Copy-Item dev.env.example.ps1 dev.env.ps1
@@ -91,7 +143,7 @@ Copy-Item dev.env.example.ps1 dev.env.ps1
 
 Two pwsh windows open — backend on `http://localhost:7000` (ReDoc at `/api/docs`), webapp on `http://localhost:4200`.
 
-Just want the backend?
+Backend only:
 
 ```bash
 ./gradlew run
