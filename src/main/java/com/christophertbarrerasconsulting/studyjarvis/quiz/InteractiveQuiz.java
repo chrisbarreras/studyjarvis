@@ -28,7 +28,10 @@ public class InteractiveQuiz {
     }
 
     protected String getQuizPrompt(int numberOfQuestions){
-        return "Generate {numberOfQuestions} questions with all of the answers at the bottom.".replace("{numberOfQuestions}", String.valueOf(numberOfQuestions));
+        return ("Generate exactly {numberOfQuestions} questions, numbered 1 through {numberOfQuestions}. " +
+                "Then on a new line output the markdown heading '## Answers:' followed by the numbered answers, " +
+                "one per line, matching the question numbers.")
+                .replace("{numberOfQuestions}", String.valueOf(numberOfQuestions));
     }
 
     protected String getNextQuestionPrompt(){
